@@ -1,0 +1,60 @@
+require 'yard'
+require 'junk_yard/logger'
+
+RSpec.describe JunkYard::Logger::Message do
+  include FakeFS::SpecHelpers
+
+  describe '.try_parse' do
+    let(:klass) {
+      Class.new(described_class) {
+        pattern %r{^(?<message>Unknown tag @(?<tag>\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
+      }
+    }
+    before { allow(klass).to receive(:name).and_return('UnknownTag') }
+
+    subject { klass.try_parse(input) }
+
+    context 'when matches' do
+      let(:input) { 'Unknown tag @wrong in file `input/lot_of_errors.rb` near line 15' }
+      its(:to_h) {
+        is_expected.to eq(name: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: 'input/lot_of_errors.rb', line: 15)
+      }
+    end
+
+    context 'when not matches' do
+      let(:input) { 'Unknown tag @wrong' }
+      its(:to_h) {
+        is_expected.to eq(name: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: nil, line: nil)
+      }
+    end
+
+    context 'with search_up' do
+      let(:input) { 'Unknown tag @wrong in file `lot_of_errors.rb` near line 5' }
+      before {
+        klass.search_up '@%{tag}(\W|$)'
+        File.write 'lot_of_errors.rb', %{
+          # @wrong
+          #
+          # Something else.
+          def foo
+          end
+        }
+      }
+      its(:to_h) {
+        is_expected.to include(file: 'lot_of_errors.rb', line: 2)
+      }
+    end
+  end
+
+  describe '#to_s' do
+    context 'by default' do
+      let(:klass) {
+        Class.new(described_class)
+      }
+      subject { klass.new(message: 'Unknown tag @wrong', tag: 'wrong', file: 'lot_of_errors.rb', line: 2) }
+      before { allow(klass).to receive(:name).and_return('UnknownTag') }
+
+      its(:to_s) { is_expected.to eq 'lot_of_errors.rb:2: [UnknownTag] Unknown tag @wrong' }
+    end
+  end
+end
