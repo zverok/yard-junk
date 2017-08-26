@@ -161,6 +161,27 @@ RSpec.describe 'Integration: catching errors' do
     object: 'A',
     line: 2
 
+  it_behaves_like 'file parser', 'macro name error',
+    %{
+      # @!macro wtf
+      def foo
+      end
+    },
+    type: 'MacroNameError',
+    message: 'Invalid/missing macro name for #foo',
+    object: '#foo',
+    line: 3
+
+  it_behaves_like 'file parser', 'redundant braces',
+    %{
+      # @see {invalid}
+      def foo
+      end
+    },
+    type: 'RedundantBraces',
+    message: '@see tag should not be wrapped in {} (causes rendering issues)',
+    line: 2
+
   # TODO: DRY!
   context 'invalid link' do
     include YARD::Templates::Helpers::BaseHelper

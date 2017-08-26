@@ -4,15 +4,18 @@
 # @!macro [attach] attached4
 #  $1 $2 $3
 class A
-  # Wrong macro format:
+  # Wrong macro directive format:
   #
   # @!macro
   #
-  # Unknown macro:
+  # Unknown directive:
   # @!wtf
+
 
   # @wrong Free hanging unknown tag
 
+  # Unknown macro name:
+  # @!macro wtf
   # Points to unknown class: {B}
   #
   # @wrong This is unknown tag
@@ -26,6 +29,7 @@ class A
   # @param para
   # @param para
   # @example
+  # @see {invalid}
   def bar(para)
   end
 

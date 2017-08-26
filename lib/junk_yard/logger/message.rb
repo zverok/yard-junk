@@ -105,6 +105,15 @@ module JunkYard
       search_up '@param\s+(\[.+?\]\s+)?%{param_name}(\W|$)'
     end
 
+    class RedundantBraces < Message
+      pattern %r{^(?<message>@see tag \(\#\d+\) should not be wrapped in \{\} \(causes rendering issues\)):\s+in file `(?<file>[^']+)' near line (?<line>\d+)$}
+      search_up '@see.*{.*}'
+
+      def message
+        super.sub(/\s+\(\#\d+\)\s+/, ' ')
+      end
+    end
+
     class SyntaxError < Message
       pattern %r{^Syntax error in `(?<file>[^`]+)`:\((?<line>\d+),(?:\d+)\): (?<message>.+)$}
     end
@@ -140,6 +149,10 @@ module JunkYard
     class MacroAttachError < Message
       pattern %r{^(?<message>Attaching macros to non-methods is unsupported, ignoring: (?<object>\S+)) \((?<file>.+?):(?<line>\d+)\)$}
       search_up '@!macro \[attach\]'
+    end
+
+    class MacroNameError < Message
+      pattern %r{^(?<message>Invalid/missing macro name for (?<object>\S+)) \((?<file>.+?):(?<line>\d+)\)$}
     end
 
     class InvalidLink < Message
