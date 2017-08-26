@@ -1,8 +1,11 @@
 # This file tries to show as much errors in documentation as possible
 class A
-  # Wrong macro:
+  # Wrong macro format:
   #
   # @!macro
+  #
+  # Unknown macro:
+  # @!wtf
 
   # @wrong Free hanging unknown tag
 
@@ -15,4 +18,13 @@ class A
   #
   def foo(arg1, arg2)
   end
+
+  # @param para
+  # @param para
+  # @example
+  def bar(para)
+  end
+
+  OPTIONS = %i[foo bar baz]
+  attr_reader *OPTIONS
 end

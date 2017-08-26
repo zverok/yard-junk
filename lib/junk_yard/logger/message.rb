@@ -76,8 +76,23 @@ module JunkYard
     end
 
     class UnknownTag < Message
-      pattern %r{^(?<message>Unknown tag @(?<tag>\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
-      search_up '@%{tag}(\W|$)'
+      pattern %r{^(?<message>Unknown tag (?<tag>@\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
+      search_up '%{tag}(\W|$)'
+    end
+
+    class InvalidTagFormat < Message
+      pattern %r{^(?<message>Invalid tag format for (?<tag>@\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
+      search_up '%{tag}(\W|$)'
+    end
+
+    class UnknownDirective < Message
+      pattern %r{^(?<message>Unknown directive (?<directive>@!\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
+      search_up '%{directive}(\W|$)'
+    end
+
+    class InvalidDirectiveFormat < Message
+      pattern %r{^(?<message>Invalid directive format for (?<directive>@!\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
+      search_up '%{directive}(\W|$)'
     end
 
     class UnknownParam < Message
@@ -85,8 +100,31 @@ module JunkYard
       search_up '@param\s+(\[.+?\]\s+)?%{param_name}(\W|$)'
     end
 
+    class DuplicateParam < Message
+      pattern %r{^(?<message>@param tag has duplicate parameter name: (?<param_name>\S+))\s+ in file `(?<file>[^']+)' near line (?<line>\d+)$}
+      search_up '@param\s+(\[.+?\]\s+)?%{param_name}(\W|$)'
+    end
+
+    class SyntaxError < Message
+      pattern %r{^Syntax error in `(?<file>[^`]+)`:\((?<line>\d+),(?:\d+)\): (?<message>.+)$}
+    end
+
+    class CircularReference < Message
+      pattern %r{^(?<file>.+?):(?<line>\d+): (?<message>Detected circular reference tag in `(?<object>[^']+)', ignoring all reference tags for this object \((?<context>[^)]+)\)\.)$}
+    end
+
+    class Undocumentable < Message
+      pattern %r{^in (?:\S+): (?<message>Undocumentable (?<object>.+?))\n\s*in file '(?<file>[^']+)':(?<line>\d+):\s+(?:\d+):\s*(?<quote>.+?)\s*$}
+
+      def message
+        super + ": `#{rest[:quote]}`"
+      end
+    end
+
     class InvalidLink < Message
       pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>Cannot resolve link to (?<object>\S+) from text:\s+(?<quote>.+))$}
     end
+
+
   end
 end
