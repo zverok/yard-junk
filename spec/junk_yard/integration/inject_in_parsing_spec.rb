@@ -25,7 +25,7 @@ RSpec.describe 'Integration: catching errors' do
 
   shared_examples_for 'file parser' do |description, code, **message|
     context description do
-      let(:defaults) { {file: 'test.rb', line: nil} }
+      let(:defaults) { {file: 'test.rb', line: 1} }
 
       before { parse_file(code) }
 
@@ -53,6 +53,18 @@ RSpec.describe 'Integration: catching errors' do
     type: 'UnknownTag',
     message: 'Unknown tag @hello',
     tag: '@hello'
+
+  it_behaves_like 'file parser', 'unknown tag: did you mean?',
+    %{
+      # @raises NoMethodError
+      def foo
+      end
+    },
+    type: 'UnknownTag',
+    message: 'Unknown tag @raises. Did you mean @raise?',
+    tag: '@raises',
+    line: 2
+
 
   it_behaves_like 'file parser', 'invalid tag format',
     %{
@@ -96,6 +108,35 @@ RSpec.describe 'Integration: catching errors' do
     message: '@param tag has unknown parameter name: notaparam',
     param_name: 'notaparam',
     line: 2
+
+  it_behaves_like 'file parser', 'unknown parameter without name',
+    %{
+      # @param [String]
+      def foo(a) end
+    },
+    type: 'MissingParamName',
+    message: '@param tag has empty parameter name',
+    line: 2
+
+  it_behaves_like 'file parser', 'unknown parameter for generated method',
+    %{
+      # @!method join(delimiter, null_repr)
+      #   Convert the array to a string by joining
+      #   values with a delimiter (empty stirng by default)
+      #   and optional filler for NULL values
+      #   Translates to an `array_to_string` call
+      #
+      #   @param [Object] delimiter
+      #   @param [Object] null
+      #
+      #   @return [SQL::Attribute<Types::String>]
+      #
+      #   @api public
+    },
+    type: 'UnknownParam',
+    message: "@param tag has unknown parameter name: null",
+    param_name: "null",
+    line: 9
 
   it_behaves_like 'file parser', 'diplicate parameter',
     %{

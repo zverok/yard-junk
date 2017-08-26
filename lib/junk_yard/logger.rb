@@ -18,7 +18,7 @@ module JunkYard
                        .map { |t| t.try_parse(msg, file: @current_parsed_file) }
                        .compact.first || Message.new(message: msg, file: @current_parsed_file)
       messages << message
-      puts message
+      puts message unless message.is_a?(Undocumentable)
     end
 
     def start_file(name)

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'did_you_mean'
+
 module JunkYard
   class Logger
     class Message
@@ -17,7 +19,7 @@ module JunkYard
           type: type,
           message: message,
           file: file,
-          line: line&.to_i
+          line: line&.to_i || 1
         }.merge(rest)
       end
 
@@ -66,7 +68,7 @@ module JunkYard
           data[:file] && data[:line] && @search_up or return data
           data = data.merge(line: data[:line].to_i)
           lines = File.readlines(data[:file]) rescue (return data) # rubocop:disable Style/RescueModifier
-          pattern = Regexp.new(@search_up % data)
+          pattern = Regexp.new(@search_up % data.map { |k, v| [k, Regexp.escape(v.to_s)] }.to_h)
           _, num = lines.map
                         .with_index { |ln, i| [ln, i + 1] }
                         .first(data[:line]).reverse
@@ -81,6 +83,22 @@ module JunkYard
     class UnknownTag < Message
       pattern %r{^(?<message>Unknown tag (?<tag>@\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
       search_up '%{tag}(\W|$)'
+
+      def message
+        corrections.empty? ? super : "#{super}. Did you mean #{corrections.map { |c| "@#{c}" }.join(', ')}?"
+      end
+
+      private
+
+      include DidYouMean::SpellCheckable
+
+      def tag
+        rest[:tag]
+      end
+
+      def candidates
+        {tag => YARD::Tags::Library.labels.keys.map(&:to_s)}
+      end
     end
 
     class InvalidTagFormat < Message
@@ -100,7 +118,16 @@ module JunkYard
 
     class UnknownParam < Message
       pattern %r{^(?<message>@param tag has unknown parameter name: (?<param_name>\S+))\s+ in file `(?<file>[^']+)' near line (?<line>\d+)$}
-      search_up '@param\s+(\[.+?\]\s+)?%{param_name}(\W|$)'
+      search_up '@param(\s+\[.+?\])?\s+?%{param_name}(\W|$)'
+    end
+
+    class MissingParamName < Message
+      pattern %r{^(?<message>@param tag has unknown parameter name):\s+in file `(?<file>[^']+)' near line (?<line>\d+)$}
+      search_up '@param(\s+\[.+?\])?\s*$'
+
+      def message
+        '@param tag has empty parameter name'
+      end
     end
 
     class DuplicateParam < Message
