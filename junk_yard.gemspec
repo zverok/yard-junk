@@ -5,13 +5,13 @@ Gem::Specification.new do |s|
   s.email    = 'zverok.offline@gmail.com'
   s.homepage = 'https://github.com/zverok/junk_yard'
 
-  s.summary = 'Get rid of junk in your YARD docs'
+  s.summary = 'Get rid of the junk in your YARD docs'
   s.description = <<-EOF
     JunkYard is structured logger/error validator plugin for YARD documentation gem.
   EOF
   s.licenses = ['MIT']
 
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 2.3.0'
 
   s.files = `git ls-files`.split($RS).reject do |file|
     file =~ /^(?:
