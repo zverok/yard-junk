@@ -109,6 +109,16 @@ RSpec.describe 'Integration: catching errors' do
     param_name: 'notaparam',
     line: 2
 
+  it_behaves_like 'file parser', 'unknown parameter: did you mean',
+    %{
+      # @param tuples foo
+      def foo(tuple) end
+    },
+    type: 'UnknownParam',
+    message: '@param tag has unknown parameter name: tuples. Did you mean `tuple`?',
+    param_name: 'tuples',
+    line: 2
+
   it_behaves_like 'file parser', 'unknown parameter without name',
     %{
       # @param [String]

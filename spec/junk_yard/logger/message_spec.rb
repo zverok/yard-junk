@@ -29,7 +29,7 @@ RSpec.describe JunkYard::Logger::Message do
       let(:input) { 'Unknown tag @wrong' }
 
       its(:to_h) {
-        is_expected.to eq(type: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: nil, line: nil)
+        is_expected.to eq(type: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: nil, line: 1)
       }
     end
 
@@ -39,7 +39,7 @@ RSpec.describe JunkYard::Logger::Message do
       let(:input) { 'Unknown tag @wrong' }
 
       its(:to_h) {
-        is_expected.to eq(type: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: 'input/lot_of_errors.rb', line: nil)
+        is_expected.to eq(type: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: 'input/lot_of_errors.rb', line: 1)
       }
     end
 

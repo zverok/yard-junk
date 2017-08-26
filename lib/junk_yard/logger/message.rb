@@ -7,10 +7,11 @@ module JunkYard
     class Message
       attr_reader :message, :file, :line, :rest
 
-      def initialize(message:, file: nil, line: nil, **rest)
+      def initialize(message:, code_object: nil, file: nil, line: nil, **rest)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
         @line = line
+        @code_object = code_object
         @rest = rest
       end
 
@@ -67,6 +68,7 @@ module JunkYard
         def guard_line(data) # rubocop:disable Metrics/AbcSize
           data[:file] && data[:line] && @search_up or return data
           data = data.merge(line: data[:line].to_i)
+          data = data.merge(code_object: find_object(data[:file], data[:line]))
           lines = File.readlines(data[:file]) rescue (return data) # rubocop:disable Style/RescueModifier
           pattern = Regexp.new(@search_up % data.map { |k, v| [k, Regexp.escape(v.to_s)] }.to_h)
           _, num = lines.map
@@ -76,6 +78,10 @@ module JunkYard
           num or return data
 
           data.merge(line: num)
+        end
+
+        def find_object(file, line)
+          YARD::Registry.detect { |o| o.file == file && o.line == line }
         end
       end
     end
@@ -119,6 +125,27 @@ module JunkYard
     class UnknownParam < Message
       pattern %r{^(?<message>@param tag has unknown parameter name: (?<param_name>\S+))\s+ in file `(?<file>[^']+)' near line (?<line>\d+)$}
       search_up '@param(\s+\[.+?\])?\s+?%{param_name}(\W|$)'
+
+      def message
+        corrections.empty? ? super : "#{super}. Did you mean #{corrections.map { |c| "`#{c}`" }.join(', ')}?"
+      end
+
+      private
+
+      include DidYouMean::SpellCheckable
+
+      def param_name
+        rest[:param_name]
+      end
+
+      def candidates
+        {param_name => known_params}
+      end
+
+      def known_params
+        @code_object.is_a?(YARD::CodeObjects::MethodObject) or return []
+        @code_object.parameters.map(&:first).map { |p| p.tr('*&:', '') }
+      end
     end
 
     class MissingParamName < Message
