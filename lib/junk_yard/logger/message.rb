@@ -65,7 +65,8 @@ module JunkYard
 
         private
 
-        def guard_line(data) # rubocop:disable Metrics/AbcSize
+        def guard_line(data) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+          # FIXME: Ugly, huh?
           data[:file] && data[:line] && @search_up or return data
           data = data.merge(line: data[:line].to_i)
           data = data.merge(code_object: find_object(data[:file], data[:line]))
@@ -115,6 +116,8 @@ module JunkYard
     class UnknownDirective < Message
       pattern %r{^(?<message>Unknown directive (?<directive>@!\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
       search_up '%{directive}(\W|$)'
+
+      # TODO: did_you_mean?
     end
 
     class InvalidDirectiveFormat < Message

@@ -65,7 +65,6 @@ RSpec.describe 'Integration: catching errors' do
     tag: '@raises',
     line: 2
 
-
   it_behaves_like 'file parser', 'invalid tag format',
     %{
       # @example
@@ -144,8 +143,8 @@ RSpec.describe 'Integration: catching errors' do
       #   @api public
     },
     type: 'UnknownParam',
-    message: "@param tag has unknown parameter name: null",
-    param_name: "null",
+    message: '@param tag has unknown parameter name: null',
+    param_name: 'null',
     line: 9
 
   it_behaves_like 'file parser', 'diplicate parameter',
