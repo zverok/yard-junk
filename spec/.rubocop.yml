@@ -1,0 +1,19 @@
+inherit_from: ../.rubocop.yml
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/MultilineBlockLayout:
+  Enabled: false
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false

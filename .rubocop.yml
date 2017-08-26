@@ -1,0 +1,42 @@
+inherit_from: .rubocop_todo.yml
+require: rubocop-rspec
+
+AllCops:
+  Include:
+    - 'lib/**/*'
+    - 'spec/**/*'
+  Exclude:
+    - 'vendor/**/*'
+    - 'examples/**/*'
+    - 'tmp/**/*'
+    - Gemfile
+    - Rakefile
+    - '*.gemspec'
+  DisplayCopNames: true
+  TargetRubyVersion: '2.3'
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: '{}'
+
+Style/SignalException:
+  EnforcedStyle: semantic
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics/LineLength:
+  Enabled: false
+
+# TODO
+Style/Documentation:
+  Enabled: false

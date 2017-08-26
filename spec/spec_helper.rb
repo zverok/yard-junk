@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec/its'
 require 'fakefs/spec_helpers'
 require 'pp'

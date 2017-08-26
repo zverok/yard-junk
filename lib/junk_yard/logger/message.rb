@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JunkYard
   class Logger
     class Message
@@ -23,7 +25,7 @@ module JunkYard
         other.is_a?(self.class) && to_h == other.to_h
       end
 
-      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'.freeze
+      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'
 
       def to_s(format = DEFAULT_FORMAT)
         format % to_h
@@ -45,32 +47,33 @@ module JunkYard
           Message.registry << self
         end
 
-        def search_up(pattern)
+        def search_up(pattern) # rubocop:disable Style/TrivialAccessors
           @search_up = pattern
         end
 
         def try_parse(line, **context)
           @pattern or fail StandardError, "Pattern is not defined for #{self}"
           match = @pattern.match(line) or return nil
-          data = context.reject { |_, v| v.nil? }.merge(match.names.map(&:to_sym).zip(match.captures).to_h.reject { |_, v| v.nil? })
+          data = context.reject { |_, v| v.nil? }
+                        .merge(match.names.map(&:to_sym).zip(match.captures).to_h.reject { |_, v| v.nil? })
           data = guard_line(data)
           new(**data)
         end
 
         private
 
-        def guard_line(data)
+        def guard_line(data) # rubocop:disable Metrics/AbcSize
           data[:file] && data[:line] && @search_up or return data
           data = data.merge(line: data[:line].to_i)
-          lines = File.readlines(data[:file]) rescue (return data)
+          lines = File.readlines(data[:file]) rescue (return data) # rubocop:disable Style/RescueModifier
           pattern = Regexp.new(@search_up % data)
           _, num = lines.map
-            .with_index { |ln, i| [ln, i + 1] }
-            .first(data[:line]).reverse
-            .detect { |ln, i| pattern.match(ln) }
+                        .with_index { |ln, i| [ln, i + 1] }
+                        .first(data[:line]).reverse
+                        .detect { |ln, _| pattern.match(ln) }
           num or return data
 
-          return data.merge(line: num)
+          data.merge(line: num)
         end
       end
     end

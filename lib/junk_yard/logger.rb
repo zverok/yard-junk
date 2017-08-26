@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'singleton'
 require 'pp'
 
@@ -12,11 +14,9 @@ module JunkYard
     end
 
     def register(msg)
-      #puts msg
-      #p caller[1..3]
       message = Message.registry
-        .map { |t| t.try_parse(msg, file: @current_parsed_file) }
-        .compact.first || Message.new(message: msg, file: @current_parsed_file)
+                       .map { |t| t.try_parse(msg, file: @current_parsed_file) }
+                       .compact.first || Message.new(message: msg, file: @current_parsed_file)
       messages << message
       puts message
     end
@@ -28,9 +28,7 @@ module JunkYard
     module Mixin
       def debug(msg)
         # TODO: fragile regexp; cleanup it after everything is parsed.
-        if msg =~ /Parsing (\w\S+)$/
-          JunkYard::Logger.instance.start_file($1)
-        end
+        JunkYard::Logger.instance.start_file(Regexp.last_match(1)) if msg =~ /Parsing (\w\S+)$/
         super
       end
 

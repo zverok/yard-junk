@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yard'
 require 'junk_yard/logger'
 
@@ -73,7 +75,6 @@ RSpec.describe 'Integration: catching errors' do
     message: 'Unknown directive @!hello',
     directive: '@!hello',
     line: 2
-
 
   it_behaves_like 'file parser', 'invalid directive format',
     %{
