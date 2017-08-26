@@ -1,4 +1,8 @@
 # This file tries to show as much errors in documentation as possible
+
+# Macros attached to class
+# @!macro [attach] attached4
+#  $1 $2 $3
 class A
   # Wrong macro format:
   #
@@ -26,5 +30,9 @@ class A
   end
 
   OPTIONS = %i[foo bar baz]
+  # undocumentable attr_reader
   attr_reader *OPTIONS
 end
+
+# not recognize namespace
+Bar::BOOKS = 5

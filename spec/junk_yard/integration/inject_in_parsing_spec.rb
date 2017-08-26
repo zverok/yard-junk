@@ -141,6 +141,26 @@ RSpec.describe 'Integration: catching errors' do
     object: 'OPTIONS',
     line: 2
 
+  it_behaves_like 'file parser', 'not recognized',
+    %{
+      Bar::BOOKS = 5
+    },
+    type: 'UnknownNamespace',
+    message: 'namespace Bar is not recognized',
+    namespace: 'Bar'
+
+  it_behaves_like 'file parser', 'macro attaching error',
+    %{
+      # @!macro [attach] attached4
+      #  $1 $2 $3
+      class A
+      end
+    },
+    type: 'MacroAttachError',
+    message: 'Attaching macros to non-methods is unsupported, ignoring: A',
+    object: 'A',
+    line: 2
+
   # TODO: DRY!
   context 'invalid link' do
     include YARD::Templates::Helpers::BaseHelper

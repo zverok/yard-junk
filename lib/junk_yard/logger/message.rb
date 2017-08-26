@@ -117,14 +117,33 @@ module JunkYard
       pattern %r{^in (?:\S+): (?<message>Undocumentable (?<object>.+?))\n\s*in file '(?<file>[^']+)':(?<line>\d+):\s+(?:\d+):\s*(?<quote>.+?)\s*$}
 
       def message
-        super + ": `#{rest[:quote]}`"
+        super + ": `#{quote}`"
       end
+
+      def quote
+        rest[:quote]
+      end
+    end
+
+    class UnknownNamespace < Message
+      pattern %r{^(?<message>The proxy (?<namespace>\S+?) has not yet been recognized).\nIf this class/method is part of your source tree, this will affect your documentation results.\nYou can correct this issue by loading the source file for this object before `(?<file>[^']+)'\n$}
+
+      def namespace
+        rest[:namespace]
+      end
+
+      def message
+        "namespace #{namespace} is not recognized"
+      end
+    end
+
+    class MacroAttachError < Message
+      pattern %r{^(?<message>Attaching macros to non-methods is unsupported, ignoring: (?<object>\S+)) \((?<file>.+?):(?<line>\d+)\)$}
+      search_up '@!macro \[attach\]'
     end
 
     class InvalidLink < Message
       pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>Cannot resolve link to (?<object>\S+) from text:\s+(?<quote>.+))$}
     end
-
-
   end
 end
