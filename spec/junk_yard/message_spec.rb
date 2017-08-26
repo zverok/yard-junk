@@ -21,11 +21,24 @@ RSpec.describe JunkYard::Logger::Message do
       }
     end
 
-    context 'when not matches' do
+    context 'when partial match' do
       let(:input) { 'Unknown tag @wrong' }
       its(:to_h) {
         is_expected.to eq(name: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: nil, line: nil)
       }
+    end
+
+    context 'with parsing context' do
+      let(:input) { 'Unknown tag @wrong' }
+      subject { klass.try_parse(input, file: 'input/lot_of_errors.rb') }
+      its(:to_h) {
+        is_expected.to eq(name: 'UnknownTag', message: 'Unknown tag @wrong', tag: 'wrong', file: 'input/lot_of_errors.rb', line: nil)
+      }
+    end
+
+    context 'when not matches' do
+      let(:input) { '@param tag has unknown parameter name: arg3' }
+      it { is_expected.to be_nil }
     end
 
     context 'with search_up' do

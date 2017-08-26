@@ -29,8 +29,8 @@ RSpec.describe JunkYard::Logger do
         })
       }
 
-      its(:'messages.last') { is_expected
-        .to eq JunkYard::Logger::Message.new(level: :warn, type: 'UnknownTag', message: 'Unknown tag @hello', file: 'test.rb')
+      its(:'messages.last.to_h') { is_expected
+        .to eq(type: 'UnknownTag', message: 'Unknown tag @hello', tag: 'hello', file: 'test.rb', line: nil)
       }
     end
 
@@ -43,8 +43,8 @@ RSpec.describe JunkYard::Logger do
         })
       }
 
-      its(:'messages.last') { is_expected
-        .to eq JunkYard::Logger::Message.new(level: :warn, type: 'UnknownTag', message: 'Unknown tag @hello', file: 'test.rb', line: 3)
+      its(:'messages.last.to_h') { is_expected
+        .to eq(type: 'UnknownTag', message: 'Unknown tag @hello', tag: 'hello', file: 'test.rb', line: 2)
       }
     end
   end
@@ -57,12 +57,12 @@ RSpec.describe JunkYard::Logger do
       })
     }
 
-    its(:'messages.last') { is_expected
-      .to eq JunkYard::Logger::Message.new(level: :warn, type: 'UnknownParam', message: '@param tag has unknown parameter name: notaparam', file: 'test.rb', line: 3)
+    its(:'messages.last.to_h') { is_expected
+      .to eq(type: 'UnknownParam', message: '@param tag has unknown parameter name: notaparam', param_name: 'notaparam', file: 'test.rb', line: 2)
     }
   end
 
-  context 'invaild link' do
+  context 'invalid link' do
     include YARD::Templates::Helpers::BaseHelper
     include YARD::Templates::Helpers::HtmlHelper
 
@@ -76,8 +76,8 @@ RSpec.describe JunkYard::Logger do
       resolve_links(YARD::Registry.at('MyObject').docstring)
     }
 
-    its(:'messages.last') { is_expected
-      .to eq JunkYard::Logger::Message.new(level: :warn, type: 'InvalidLink', message: 'Cannot resolve link to InvalidObject from text: ...{InvalidObject}', file: 'test.rb', line: 3)
+    its(:'messages.last.to_h') { is_expected
+      .to eq(type: 'InvalidLink', message: 'Cannot resolve link to InvalidObject from text: ...{InvalidObject}', object: 'InvalidObject', quote: '...{InvalidObject}', file: 'test.rb', line: 3)
     }
   end
 end

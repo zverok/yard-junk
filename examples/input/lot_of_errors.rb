@@ -4,6 +4,8 @@ class A
   #
   # @!macro
 
+  # @wrong Free hanging unknown tag
+
   # Points to unknown class: {B}
   #
   # @wrong This is unknown tag
