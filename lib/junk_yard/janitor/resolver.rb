@@ -41,6 +41,11 @@ module JunkYard
       def object
         @docstring.object
       end
+
+      # required by HtmlHelper
+      def serializer
+        nil
+      end
     end
   end
 end
