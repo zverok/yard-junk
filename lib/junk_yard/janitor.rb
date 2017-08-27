@@ -11,8 +11,9 @@ module JunkYard
       puts "Running JunkYard janitor...\n\n"
 
       @duration = Benchmark.realtime do
-        YARD::CLI::Yardoc.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
-        Resolver.resolve_all
+        command = YARD::CLI::Yardoc.new
+        command.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
+        Resolver.resolve_all(command.options)
       end
 
       self

@@ -8,28 +8,27 @@ module JunkYard
 
       MESSAGE_PATTERN = 'In file `%{file}\':%{line}: Cannot resolve link to %{name} from text: %{link}'
 
-      def self.resolve_all
-        YARD::Registry.all.map(&:base_docstring).each { |ds| new(ds).resolve }
+      def self.resolve_all(yard_options)
+        YARD::Registry.all.map(&:base_docstring).each { |ds| new(ds, yard_options).resolve }
       end
 
-      def initialize(docstring)
+      def initialize(docstring, yard_options)
         @docstring = docstring
+        @options = yard_options
       end
 
       def resolve
-        # TODO: use real YARD options
-        html_markup_markdown(@docstring)
-          .gsub(%r{<(code|tt|pre)[^>]*>(.*?)</\1>}i, '')
+        markup_meth = "html_markup_#{options.markup}"
+        return unless respond_to?(markup_meth)
+        send(markup_meth, @docstring)
+          .gsub(%r{<(code|tt|pre)[^>]*>(.*?)</\1>}im, '')
           .scan(/{[^}]+}/).flatten
           .each(&method(:try_resolve))
       end
 
-      def options
-        # TODO: use real YARD options
-        OpenStruct.new(markup_provider: :kramdown)
-      end
-
       private
+
+      attr_reader :options
 
       def try_resolve(link)
         name, _comment = link.tr('{}', '').split(/\s+/, 2)
