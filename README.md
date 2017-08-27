@@ -13,6 +13,7 @@ Yard-Junk is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 Let's generate the docs for the [rom](https://github.com/rom-rb/rom) library.
 
 <details><summary>Output of `yard doc` without JunkYard</summary>
+
 ```
 [warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Types
 	in file 'core/lib/rom/types.rb':9:
