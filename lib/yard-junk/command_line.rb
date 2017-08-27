@@ -12,8 +12,8 @@ module YardJunk
         Logger.instance.format = format
       end
 
-      opts.on('--junk-log-ignore TYPE1,TYPE2,...', "YardJunk::Logger message types to ignore, by default #{Logger::DEFAULT_IGNORE.map(&:inspect).join(', ')}") do |ignore|
-        Logger.instance.ignore = ignore.split(',')
+      opts.on('--junk-log-ignore [TYPE1,TYPE2,...]', "YardJunk::Logger message types to ignore, by default #{Logger::DEFAULT_IGNORE.map(&:inspect).join(', ')}") do |ignore|
+        Logger.instance.ignore = ignore.to_s.split(',')
       end
 
       opts.separator ''
