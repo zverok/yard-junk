@@ -183,6 +183,25 @@ rake yard:junk
 
 ## Reasons
 
+### Some examples of problems found in popular gems:
+
+httparty:
+```
+lib/httparty/exceptions.rb:2: [UnknownTag] Unknown tag @abstact. Did you mean @abstract?
+lib/httparty/exceptions.rb:20: [MissingParamName] @param tag has empty parameter name
+```
+
+vcr:
+```
+lib/vcr/deprecations.rb:71: [UnknownParam] @param tag has unknown parameter name: name
+lib/vcr/deprecations.rb:73: [UnknownParam] @param tag has unknown parameter name: options
+lib/vcr/linked_cassette.rb:12: [UnknownParam] @param tag has unknown parameter name: context-owned
+lib/vcr/linked_cassette.rb:13: [UnknownParam] @param tag has unknown parameter name: context-unowned
+lib/vcr/linked_cassette.rb:55: [UnknownParam] @param tag has unknown parameter name: context-owned
+lib/vcr/linked_cassette.rb:56: [UnknownParam] @param tag has unknown parameter name: context-unowned
+lib/vcr/test_frameworks/cucumber.rb:27: [UnknownParam] @param tag has unknown parameter name: options
+```
+
 ## Caveats
 
 ## Roadmap
