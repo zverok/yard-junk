@@ -233,6 +233,7 @@ module JunkYard
 
     class InvalidLink < Message
       pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>Cannot resolve link to (?<object>\S+) from text:\s+(?<quote>.+))$}
+      search_up '%{quote}'
     end
   end
 end
