@@ -187,6 +187,10 @@ rake yard:junk
 
 ## Roadmap
 
+* Docs for internals;
+* Colorized output for text reporter;
+* HTML reporter for CIs allowing to store build artifacts;
+
 ## Authors
 
 ## License

@@ -8,4 +8,4 @@ require 'junk_yard'
 
 janitor = JunkYard::Janitor.new
 janitor.run
-janitor.report(JunkYard::Janitor::TextReporter.new(STDOUT))
+exit janitor.report(JunkYard::Janitor::TextReporter.new(STDOUT))

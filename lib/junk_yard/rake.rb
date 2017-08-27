@@ -9,7 +9,7 @@ module JunkYard
       task('yard:junk') do
         require 'yard'
         require_relative '../junk_yard'
-        Janitor.new.run.report(Janitor::TextReporter.new(STDOUT))
+        exit Janitor.new.run.report(Janitor::TextReporter.new(STDOUT))
       end
     end
   end
