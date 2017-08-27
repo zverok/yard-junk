@@ -64,7 +64,7 @@ module JunkYard
         end
 
         def type
-          name == 'Message' ? 'UnknownError' : name&.sub(/^.+::/, '')
+          name.end_with?('::Message') ? 'UnknownError' : name&.sub(/^.+::/, '')
         end
 
         def valid_type?(type)

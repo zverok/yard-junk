@@ -1,6 +1,6 @@
 # Junk Yard: get rid of junk in your YARD docs!
 
-JunkYard is [yard]() plugin/patch, that provides:
+JunkYard is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 * structured documentation error logging;
 * documentation errors validator, ready to be integrated into CI pipeline.
 
