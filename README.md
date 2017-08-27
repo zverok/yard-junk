@@ -183,7 +183,32 @@ rake yard:junk
 
 ## Reasons
 
-### Some examples of problems found in popular gems:
+Small problems in docs lead to decrease of readability and usability. But it is hard to check for
+all those problems manually due to YARD's cumbersome output, and lack of CI-ready doc checking tools.
+
+Idea of regularly structured logger was initially [proposed](https://github.com/lsegal/yard/issues/1007)
+as an enchancement for YARD itself, and even some steps were maid by YARD's author in that direction,
+but the idea was abandoned since.
+
+Therefore, this independent tool was made.
+
+## Caveats
+
+* Sometimes YARD doesn't provide enough information to guess in which line of code the problem is;
+  in those cases `junk-yard` just writes something like `file.rb:1` (to stay consistent and not break
+  go-to-file tools);
+* Checking of links to files and URLs proven to be incomplete.
+
+## Roadmap
+
+* Docs for usage as a system-wide YARD plugin;
+* Docs for internals;
+* Colorized output for text reporter;
+* HTML reporter for CIs allowing to store build artifacts;
+* Documentation quality checks as a next level of YARD checker;
+* Option to check new/updated code only (integration with git history)?
+
+## Some examples of problems found in popular gems:
 
 httparty:
 ```
@@ -202,17 +227,65 @@ lib/vcr/linked_cassette.rb:56: [UnknownParam] @param tag has unknown parameter n
 lib/vcr/test_frameworks/cucumber.rb:27: [UnknownParam] @param tag has unknown parameter name: options
 ```
 
-## Caveats
+eventmachine:
+```
+lib/em/channel.rb:39: [UnknownParam] @param tag has unknown parameter name: Subscriber
+lib/em/connection.rb:603: [InvalidLink] Cannot resolve link to Socket.unpack_sockaddr_in from text: {Socket.unpack_sockaddr_in}
+lib/em/connection.rb:726: [InvalidLink] Cannot resolve link to EventMachine.notify_readable from text: {EventMachine.notify_readable}
+lib/em/connection.rb:726: [InvalidLink] Cannot resolve link to EventMachine.notify_writable from text: {EventMachine.notify_writable}
+lib/em/connection.rb:739: [InvalidLink] Cannot resolve link to EventMachine.notify_readable from text: {EventMachine.notify_readable}
+lib/em/connection.rb:739: [InvalidLink] Cannot resolve link to EventMachine.notify_writable from text: {EventMachine.notify_writable}
+lib/em/protocols/httpclient2.rb:263: [InvalidLink] Cannot resolve link to |response| from text: {|response| puts response.content }
+lib/em/protocols/httpclient2.rb:276: [InvalidLink] Cannot resolve link to |response| from text: {|response| puts response.content }
+lib/em/protocols/line_protocol.rb:9: [InvalidLink] Cannot resolve link to line from text: {line}
+lib/em/protocols/object_protocol.rb:9: [InvalidLink] Cannot resolve link to 'you from text: {'you said' => obj}
+lib/em/protocols/smtpclient.rb:138: [InvalidLink] Cannot resolve link to "Subject" from text: {"Subject" => "Bogus", "CC" => "<a href="mailto:myboss@example.com">myboss@example.com</a>"}
+lib/em/protocols/smtpclient.rb:138: [InvalidLink] Cannot resolve link to :type=>:plain, from text: {:type=>:plain, :username=>"<a href="mailto:mickey@disney.com">mickey@disney.com</a>", :password=>"mouse"}
+lib/em/protocols/smtpserver.rb:435: [InvalidLink] Cannot resolve link to :cert_chain_file from text: {:cert_chain_file => "/etc/ssl/cert.pem", :private_key_file => "/etc/ssl/private/cert.key"}
+lib/em/protocols/socks4.rb:13: [InvalidLink] Cannot resolve link to data from text: {data}
+lib/em/spawnable.rb:47: [InvalidLink] Cannot resolve link to xxx from text: {xxx}
+lib/eventmachine.rb:215: [InvalidLink] Cannot resolve link to EventMachine.stop from text: {EventMachine.stop}
+lib/eventmachine.rb:231: [InvalidLink] Cannot resolve link to EventMachine::Callback from text: {EventMachine::Callback}
+lib/eventmachine.rb:319: [UnknownParam] @param tag has unknown parameter name: delay
+lib/eventmachine.rb:345: [UnknownParam] @param tag has unknown parameter name: delay
+```
 
-## Roadmap
+addressable:
+```
+lib/addressable/template.rb:197: [UnknownParam] @param tag has unknown parameter name: *indexes. Did you mean `indexes`?
+lib/addressable/uri.rb:296: [UnknownParam] @param tag has unknown parameter name: *uris. Did you mean `uris`?
+lib/addressable/uri.rb:1842: [UnknownParam] @param tag has unknown parameter name: The
+lib/addressable/uri.rb:1943: [UnknownParam] @param tag has unknown parameter name: The
+lib/addressable/uri.rb:1958: [UnknownParam] @param tag has unknown parameter name: The
+lib/addressable/uri.rb:2023: [UnknownParam] @param tag has unknown parameter name: The
+lib/addressable/uri.rb:2244: [UnknownParam] @param tag has unknown parameter name: *components. Did you mean `components`?
+lib/addressable/uri.rb:2275: [UnknownParam] @param tag has unknown parameter name: *components. Did you mean `components`?
+```
 
-* Docs for usage as a system-wide YARD plugin;
-* Docs for internals;
-* Colorized output for text reporter;
-* HTML reporter for CIs allowing to store build artifacts;
-* Documentation quality checks as a next level of YARD checker;
-* Option to check new/updated code only (integration with git history)?
+hashie:
+```
+lib/hashie/extensions/coercion.rb:68: [UnknownParam] @param tag has unknown parameter name: key
+lib/hashie/extensions/coercion.rb:69: [UnknownParam] @param tag has unknown parameter name: into
+lib/hashie/extensions/deep_find.rb:7: [InvalidLink] Cannot resolve link to user: from text: {user: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:7: [InvalidLink] Cannot resolve link to user: from text: {user: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:16: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:16: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:27: [InvalidLink] Cannot resolve link to users: from text: {users: [{location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:27: [InvalidLink] Cannot resolve link to users: from text: {users: [{location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '123 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '234 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '234 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '234 Street'}
+lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to location: from text: {location: {address: '234 Street'}
+lib/hashie/mash.rb:32: [InvalidLink] Cannot resolve link to :a from text: {:a => {:b => 23, :d => {:e => "abc"}
+lib/hashie/mash.rb:32: [InvalidLink] Cannot resolve link to :g from text: {:g => 44, :h => 29}
+```
 
 ## Authors
 
+[Victor Shepelev](https://github.com/zverok)
+
 ## License
+
+MIT
