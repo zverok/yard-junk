@@ -210,6 +210,9 @@ Therefore, this independent tool was made.
 
 ## Some examples of problems found in popular gems:
 
+**NB: All of those are excellent libs! The showcase is of "how hard it is to maintain docs quality",
+not of "how ignorant other programmers are".**
+
 httparty:
 ```
 lib/httparty/exceptions.rb:2: [UnknownTag] Unknown tag @abstact. Did you mean @abstract?
