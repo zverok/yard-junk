@@ -17,3 +17,6 @@ RSpec/DescribeClass:
 
 RSpec/BeforeAfterAll:
   Enabled: false
+
+RSpec/EmptyExampleGroup:
+  CustomIncludeMethods: [its_call]

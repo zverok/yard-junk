@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JunkYard
   class Janitor
     # This class is a base for reporters that could be passed to
@@ -29,8 +31,7 @@ module JunkYard
           end
       end
 
-      def finalize
-      end
+      def finalize; end
 
       def section(title, explanation, messages)
         return if messages.empty?

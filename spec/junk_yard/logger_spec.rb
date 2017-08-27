@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe JunkYard::Logger do
   subject(:logger) { described_class.instance }
 

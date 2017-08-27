@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JunkYard
   class Janitor
     # Reporter that just outputs everything in plaintext format. Useful

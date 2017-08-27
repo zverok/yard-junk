@@ -37,6 +37,9 @@ Layout/SpaceInsideHashLiteralBraces:
 Metrics/LineLength:
   Enabled: false
 
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
 # TODO
 Style/Documentation:
   Enabled: false

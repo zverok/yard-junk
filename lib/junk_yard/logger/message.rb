@@ -43,8 +43,6 @@ module JunkYard
         self.class.type
       end
 
-      private
-
       class << self
         def registry
           @registry ||= []

@@ -9,7 +9,7 @@ module JunkYard
 
     include Singleton
 
-    DEFAULT_IGNORE = %w[Undocumentable]
+    DEFAULT_IGNORE = %w[Undocumentable].freeze
 
     def messages
       @messages ||= []
@@ -45,7 +45,7 @@ module JunkYard
 
     def ignore=(list)
       @ignore = Array(list).map(&:to_s)
-        .each { |type| Message.valid_type?(type) or fail(ArgumentError, "Unrecognized message type to ignore: #{type}") }
+                           .each { |type| Message.valid_type?(type) or fail(ArgumentError, "Unrecognized message type to ignore: #{type}") }
     end
 
     private

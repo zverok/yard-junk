@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'benchmark'
 
 module JunkYard
@@ -16,7 +18,6 @@ module JunkYard
     end
 
     def stats
-
       {
         errors: errors.count,
         problems: problems.count,
@@ -26,17 +27,8 @@ module JunkYard
 
     def report(*reporters)
       reporters.each do |reporter|
-        reporter.section(
-          'Errors',
-          'severe code or formatting problems',
-          errors
-        )
-
-        reporter.section(
-          'Problems',
-          'mistyped tags or other typos in documentation',
-          problems
-        )
+        reporter.section('Errors', 'severe code or formatting problems', errors)
+        reporter.section('Problems', 'mistyped tags or other typos in documentation', problems)
 
         reporter.stats(stats)
         reporter.finalize

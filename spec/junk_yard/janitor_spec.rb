@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'junk_yard/janitor'
 
 RSpec.describe JunkYard::Janitor do
@@ -14,7 +16,7 @@ RSpec.describe JunkYard::Janitor do
         .and send_message(YARD::CLI::Yardoc, :run)
         .with('--no-save', '--no-progress', '--no-output')
         .and send_message(JunkYard::Logger.instance, :format=).with(nil).calling_original
-        .and output("Running JunkYard janitor...\n\n").to_stdout
+                                                              .and output("Running JunkYard janitor...\n\n").to_stdout
     }
   end
 
@@ -66,13 +68,11 @@ RSpec.describe JunkYard::Janitor do
         .to send_message(reporter, :section)
         .with('Errors', 'severe code or formatting problems',
           an_instance_of(Array).and(have_attributes(count: 2))
-            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_error))
-        )
+            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_error)))
         .and send_message(reporter, :section)
         .with('Problems', 'mistyped tags or other typos in documentation',
           an_instance_of(Array).and(have_attributes(count: 2))
-            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_warn))
-        )
+            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_warn)))
         .and send_message(reporter, :stats)
         .with(errors: 2, problems: 2, duration: 250.6)
         .and send_message(reporter, :finalize)

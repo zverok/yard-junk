@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe JunkYard::Janitor::TextReporter do
   let(:out) { StringIO.new }
   let(:reporter) { described_class.new(out) }
@@ -21,10 +23,10 @@ RSpec.describe JunkYard::Janitor::TextReporter do
     its_call {
       is_expected
         .to send_message(out, :puts).with(no_args)
-        .and send_message(out, :puts).with('Section')
-        .and send_message(out, :puts).with('-------')
-        .and send_message(out, :puts).with("Explanation\n\n")
-        .and send_message(reporter, :row).exactly(2).times
+                                    .and send_message(out, :puts).with('Section')
+                                                                 .and send_message(out, :puts).with('-------')
+                                                                                              .and send_message(out, :puts).with("Explanation\n\n")
+                                                                                                                           .and send_message(reporter, :row).exactly(2).times
     }
 
     xcontext 'ordering' do # send_message does not support .ordered for now :(
@@ -35,9 +37,9 @@ RSpec.describe JunkYard::Janitor::TextReporter do
 
       its_call {
         is_expected
-          .to  send_message(reporter, :row).with(first).ordered
-          .and send_message(reporter, :row).with(second).ordered
-          .and send_message(reporter, :row).with(third).ordered
+          .to send_message(reporter, :row).with(first).ordered
+                                          .and send_message(reporter, :row).with(second).ordered
+                                                                           .and send_message(reporter, :row).with(third).ordered
       }
     end
 
@@ -62,11 +64,13 @@ RSpec.describe JunkYard::Janitor::TextReporter do
         duration: 5.2
       )
     }
+
     its_call { is_expected.to send_message(out, :puts).with("\n3 failures, 2 problems (5 seconds to run)") }
   end
 
   describe '#finalize' do
     subject { reporter.finalize }
+
     its_call { is_expected.not_to send_message(out, :puts) }
   end
 end
