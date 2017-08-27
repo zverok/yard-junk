@@ -5,14 +5,19 @@ require 'did_you_mean'
 module JunkYard
   class Logger
     class Message
-      attr_reader :message, :file, :line, :extra
+      attr_reader :message, :severity, :file, :line, :extra
 
-      def initialize(message:, code_object: nil, file: nil, line: nil, **extra)
+      def initialize(message:, severity: :warn, code_object: nil, file: nil, line: nil, **extra)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
         @line = line
         @code_object = code_object
+        @severity = severity
         @extra = extra
+      end
+
+      %i[error warn].each do |sev|
+        define_method("#{sev}?") { severity == sev }
       end
 
       def to_h
@@ -184,6 +189,11 @@ module JunkYard
 
     class SyntaxError < Message
       pattern %r{^Syntax error in `(?<file>[^`]+)`:\((?<line>\d+),(?:\d+)\): (?<message>.+)$}
+
+      # Honestly, IDK why YARD considers it "warning"... So, rewriting
+      def severity
+        :error
+      end
     end
 
     class CircularReference < Message

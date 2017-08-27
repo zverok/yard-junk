@@ -3,6 +3,7 @@
 require 'rspec/its'
 require 'fakefs/spec_helpers'
 require 'saharspec/its/call'
+require 'saharspec/matchers/send_message'
 require 'pp'
 
 # Imitating YARD's core_ext/file.rb
@@ -22,3 +23,4 @@ $LOAD_PATH.unshift 'lib'
 
 require 'yard'
 require 'junk_yard/logger'
+require 'junk_yard/janitor'

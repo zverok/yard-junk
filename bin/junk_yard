@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.join(File.dirname(File.expand_path(__FILE__)), '..', 'lib'))
+
+require 'yard'
+require 'junk_yard'
+
+janitor = JunkYard::Janitor.new
+janitor.run
+janitor.report(JunkYard::Janitor::TextReporter.new(STDOUT))

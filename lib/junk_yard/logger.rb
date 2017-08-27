@@ -15,9 +15,9 @@ module JunkYard
       @messages ||= []
     end
 
-    def register(msg)
+    def register(msg, severity = :warn)
       message = Message.registry
-                       .map { |t| t.try_parse(msg, file: @current_parsed_file) }
+                       .map { |t| t.try_parse(msg, severity: severity, file: @current_parsed_file) }
                        .compact.first || Message.new(message: msg, file: @current_parsed_file)
       messages << message
       puts message.to_s(@format) if output?(message)
@@ -61,12 +61,11 @@ module JunkYard
       end
 
       def warn(msg)
-        JunkYard::Logger.instance.register(msg)
+        JunkYard::Logger.instance.register(msg, :warn)
       end
 
       def error(msg)
-        # FIXME: propagate severity?.. Though, it seems pretty arbitrary.
-        JunkYard::Logger.instance.register(msg)
+        JunkYard::Logger.instance.register(msg, :error)
       end
 
       def backtrace(exception, level_meth = :error)
