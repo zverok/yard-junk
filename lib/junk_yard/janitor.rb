@@ -10,10 +10,8 @@ module JunkYard
 
       puts "Running JunkYard janitor...\n\n"
 
-      yardopts = File.read('.yardopts').split("\n").grep_v(/junk_yard/) # protection from double-require
-
       @duration = Benchmark.realtime do
-        YARD::CLI::Yardoc.run('--no-save', '--no-progress', '--no-stats', '--no-output', *yardopts)
+        YARD::CLI::Yardoc.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
       end
 
       self
