@@ -45,7 +45,9 @@ module JunkYard
 
       private
 
-      if DidYouMean::VERSION < '1.1' # On Ruby 2.3, DidYouMean 1.0 is latest version available
+      # DidYouMean changed API dramatically between 1.0 and 1.1, and different rubies have different
+      # versions of it bundled.
+      if DidYouMean.const_defined?(:SpellCheckable)
         class SpellChecker < Struct.new(:error, :dictionary) # rubocop:disable Style/StructInheritance
           include DidYouMean::SpellCheckable
 
@@ -57,9 +59,13 @@ module JunkYard
         def spell_check(error, dictionary)
           SpellChecker.new(error, dictionary).corrections
         end
-      else
+      elsif DidYouMean.const_defined?(:SpellChecker)
         def spell_check(error, dictionary)
           DidYouMean::SpellChecker.new(dictionary: dictionary).correct(error)
+        end
+      else
+        def spell_check(*)
+          []
         end
       end
 
