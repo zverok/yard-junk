@@ -2,6 +2,7 @@
 
 require 'rspec/its'
 require 'fakefs/spec_helpers'
+require 'saharspec/its/call'
 require 'pp'
 
 # Imitating YARD's core_ext/file.rb
@@ -16,3 +17,8 @@ module FakeFS
     end
   end
 end
+
+$LOAD_PATH.unshift 'lib'
+
+require 'yard'
+require 'junk_yard/logger'

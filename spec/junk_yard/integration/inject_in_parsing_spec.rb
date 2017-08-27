@@ -15,13 +15,17 @@ RSpec.describe 'Integration: catching errors' do
   end
 
   def parse_file(contents)
+    # It would be "fake" file, provided by FakeFS and stored nowhere
     File.write('test.rb', contents)
     YARD.parse('test.rb')
   end
 
   subject(:logger) { JunkYard::Logger.instance }
 
-  before { logger.messages.clear }
+  before {
+    logger.clear
+    logger.format = nil # do not print messages to STDOUT
+  }
 
   shared_examples_for 'file parser' do |description, code, **message|
     context description do

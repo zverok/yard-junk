@@ -15,7 +15,7 @@ Things to notice:
 * irregular and frequently approximate addresses (`in file 'core/lib/rom/types.rb':9`,
   `in file 'core/lib/rom/global.rb' near line 41`, sometimes in separate line, sometimes inline),
   hard to jump-to with any tool;
-* a lot of ununderstood metaprogramming (grep for "Undocumentable mixing") -- nothing to fix here,
+* a lot of ununderstood metaprogramming (grep for "Undocumentable mixin") -- nothing to fix here,
   but YARD still notifies you;
 * verbose and not very informative errors (look at that "Undocumentable mixin" -- and then grep
   for "The proxy Coercible has not yet been recognized." and compare).

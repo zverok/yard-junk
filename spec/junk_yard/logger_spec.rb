@@ -1,0 +1,64 @@
+RSpec.describe JunkYard::Logger do
+  subject(:logger) { described_class.instance }
+
+  before {
+    logger.clear
+    logger.format = nil
+  }
+
+  describe '#register' do
+    before { logger.register('Unknown tag @wrong in file `input/lot_of_errors.rb` near line 26') }
+
+    its(:'messages.last') {
+      is_expected
+        .to be_a(described_class::Message)
+        .and have_attributes(message: 'Unknown tag @wrong', extra: {tag: '@wrong'}, file: 'input/lot_of_errors.rb', line: 26)
+    }
+  end
+
+  describe '#notify' do
+    context 'on parsing start' do
+      before {
+        logger.notify('Parsing foo/bar.rb')
+        logger.register('Unknown tag @wrong')
+      }
+
+      its(:'messages.last') { is_expected.to have_attributes(file: 'foo/bar.rb') }
+    end
+
+    context 'on parsing end' do
+      before {
+        logger.notify('Parsing foo/bar.rb')
+        logger.notify('Generating asset js/jquery.js')
+        logger.register('Unknown tag @wrong')
+      }
+
+      its(:'messages.last') { is_expected.to have_attributes(file: nil) }
+    end
+  end
+
+  describe '#format=' do
+    subject { logger.register('Unknown tag @wrong in file `input/lot_of_errors.rb` near line 26') }
+
+    before { logger.clear } # set format to default
+
+    context 'by default' do
+      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
+    end
+
+    context 'non-empty format' do
+      before { logger.format = '%{message} (%{file}:%{line})' }
+
+      its_call { is_expected.to output("Unknown tag @wrong (input/lot_of_errors.rb:26)\n").to_stdout }
+    end
+
+    context 'empty format' do
+      before { logger.format = nil }
+
+      its_call { is_expected.not_to output.to_stdout }
+    end
+  end
+
+  describe '#ignore=' do
+  end
+end

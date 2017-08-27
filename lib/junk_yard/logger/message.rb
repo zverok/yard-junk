@@ -5,14 +5,14 @@ require 'did_you_mean'
 module JunkYard
   class Logger
     class Message
-      attr_reader :message, :file, :line, :rest
+      attr_reader :message, :file, :line, :extra
 
-      def initialize(message:, code_object: nil, file: nil, line: nil, **rest)
+      def initialize(message:, code_object: nil, file: nil, line: nil, **extra)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
         @line = line
         @code_object = code_object
-        @rest = rest
+        @extra = extra
       end
 
       def to_h
@@ -21,7 +21,7 @@ module JunkYard
           message: message,
           file: file,
           line: line&.to_i || 1
-        }.merge(rest)
+        }.merge(extra)
       end
 
       def ==(other)
@@ -100,7 +100,7 @@ module JunkYard
       include DidYouMean::SpellCheckable
 
       def tag
-        rest[:tag]
+        extra[:tag]
       end
 
       def candidates
@@ -138,7 +138,7 @@ module JunkYard
       include DidYouMean::SpellCheckable
 
       def param_name
-        rest[:param_name]
+        extra[:param_name]
       end
 
       def candidates
@@ -190,7 +190,7 @@ module JunkYard
       end
 
       def quote
-        rest[:quote]
+        extra[:quote]
       end
     end
 
@@ -198,7 +198,7 @@ module JunkYard
       pattern %r{^(?<message>The proxy (?<namespace>\S+?) has not yet been recognized).\nIf this class/method is part of your source tree, this will affect your documentation results.\nYou can correct this issue by loading the source file for this object before `(?<file>[^']+)'\n$}
 
       def namespace
-        rest[:namespace]
+        extra[:namespace]
       end
 
       def message

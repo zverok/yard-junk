@@ -18,17 +18,37 @@ module JunkYard
                        .map { |t| t.try_parse(msg, file: @current_parsed_file) }
                        .compact.first || Message.new(message: msg, file: @current_parsed_file)
       messages << message
-      puts message unless message.is_a?(Undocumentable)
+      puts message.to_s(@format) if output?(message)
     end
 
-    def start_file(name)
-      @current_parsed_file = name
+    def notify(msg)
+      case msg
+      when /Parsing (\w\S+)$/
+        # TODO: fragile regexp; cleanup it after everything is parsed.
+        @current_parsed_file = Regexp.last_match(1)
+      when /^Generating/ # end of parsing of any file
+        @current_parsed_file = nil
+      end
+    end
+
+    def clear
+      messages.clear
+      @format = Message::DEFAULT_FORMAT
+    end
+
+    def format=(fmt)
+      @format = fmt.to_s
+    end
+
+    private
+
+    def output?(message)
+      !@format.empty? && !message.is_a?(Undocumentable)
     end
 
     module Mixin
       def debug(msg)
-        # TODO: fragile regexp; cleanup it after everything is parsed.
-        JunkYard::Logger.instance.start_file(Regexp.last_match(1)) if msg =~ /Parsing (\w\S+)$/
+        JunkYard::Logger.instance.notify(msg)
         super
       end
 
@@ -47,3 +67,5 @@ module JunkYard
     end
   end
 end
+
+JunkYard::Logger.instance.clear
