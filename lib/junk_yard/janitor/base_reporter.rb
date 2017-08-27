@@ -62,9 +62,9 @@ module JunkYard
 
       def humanize_duration(duration)
         if duration < 60
-          format('%i seconds', duration)
+          '%i seconds' % duration
         else
-          format('%.1f minutes', (duration / 60))
+          '%.1f minutes' % (duration / 60)
         end
       end
     end

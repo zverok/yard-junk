@@ -10,10 +10,7 @@ module JunkYard
 
       def _stats(**stat)
         line =
-          format(
-            '%<errors>i failures, %<problems>i problems (%<duration>s to run)',
-            stat
-          )
+          '%<errors>i failures, %<problems>i problems (%<duration>s to run)' % stat
         @io.puts "\n#{line}"
       end
 

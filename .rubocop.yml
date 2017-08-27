@@ -40,6 +40,9 @@ Metrics/LineLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
+Style/FormatString:
+  EnforcedStyle: percent
+
 # TODO
 Style/Documentation:
   Enabled: false
