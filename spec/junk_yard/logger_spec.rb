@@ -60,5 +60,36 @@ RSpec.describe JunkYard::Logger do
   end
 
   describe '#ignore=' do
+    subject {
+      logger.register('Unknown tag @wrong in file `input/lot_of_errors.rb` near line 26')
+      logger.register(%{in YARD::Handlers::Ruby::AttributeHandler: Undocumentable OPTIONS
+	in file 'input/lot_of_errors.rb':38:
+
+	38: attr_reader *OPTIONS})
+    }
+
+    before { logger.clear } # Set output format to default
+
+    context 'by default' do
+      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
+    end
+
+    context 'set ignores' do
+      before { logger.ignore = 'UnknownTag' }
+
+      its_call { is_expected.to output("input/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
+    end
+
+    context 'ignore nothing' do
+      before { logger.ignore = nil }
+
+      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\ninput/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
+    end
+
+    context 'set wrong ignores' do
+      subject { logger.ignore = 'Unknown Tag' }
+
+      its_call { is_expected.to raise_error(ArgumentError, 'Unrecognized message type to ignore: Unknown Tag') }
+    end
   end
 end

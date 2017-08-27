@@ -9,6 +9,8 @@ module JunkYard
 
     include Singleton
 
+    DEFAULT_IGNORE = %w[Undocumentable]
+
     def messages
       @messages ||= []
     end
@@ -34,16 +36,22 @@ module JunkYard
     def clear
       messages.clear
       @format = Message::DEFAULT_FORMAT
+      @ignore = DEFAULT_IGNORE
     end
 
     def format=(fmt)
       @format = fmt.to_s
     end
 
+    def ignore=(list)
+      @ignore = Array(list).map(&:to_s)
+        .each { |type| Message.valid_type?(type) or fail(ArgumentError, "Unrecognized message type to ignore: #{type}") }
+    end
+
     private
 
     def output?(message)
-      !@format.empty? && !message.is_a?(Undocumentable)
+      !@format.empty? && !@ignore.include?(message.type)
     end
 
     module Mixin

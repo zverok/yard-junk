@@ -34,11 +34,11 @@ module JunkYard
         format % to_h
       end
 
-      private
-
       def type
-        self.class == Message ? 'UnknownError' : self.class.name.sub(/^.+::/, '')
+        self.class.type
       end
+
+      private
 
       class << self
         def registry
@@ -61,6 +61,14 @@ module JunkYard
                         .merge(match.names.map(&:to_sym).zip(match.captures).to_h.reject { |_, v| v.nil? })
           data = guard_line(data)
           new(**data)
+        end
+
+        def type
+          name == 'Message' ? 'UnknownError' : name&.sub(/^.+::/, '')
+        end
+
+        def valid_type?(type)
+          type == 'UnknownError' || registry.any? { |m| m.type == type }
         end
 
         private
