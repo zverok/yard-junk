@@ -12,7 +12,204 @@ Yard-Junk is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 
 Let's generate the docs for the [rom](https://github.com/rom-rb/rom) library.
 
-Output of `yard doc` without JunkYard: [too huge to embed in README](https://gist.github.com/zverok/6dcf946d674e63545cee9f8a74e08728).
+<details><summary>Output of `yard doc` without JunkYard</summary>
+```
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Types
+	in file 'core/lib/rom/types.rb':9:
+
+	9: include Dry::Types.module
+
+[warn]: Invalid tag format for @example in file `core/lib/rom/global.rb` near line 41
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Schema
+	in file 'core/lib/rom/schema.rb':66:
+
+	66: include Dry::Equalizer(:name, :attributes, :associations)
+
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/schema.rb' near line 149
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/schema.rb' near line 305
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/schema.rb' near line 316
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Command
+	in file 'core/lib/rom/command.rb':30:
+
+	30: include Dry::Equalizer(:relation, :options)
+
+[warn]: @param tag has unknown parameter name: Transaction
+    in file `core/lib/rom/gateway.rb' near line 176
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Pipeline::Composite
+	in file 'core/lib/rom/pipeline.rb':82:
+
+	82: include Dry::Equalizer(:left, :right)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Registry
+	in file 'core/lib/rom/registry.rb':13:
+
+	13: include Dry::Equalizer(:elements)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Relation
+	in file 'core/lib/rom/relation.rb':129:
+
+	129: include Dry::Equalizer(:name, :dataset)
+
+[warn]: @param tag has unknown parameter name: options
+    in file `core/lib/rom/relation.rb' near line 302
+[warn]: @param tag has unknown parameter name: new_options
+    in file `core/lib/rom/relation.rb' near line 411
+[warn]: @param tag has unknown parameter name: klass
+    in file `core/lib/rom/relation.rb' near line 529
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Attribute
+	in file 'core/lib/rom/attribute.rb':17:
+
+	17: include Dry::Equalizer(:type, :options)
+
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/attribute.rb' near line 344
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Container
+	in file 'core/lib/rom/container.rb':101:
+
+	101: include Dry::Equalizer(:gateways, :relations, :mappers, :commands)
+
+[warn]: @param tag has unknown parameter name: base
+    in file `core/lib/rom/plugin_base.rb' near line 41
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Commands::Lazy
+	in file 'core/lib/rom/commands/lazy.rb':10:
+
+	10: include Dry::Equalizer(:command, :evaluator)
+
+[warn]: @param tag has unknown parameter name: The
+    in file `core/lib/rom/configuration.rb' near line 50
+[warn]: @param tag has unknown parameter name: Plugin
+    in file `core/lib/rom/configuration.rb' near line 50
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Relation::Name
+	in file 'core/lib/rom/relation/name.rb':17:
+
+	17: include Dry::Equalizer(:relation, :dataset)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Commands::Graph
+	in file 'core/lib/rom/commands/graph.rb':12:
+
+	12: include Dry::Equalizer(:root, :nodes)
+
+[warn]: @param tag has unknown parameter name: names
+    in file `core/lib/rom/memory/dataset.rb' near line 61
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Relation::Graph
+	in file 'core/lib/rom/relation/graph.rb':29:
+
+	29: include Dry::Equalizer(:root, :nodes)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::PluginRegistryBase
+	in file 'core/lib/rom/plugin_registry.rb':88:
+
+	88: include Dry::Equalizer(:elements, :plugin_type)
+
+[warn]: Unknown tag @raises in file `core/lib/rom/plugin_registry.rb` near line 143
+[warn]: Unknown tag @raises in file `core/lib/rom/plugin_registry.rb` near line 190
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Relation::Loaded
+	in file 'core/lib/rom/relation/loaded.rb':12:
+
+	12: include Dry::Equalizer(:source, :collection)
+
+[warn]: Unknown tag @raises in file `core/lib/rom/relation/loaded.rb` near line 94
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Schema::Inferrer
+	in file 'core/lib/rom/schema/inferrer.rb':27:
+
+	27: include Dry::Equalizer(:options)
+
+[warn]: @param tag has unknown parameter name: name
+    in file `core/lib/rom/command_registry.rb' near line 57
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Relation::Curried
+	in file 'core/lib/rom/relation/curried.rb':22:
+
+	22: include Dry::Equalizer(:relation, :options)
+
+[warn]: Unknown tag @raises in file `core/lib/rom/relation/curried.rb` near line 72
+[warn]: @param tag has unknown parameter name: adapter
+    in file `core/lib/rom/global/plugin_dsl.rb' near line 42
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/relation/combined.rb' near line 33
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Associations::Abstract
+	in file 'core/lib/rom/associations/abstract.rb':17:
+
+	17: include Dry::Equalizer(:definition, :source, :target)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Notifications::Event
+	in file 'core/lib/rom/support/notifications.rb':75:
+
+	75: include Dry::Equalizer(:id, :payload)
+
+[warn]: @param tag has unknown parameter name: command
+    in file `core/lib/rom/commands/class_interface.rb' near line 86
+[warn]: @param tag has unknown parameter name: parent
+    in file `core/lib/rom/commands/class_interface.rb' near line 86
+[warn]: @param tag has unknown parameter name: options
+    in file `core/lib/rom/commands/class_interface.rb' near line 112
+[warn]: @param tag has unknown parameter name:
+    in file `core/lib/rom/commands/class_interface.rb' near line 123
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Commands::Graph::InputEvaluator
+	in file 'core/lib/rom/commands/graph/input_evaluator.rb':5:
+
+	5: include Dry::Equalizer(:tuple_path, :excluded_keys)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Associations::Definitions::Abstract
+	in file 'core/lib/rom/associations/definitions/abstract.rb':16:
+
+	16: include Dry::Equalizer(:source, :target, :result)
+
+[warn]: @param tag has unknown parameter name: options
+    in file `core/lib/rom/associations/definitions/abstract.rb' near line 74
+[warn]: @param tag has unknown parameter name: options
+    in file `changeset/lib/rom/changeset.rb' near line 84
+[warn]: in YARD::Handlers::Ruby::ClassHandler: Undocumentable superclass (class was added without superclass)
+	in file 'changeset/lib/rom/changeset/pipe.rb':28:
+
+	28: class Pipe < Transproc::Transformer[PipeRegistry]
+
+[warn]: @param tag has unknown parameter name: assoc
+    in file `changeset/lib/rom/changeset/stateful.rb' near line 222
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Header
+	in file 'mapper/lib/rom/header.rb':12:
+
+	12: include Dry::Equalizer(:attributes, :model)
+
+[warn]: @param tag has unknown parameter name: model
+    in file `mapper/lib/rom/header.rb' near line 52
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Mapper
+	in file 'mapper/lib/rom/mapper.rb':11:
+
+	11: include Dry::Equalizer(:transformers, :header)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Header::Attribute
+	in file 'mapper/lib/rom/header/attribute.rb':14:
+
+	14: include Dry::Equalizer(:name, :key, :type)
+
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Header::Embedded
+	in file 'mapper/lib/rom/header/attribute.rb':110:
+
+	110: include Dry::Equalizer(:name, :key, :type, :header)
+
+[warn]: @param tag has unknown parameter name:
+    in file `mapper/lib/rom/processor/transproc.rb' near line 215
+[warn]: in YARD::Handlers::Ruby::MixinHandler: Undocumentable mixin: YARD::Parser::UndocumentableError for class ROM::Session
+	in file 'repository/lib/rom/repository/session.rb':8:
+
+	8: include Dry::Equalizer(:queue, :status)
+
+[warn]: The proxy Coercible has not yet been recognized.
+If this class/method is part of your source tree, this will affect your documentation results.
+You can correct this issue by loading the source file for this object before `core/lib/rom/types.rb'
+
+[warn]: The proxy Coercible has not yet been recognized.
+If this class/method is part of your source tree, this will affect your documentation results.
+You can correct this issue by loading the source file for this object before `core/lib/rom/types.rb'
+
+[warn]: The proxy Coercible has not yet been recognized.
+If this class/method is part of your source tree, this will affect your documentation results.
+You can correct this issue by loading the source file for this object before `core/lib/rom/types.rb'
+```
+</details>
 
 Things to notice:
 
@@ -24,7 +221,7 @@ Things to notice:
 * verbose and not very informative errors (look at that "Undocumentable mixin" -- and then grep
   for "The proxy Coercible has not yet been recognized." and compare).
 
-Output of `yard doc` with Yard-Junk:
+<details><summary>Output of `yard doc` with Yard-Junk</summary>
 
 ```
 core/lib/rom/global.rb:40: [InvalidTagFormat] Invalid tag format for @example
@@ -60,6 +257,7 @@ core/lib/rom/types.rb:1: [UnknownNamespace] namespace Coercible is not recognize
 core/lib/rom/types.rb:1: [UnknownNamespace] namespace Coercible is not recognized
 core/lib/rom/types.rb:1: [UnknownNamespace] namespace Coercible is not recognized
 ```
+</details>
 
 Things to notice:
 
@@ -74,7 +272,7 @@ Unknown tag @raises. Did you mean @raise?
 ```
 * Rephrased and cleaned up messages.
 
-`yard-junk` tool output:
+<details><summary>`yard-junk` tool output</summary>
 
 ```
 Problems
@@ -116,6 +314,7 @@ mapper/lib/rom/processor/transproc.rb:212: [MissingParamName] @param tag has emp
 
 0 failures, 32 problems (2 seconds to run)
 ```
+</details>
 
 It is basically the same as above, and:
 
@@ -216,13 +415,14 @@ Therefore, this independent tool was made.
 **NB: All of those are excellent libs! The showcase is of "how hard it is to maintain docs quality",
 not of "how ignorant other programmers are".**
 
-httparty:
+<details><summary>httparty: 2</summary>
 ```
 lib/httparty/exceptions.rb:2: [UnknownTag] Unknown tag @abstact. Did you mean @abstract?
 lib/httparty/exceptions.rb:20: [MissingParamName] @param tag has empty parameter name
 ```
+</details>
 
-vcr:
+<details><summary>vcr: 7</summary>
 ```
 lib/vcr/deprecations.rb:71: [UnknownParam] @param tag has unknown parameter name: name
 lib/vcr/deprecations.rb:73: [UnknownParam] @param tag has unknown parameter name: options
@@ -232,8 +432,9 @@ lib/vcr/linked_cassette.rb:55: [UnknownParam] @param tag has unknown parameter n
 lib/vcr/linked_cassette.rb:56: [UnknownParam] @param tag has unknown parameter name: context-unowned
 lib/vcr/test_frameworks/cucumber.rb:27: [UnknownParam] @param tag has unknown parameter name: options
 ```
+</details>
 
-eventmachine:
+<details><summary>eventmachine: 19</summary>
 ```
 lib/em/channel.rb:39: [UnknownParam] @param tag has unknown parameter name: Subscriber
 lib/em/connection.rb:603: [InvalidLink] Cannot resolve link to Socket.unpack_sockaddr_in from text: {Socket.unpack_sockaddr_in}
@@ -255,8 +456,9 @@ lib/eventmachine.rb:231: [InvalidLink] Cannot resolve link to EventMachine::Call
 lib/eventmachine.rb:319: [UnknownParam] @param tag has unknown parameter name: delay
 lib/eventmachine.rb:345: [UnknownParam] @param tag has unknown parameter name: delay
 ```
+</details>
 
-addressable:
+<details><summary>addressable: 8</summary>
 ```
 lib/addressable/template.rb:197: [UnknownParam] @param tag has unknown parameter name: *indexes. Did you mean `indexes`?
 lib/addressable/uri.rb:296: [UnknownParam] @param tag has unknown parameter name: *uris. Did you mean `uris`?
@@ -267,8 +469,9 @@ lib/addressable/uri.rb:2023: [UnknownParam] @param tag has unknown parameter nam
 lib/addressable/uri.rb:2244: [UnknownParam] @param tag has unknown parameter name: *components. Did you mean `components`?
 lib/addressable/uri.rb:2275: [UnknownParam] @param tag has unknown parameter name: *components. Did you mean `components`?
 ```
+</details>
 
-hashie:
+<details><summary>hashie: 16 (mostly not escaped code in docs)</summary>
 ```
 lib/hashie/extensions/coercion.rb:68: [UnknownParam] @param tag has unknown parameter name: key
 lib/hashie/extensions/coercion.rb:69: [UnknownParam] @param tag has unknown parameter name: into
@@ -287,6 +490,7 @@ lib/hashie/extensions/deep_find.rb:36: [InvalidLink] Cannot resolve link to loca
 lib/hashie/mash.rb:32: [InvalidLink] Cannot resolve link to :a from text: {:a => {:b => 23, :d => {:e => "abc"}
 lib/hashie/mash.rb:32: [InvalidLink] Cannot resolve link to :g from text: {:g => 44, :h => 29}
 ```
+</details>
 
 ## Authors
 
