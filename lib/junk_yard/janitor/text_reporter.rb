@@ -3,7 +3,7 @@
 module JunkYard
   class Janitor
     # Reporter that just outputs everything in plaintext format. Useful
-    # for commandline usage. See {::BaseReporter} for details about reporters.
+    # for commandline usage. See {BaseReporter} for details about reporters.
     #
     class TextReporter < BaseReporter
       private
