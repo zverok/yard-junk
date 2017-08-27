@@ -48,7 +48,7 @@ module JunkYard
     private
 
     def messages
-      JunkYard::Logger.instance.messages
+      JunkYard::Logger.instance.messages.grep_v(Logger::Undocumentable) # FIXME: Not DRY
     end
 
     def errors
