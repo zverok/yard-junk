@@ -9,7 +9,7 @@ Yard-Junk is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 
 Let's generate the docs for the [rom](https://github.com/rom-rb/rom) library.
 
-Output of `yard doc` without JunkYard: [too huge to embed in README](https://gist.github.com/zverok/6dcf946d674e63545cee9f8a74e08728)
+Output of `yard doc` without JunkYard: [too huge to embed in README](https://gist.github.com/zverok/6dcf946d674e63545cee9f8a74e08728).
 
 Things to notice:
 
