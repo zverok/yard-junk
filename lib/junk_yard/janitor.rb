@@ -12,6 +12,7 @@ module JunkYard
 
       @duration = Benchmark.realtime do
         YARD::CLI::Yardoc.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
+        Resolver.resolve_all
       end
 
       self
@@ -61,3 +62,4 @@ end
 
 require_relative 'janitor/base_reporter'
 require_relative 'janitor/text_reporter'
+require_relative 'janitor/resolver'
