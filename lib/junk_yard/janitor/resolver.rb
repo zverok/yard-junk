@@ -23,6 +23,7 @@ module JunkYard
         send(markup_meth, @docstring)
           .gsub(%r{<(code|tt|pre)[^>]*>(.*?)</\1>}im, '')
           .scan(/{[^}]+}/).flatten
+          .map(&CGI.method(:unescapeHTML))
           .each(&method(:try_resolve))
       end
 
@@ -31,7 +32,7 @@ module JunkYard
       attr_reader :options
 
       def try_resolve(link)
-        name, _comment = CGI.unescapeHTML(link).tr('{}', '').split(/\s+/, 2)
+        name, _comment = link.tr('{}', '').split(/\s+/, 2)
         resolved = YARD::Registry.resolve(@docstring.object, name, true, true)
         return unless resolved.is_a?(YARD::CodeObjects::Proxy)
         Logger.instance.register(MESSAGE_PATTERN % {file: object.file, line: object.line, name: name, link: link})

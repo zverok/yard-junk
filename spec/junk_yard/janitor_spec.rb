@@ -10,13 +10,19 @@ RSpec.describe JunkYard::Janitor do
   describe '#run' do
     subject { janitor.run }
 
+    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: nil) }
+
     its_call {
       is_expected
         .to send_message(YARD::Registry, :clear)
-        .and send_message(YARD::CLI::Yardoc, :run)
+        .and send_message(JunkYard::Logger.instance, :format=)
+        .with(nil).calling_original
+        .and send_message(YARD::CLI::Yardoc, :new)
+        .returning(command)
+        .and send_message(command, :run)
         .with('--no-save', '--no-progress', '--no-stats', '--no-output')
-        .and send_message(JunkYard::Logger.instance, :format=).with(nil).calling_original
-                                                              .and output("Running JunkYard janitor...\n\n").to_stdout
+        .and send_message(JunkYard::Janitor::Resolver, :resolve_all)
+        .and output("Running JunkYard janitor...\n\n").to_stdout
     }
   end
 
