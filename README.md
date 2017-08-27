@@ -417,6 +417,7 @@ Therefore, this independent tool was made.
 not of "how ignorant other programmers are".**
 
 <details><summary>httparty: 2</summary>
+
 ```
 lib/httparty/exceptions.rb:2: [UnknownTag] Unknown tag @abstact. Did you mean @abstract?
 lib/httparty/exceptions.rb:20: [MissingParamName] @param tag has empty parameter name
@@ -424,6 +425,7 @@ lib/httparty/exceptions.rb:20: [MissingParamName] @param tag has empty parameter
 </details>
 
 <details><summary>vcr: 7</summary>
+
 ```
 lib/vcr/deprecations.rb:71: [UnknownParam] @param tag has unknown parameter name: name
 lib/vcr/deprecations.rb:73: [UnknownParam] @param tag has unknown parameter name: options
@@ -436,6 +438,7 @@ lib/vcr/test_frameworks/cucumber.rb:27: [UnknownParam] @param tag has unknown pa
 </details>
 
 <details><summary>eventmachine: 19</summary>
+
 ```
 lib/em/channel.rb:39: [UnknownParam] @param tag has unknown parameter name: Subscriber
 lib/em/connection.rb:603: [InvalidLink] Cannot resolve link to Socket.unpack_sockaddr_in from text: {Socket.unpack_sockaddr_in}
@@ -460,6 +463,7 @@ lib/eventmachine.rb:345: [UnknownParam] @param tag has unknown parameter name: d
 </details>
 
 <details><summary>addressable: 8</summary>
+
 ```
 lib/addressable/template.rb:197: [UnknownParam] @param tag has unknown parameter name: *indexes. Did you mean `indexes`?
 lib/addressable/uri.rb:296: [UnknownParam] @param tag has unknown parameter name: *uris. Did you mean `uris`?
@@ -473,6 +477,7 @@ lib/addressable/uri.rb:2275: [UnknownParam] @param tag has unknown parameter nam
 </details>
 
 <details><summary>hashie: 16 (mostly not escaped code in docs)</summary>
+
 ```
 lib/hashie/extensions/coercion.rb:68: [UnknownParam] @param tag has unknown parameter name: key
 lib/hashie/extensions/coercion.rb:69: [UnknownParam] @param tag has unknown parameter name: into
