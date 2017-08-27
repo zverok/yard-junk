@@ -25,6 +25,8 @@ Gem::Specification.new do |s|
     )$/x
   end
   s.require_paths = ["lib"]
+  s.bindir = 'bin'
+  s.executables << 'junk_yard'
 
   s.add_dependency 'yard'
   s.add_dependency 'did_you_mean', '= 1.0.0'
