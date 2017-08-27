@@ -14,7 +14,7 @@ RSpec.describe JunkYard::Janitor do
       is_expected
         .to send_message(YARD::Registry, :clear)
         .and send_message(YARD::CLI::Yardoc, :run)
-        .with('--no-save', '--no-progress', '--no-output')
+        .with('--no-save', '--no-progress', '--no-stats', '--no-output')
         .and send_message(JunkYard::Logger.instance, :format=).with(nil).calling_original
                                                               .and output("Running JunkYard janitor...\n\n").to_stdout
     }

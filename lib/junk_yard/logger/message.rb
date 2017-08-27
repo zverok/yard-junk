@@ -10,7 +10,7 @@ module JunkYard
       def initialize(message:, severity: :warn, code_object: nil, file: nil, line: nil, **extra)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
-        @line = line
+        @line = line&.to_i
         @code_object = code_object
         @severity = severity
         @extra = extra
@@ -67,7 +67,7 @@ module JunkYard
         end
 
         def type
-          name.end_with?('::Message') ? 'UnknownError' : name&.sub(/^.+::/, '')
+          name&.end_with?('::Message') ? 'UnknownError' : name&.sub(/^.+::/, '')
         end
 
         def valid_type?(type)
