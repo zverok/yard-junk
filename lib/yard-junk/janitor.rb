@@ -2,13 +2,13 @@
 
 require 'benchmark'
 
-module JunkYard
+module YardJunk
   class Janitor
     def run(*opts)
       YARD::Registry.clear # Somehow loads all Ruby stdlib classes before Rake task started...
       Logger.instance.format = nil
 
-      puts "Running JunkYard janitor...\n\n"
+      puts "Running YardJunk janitor...\n\n"
 
       @duration = Benchmark.realtime do
         command = YARD::CLI::Yardoc.new
@@ -48,7 +48,7 @@ module JunkYard
     private
 
     def messages
-      JunkYard::Logger.instance.messages.grep_v(Logger::Undocumentable) # FIXME: Not DRY
+      YardJunk::Logger.instance.messages.grep_v(Logger::Undocumentable) # FIXME: Not DRY
     end
 
     def errors

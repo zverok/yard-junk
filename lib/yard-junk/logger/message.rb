@@ -2,7 +2,7 @@
 
 require 'did_you_mean'
 
-module JunkYard
+module YardJunk
   class Logger
     class Message
       attr_reader :message, :severity, :file, :line, :extra

@@ -20,3 +20,6 @@ RSpec/BeforeAfterAll:
 
 RSpec/EmptyExampleGroup:
   CustomIncludeMethods: [its_call]
+
+RSpec/FilePath:
+  Enabled: false

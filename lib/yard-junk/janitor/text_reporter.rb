@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JunkYard
+module YardJunk
   class Janitor
     # Reporter that just outputs everything in plaintext format. Useful
     # for commandline usage. See {BaseReporter} for details about reporters.

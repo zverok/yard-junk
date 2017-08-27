@@ -22,5 +22,5 @@ end
 $LOAD_PATH.unshift 'lib'
 
 require 'yard'
-require 'junk_yard/logger'
-require 'junk_yard/janitor'
+require 'yard-junk/logger'
+require 'yard-junk/janitor'

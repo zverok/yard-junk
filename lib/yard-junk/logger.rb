@@ -3,7 +3,7 @@
 require 'singleton'
 require 'pp'
 
-module JunkYard
+module YardJunk
   class Logger
     require_relative 'logger/message'
 
@@ -56,16 +56,16 @@ module JunkYard
 
     module Mixin
       def debug(msg)
-        JunkYard::Logger.instance.notify(msg)
+        YardJunk::Logger.instance.notify(msg)
         super
       end
 
       def warn(msg)
-        JunkYard::Logger.instance.register(msg, :warn)
+        YardJunk::Logger.instance.register(msg, :warn)
       end
 
       def error(msg)
-        JunkYard::Logger.instance.register(msg, :error)
+        YardJunk::Logger.instance.register(msg, :error)
       end
 
       def backtrace(exception, level_meth = :error)
@@ -75,4 +75,4 @@ module JunkYard
   end
 end
 
-JunkYard::Logger.instance.clear
+YardJunk::Logger.instance.clear

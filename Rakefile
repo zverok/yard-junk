@@ -2,5 +2,5 @@ require 'bundler/setup'
 require 'rubygems/tasks'
 Gem::Tasks.new
 
-require_relative 'lib/junk_yard/rake'
-JunkYard::Rake.define_task
+require_relative 'lib/yard-junk/rake'
+YardJunk::Rake.define_task

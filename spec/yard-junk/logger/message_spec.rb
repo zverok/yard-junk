@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'yard'
-require 'junk_yard/logger'
-
-RSpec.describe JunkYard::Logger::Message do
+RSpec.describe YardJunk::Logger::Message do
   include FakeFS::SpecHelpers
 
   describe '.try_parse' do

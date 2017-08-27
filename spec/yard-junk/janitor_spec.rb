@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require 'junk_yard/janitor'
-
-RSpec.describe JunkYard::Janitor do
+RSpec.describe YardJunk::Janitor do
   subject(:janitor) { described_class.new }
 
-  before { JunkYard::Logger.instance.clear }
+  before { YardJunk::Logger.instance.clear }
 
   describe '#run' do
     subject { janitor.run }
@@ -15,19 +13,19 @@ RSpec.describe JunkYard::Janitor do
     its_call {
       is_expected
         .to send_message(YARD::Registry, :clear)
-        .and send_message(JunkYard::Logger.instance, :format=)
+        .and send_message(YardJunk::Logger.instance, :format=)
         .with(nil).calling_original
         .and send_message(YARD::CLI::Yardoc, :new)
         .returning(command)
         .and send_message(command, :run)
         .with('--no-save', '--no-progress', '--no-stats', '--no-output')
-        .and send_message(JunkYard::Janitor::Resolver, :resolve_all)
-        .and output("Running JunkYard janitor...\n\n").to_stdout
+        .and send_message(YardJunk::Janitor::Resolver, :resolve_all)
+        .and output("Running YardJunk janitor...\n\n").to_stdout
     }
   end
 
   def data_for_report
-    logger = JunkYard::Logger.instance
+    logger = YardJunk::Logger.instance
     logger.format = nil
     logger.register('Unknown tag @wrong in file `input/lot_of_errors.rb` near line 26')
     logger.register('@param tag has duplicate parameter name: para in file `input/lot_of_errors.rb\' near line 33')
@@ -67,18 +65,18 @@ RSpec.describe JunkYard::Janitor do
 
     subject { janitor.report(reporter) }
 
-    let(:reporter) { instance_double('JunkYard::Janitor::BaseReporter', section: nil, stats: nil, finalize: nil) }
+    let(:reporter) { instance_double('YardJunk::Janitor::BaseReporter', section: nil, stats: nil, finalize: nil) }
 
     its_call {
       is_expected
         .to send_message(reporter, :section)
         .with('Errors', 'severe code or formatting problems',
           an_instance_of(Array).and(have_attributes(count: 2))
-            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_error)))
+            .and(all(be_a(YardJunk::Logger::Message))).and(all(be_error)))
         .and send_message(reporter, :section)
         .with('Problems', 'mistyped tags or other typos in documentation',
           an_instance_of(Array).and(have_attributes(count: 2))
-            .and(all(be_a(JunkYard::Logger::Message))).and(all(be_warn)))
+            .and(all(be_a(YardJunk::Logger::Message))).and(all(be_warn)))
         .and send_message(reporter, :stats)
         .with(errors: 2, problems: 2, duration: 250.6)
         .and send_message(reporter, :finalize)

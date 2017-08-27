@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JunkYard
+module YardJunk
   module Rake
     extend ::Rake::DSL
 

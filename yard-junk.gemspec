@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
-  s.name     = 'junk_yard'
-  s.version  = '0.0.1pre'
+  s.name     = 'yard-junk'
+  s.version  = '0.0.1'
   s.authors  = ['Victor Shepelev']
   s.email    = 'zverok.offline@gmail.com'
   s.homepage = 'https://github.com/zverok/junk_yard'
 
   s.summary = 'Get rid of the junk in your YARD docs'
   s.description = <<-EOF
-    JunkYard is structured logger/error validator plugin for YARD documentation gem.
+    YardJunk is structured logger/error validator plugin for YARD documentation gem.
   EOF
   s.licenses = ['MIT']
 
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   end
   s.require_paths = ["lib"]
   s.bindir = 'bin'
-  s.executables << 'junk_yard'
+  s.executables << 'yard-junk'
 
   s.add_dependency 'yard'
   if RUBY_VERSION < '2.4'

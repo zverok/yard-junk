@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JunkYard
+module YardJunk
   class Janitor
     # This class is a base for reporters that could be passed to
     # {Janitor#report}.

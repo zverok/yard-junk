@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe JunkYard::Janitor::Resolver do
+RSpec.describe YardJunk::Janitor::Resolver do
   context 'escaped HTML' do
     before {
-      JunkYard::Logger.instance.clear
-      JunkYard::Logger.instance.format = nil
+      YardJunk::Logger.instance.clear
+      YardJunk::Logger.instance.format = nil
 
       YARD.parse_string(%{
         # It meant to be code: {'message' => 'test'}
@@ -14,7 +14,7 @@ RSpec.describe JunkYard::Janitor::Resolver do
       described_class.resolve_all(fake_options)
     }
 
-    subject { JunkYard::Logger.instance.messages }
+    subject { YardJunk::Logger.instance.messages }
 
     let(:fake_options) { OpenStruct.new(markup: :markdown) }
 

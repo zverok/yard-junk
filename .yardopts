@@ -1,2 +1,2 @@
 --markup markdown
--e ./lib/junk_yard.rb
+-e ./lib/yard-junk.rb

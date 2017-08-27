@@ -4,8 +4,8 @@
 $LOAD_PATH.unshift(File.join(File.dirname(File.expand_path(__FILE__)), '..', 'lib'))
 
 require 'yard'
-require 'junk_yard'
+require 'yard-junk'
 
-janitor = JunkYard::Janitor.new
+janitor = YardJunk::Janitor.new
 janitor.run
-exit janitor.report(JunkYard::Janitor::TextReporter.new(STDOUT))
+exit janitor.report(YardJunk::Janitor::TextReporter.new(STDOUT))

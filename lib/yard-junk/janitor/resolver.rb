@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module JunkYard
+module YardJunk
   class Janitor
     # TODO: Tests
     class Resolver

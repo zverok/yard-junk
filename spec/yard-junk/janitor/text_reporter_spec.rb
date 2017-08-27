@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe JunkYard::Janitor::TextReporter do
+RSpec.describe YardJunk::Janitor::TextReporter do
   let(:out) { StringIO.new }
   let(:reporter) { described_class.new(out) }
 
@@ -15,8 +15,8 @@ RSpec.describe JunkYard::Janitor::TextReporter do
 
     let(:messages) {
       [
-        JunkYard::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10),
-        JunkYard::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10)
+        YardJunk::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10),
+        YardJunk::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10)
       ]
     }
 
@@ -30,9 +30,9 @@ RSpec.describe JunkYard::Janitor::TextReporter do
     }
 
     xcontext 'ordering' do # send_message does not support .ordered for now :(
-      let(:first)  { JunkYard::Logger::Message.new(message: 'Something bad 1', file: 'file.rb', line: 10) }
-      let(:second) { JunkYard::Logger::Message.new(message: 'Something bad 2', file: 'file.rb', line: 15) }
-      let(:third)  { JunkYard::Logger::Message.new(message: 'Something bad 2', file: 'other_file.rb', line: 5) }
+      let(:first)  { YardJunk::Logger::Message.new(message: 'Something bad 1', file: 'file.rb', line: 10) }
+      let(:second) { YardJunk::Logger::Message.new(message: 'Something bad 2', file: 'file.rb', line: 15) }
+      let(:third)  { YardJunk::Logger::Message.new(message: 'Something bad 2', file: 'other_file.rb', line: 5) }
       let(:messages) { [third, second, first] }
 
       its_call {
@@ -51,7 +51,7 @@ RSpec.describe JunkYard::Janitor::TextReporter do
   end
 
   describe '#row' do
-    subject { reporter.send(:row, JunkYard::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10)) }
+    subject { reporter.send(:row, YardJunk::Logger::Message.new(message: 'Something bad', file: 'file.rb', line: 10)) }
 
     its_call { is_expected.to send_message(out, :puts).with('file.rb:10: [UnknownError] Something bad') }
   end

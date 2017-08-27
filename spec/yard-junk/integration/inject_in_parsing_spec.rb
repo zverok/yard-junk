@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require 'yard'
-require 'junk_yard/logger'
-
 RSpec.describe 'Integration: catching errors' do
   include FakeFS::SpecHelpers
 
   before(:all) do
-    YARD::Logger.prepend(JunkYard::Logger::Mixin)
+    YARD::Logger.prepend(YardJunk::Logger::Mixin)
   end
 
   after(:all) do
@@ -20,7 +17,7 @@ RSpec.describe 'Integration: catching errors' do
     YARD.parse('test.rb')
   end
 
-  subject(:logger) { JunkYard::Logger.instance }
+  subject(:logger) { YardJunk::Logger.instance }
 
   before {
     logger.clear
