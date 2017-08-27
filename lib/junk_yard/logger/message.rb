@@ -43,6 +43,27 @@ module JunkYard
         self.class.type
       end
 
+      private
+
+      if DidYouMean::VERSION < '1.1' # On Ruby 2.3, DidYouMean 1.0 is latest version available
+        class SpellChecker < Struct.new(:error, :dictionary)
+          include DidYouMean::SpellCheckable
+
+          def candidates
+            {error => dictionary}
+          end
+        end
+
+        def spell_check(error, dictionary)
+          SpellChecker.new(error, dictionary).corrections
+        end
+      else
+        def spell_check(error, dictionary)
+          DidYouMean::SpellChecker.new(dictionary: dictionary).correct(error)
+        end
+      end
+
+
       class << self
         def registry
           @registry ||= []
@@ -108,14 +129,8 @@ module JunkYard
 
       private
 
-      include DidYouMean::SpellCheckable
-
-      def tag
-        extra[:tag]
-      end
-
-      def candidates
-        {tag => YARD::Tags::Library.labels.keys.map(&:to_s)}
+      def corrections
+        spell_check(extra[:tag], YARD::Tags::Library.labels.keys.map(&:to_s))
       end
     end
 
@@ -146,14 +161,8 @@ module JunkYard
 
       private
 
-      include DidYouMean::SpellCheckable
-
-      def param_name
-        extra[:param_name]
-      end
-
-      def candidates
-        {param_name => known_params}
+      def corrections
+        spell_check(extra[:param_name], known_params)
       end
 
       def known_params

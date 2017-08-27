@@ -29,7 +29,11 @@ Gem::Specification.new do |s|
   s.executables << 'junk_yard'
 
   s.add_dependency 'yard'
-  s.add_dependency 'did_you_mean', '~> 1'
+  if RUBY_VERSION < '2.4'
+    s.add_dependency 'did_you_mean', '~> 1.0'
+  else
+    s.add_dependency 'did_you_mean', '~> 1.1'
+  end
 
   s.add_development_dependency 'rubocop', '>= 0.30'
   s.add_development_dependency 'rspec', '>= 3'

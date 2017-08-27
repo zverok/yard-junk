@@ -190,6 +190,8 @@ rake yard:junk
 * Docs for internals;
 * Colorized output for text reporter;
 * HTML reporter for CIs allowing to store build artifacts;
+* Documentation quality checks as a next level of YARD checker;
+* Option to check new/updated code only (integration with git history)?
 
 ## Authors
 
