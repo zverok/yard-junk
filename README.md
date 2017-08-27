@@ -1,6 +1,6 @@
-# Junk Yard: get rid of junk in your YARD docs!
+# Yard-Junk: get rid of junk in your YARD docs!
 
-JunkYard is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
+Yard-Junk is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 
 * structured documentation error logging;
 * documentation errors validator, ready to be integrated into CI pipeline.
@@ -21,7 +21,7 @@ Things to notice:
 * verbose and not very informative errors (look at that "Undocumentable mixin" -- and then grep
   for "The proxy Coercible has not yet been recognized." and compare).
 
-Output of `yard doc` with JunkYard:
+Output of `yard doc` with Yard-Junk:
 
 ```
 core/lib/rom/global.rb:40: [InvalidTagFormat] Invalid tag format for @example
@@ -63,7 +63,7 @@ Things to notice:
 * Regular output style with clearly recognizable addresses (and fixed to point at actual line with
   the problematic tag, not the method which tag is related for);
 * Error classes, allowing grouping, grepping, and configuring (notice no "Undocumentable xxx" errors:
-  I've just configured `junk_yard` to drop them for this repo);
+  I've just configured `yard-junk` to drop them for this repo);
 * Usage of Ruby's bundled `did_you_mean` gem to show reasonable suggestions:
 ```
 Unknown tag @raises. Did you mean @raise?
@@ -71,7 +71,7 @@ Unknown tag @raises. Did you mean @raise?
 ```
 * Rephrased and cleaned up messages.
 
-`junk_yard` tool output:
+`yard-junk` tool output:
 
 ```
 Problems
@@ -118,22 +118,22 @@ It is basically the same as above, and:
 
 * sorted by files/lines instead of "reported when found" approach;
 * with short stats at the end;
-* returning proper exit code (0 if no problems/parsing errors, non-0 otherwise), which allows junk_yard
+* returning proper exit code (0 if no problems/parsing errors, non-0 otherwise), which allows `yard-junk`
   to be integrated into CI pipeline, and control that new PRs will not screw docs (forgetting to
   rename parameters in docs when they are renamed in code, for example).
 
-As a nice addition, `junk_yard` command uses its own links to code objects resolver, which is 10x
+As a nice addition, `yard-junk` command uses its own links to code objects resolver, which is 10x
 faster (and, eventually, more correct) than YARD's own approach to resolve links when rendering docs.
 
 ## Usage
 
-It is a `junk_yard` gem, install it as usual, or add to your `Gemfile`.
+It is a `yard-junk` gem, install it as usual, or add to your `Gemfile`.
 
 ### Better logs
 
 Add this to your `.yardopts` file:
 ```
--e junk_yard
+--plugin junk
 ```
 
 After that, just run `yard` or `yard doc` as usual, and enjoy better logs! You can also setup JunkYard
@@ -165,15 +165,15 @@ include Rails.routes
 
 ### Standalone docs check
 
-Just run `junk_yard` command after gem is installed. It should work :)
+Just run `yard-junk` command after gem is installed. It should work :)
 
 ### Rake task (integrating in CI)
 
 Add this to your `Rakefile`:
 
 ```ruby
-require 'junk_yard/rake'
-JunkYard::Rake.task
+require 'yard-junk/rake'
+YardJunk::Rake.task
 ```
 
 and then run it (or add to your `.travis.yml`) as
