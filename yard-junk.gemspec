@@ -18,10 +18,13 @@ Gem::Specification.new do |s|
     spec\/.*
     |Gemfile
     |Rakefile
+    |codeclimate.yml
     |\.rspec
     |\.gitignore
     |\.rubocop.yml
+    |\.rubocop_todo.yml
     |\.travis.yml
+    |\.yardopts
     )$/x
   end
   s.require_paths = ["lib"]
