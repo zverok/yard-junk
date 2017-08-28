@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
     s.add_dependency 'did_you_mean', '~> 1.1'
   end
 
-  s.add_development_dependency 'rubocop', '>= 0.30'
+  s.add_development_dependency 'rubocop', '>= 0.49'
   s.add_development_dependency 'rspec', '>= 3'
   s.add_development_dependency 'rubocop-rspec'
   s.add_development_dependency 'rspec-its', '~> 1'
