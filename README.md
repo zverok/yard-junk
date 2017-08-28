@@ -390,7 +390,7 @@ Small problems in docs lead to decrease of readability and usability. But it is 
 all those problems manually due to YARD's cumbersome output, and lack of CI-ready doc checking tools.
 
 Idea of regularly structured logger was initially [proposed](https://github.com/lsegal/yard/issues/1007)
-as an enchancement for YARD itself, and even some steps were maid by YARD's author in that direction,
+as an enhancement for YARD itself, and even some steps were maid by YARD's author in that direction,
 but the idea was abandoned since.
 
 Therefore, this independent tool was made.
