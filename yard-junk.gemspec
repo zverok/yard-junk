@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
     spec\/.*
     |Gemfile
     |Rakefile
-    |codeclimate.yml
+    |\.codeclimate.yml
     |\.rspec
     |\.gitignore
     |\.rubocop.yml
