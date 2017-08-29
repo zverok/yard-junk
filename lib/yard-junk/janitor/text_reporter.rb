@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rainbow'
+
 module YardJunk
   class Janitor
     # Reporter that just outputs everything in plaintext format. Useful
@@ -9,9 +11,27 @@ module YardJunk
       private
 
       def _stats(**stat)
-        line =
-          '%<errors>i failures, %<problems>i problems (%<duration>s to run)' % stat
-        @io.puts "\n#{line}"
+        @io.puts "\n#{template_for(stat) % stat}"
+      end
+
+      NO_ISSUES_TEMPLATE = [
+        Rainbow('%<errors>i failures, %<problems>i problems').green,
+        Rainbow(', (%<duration>s to run)').gray
+      ].join('').freeze
+
+      ERROR_COUNT_TEMPLATE = [
+        Rainbow('%<errors>i failures').red,
+        Rainbow(',').gray,
+        Rainbow(' %<problems>i problems').yellow,
+        Rainbow(', (%<duration>s to run)').gray
+      ].join('').freeze
+
+      def template_for(stat)
+        if stat[:errors].zero? && stat[:problems].zero?
+          NO_ISSUES_TEMPLATE
+        else
+          ERROR_COUNT_TEMPLATE
+        end
       end
 
       def header(title, explanation)
