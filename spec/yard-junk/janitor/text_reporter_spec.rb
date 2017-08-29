@@ -65,7 +65,7 @@ RSpec.describe YardJunk::Janitor::TextReporter do
       )
     }
 
-    its_call { is_expected.to send_message(out, :puts).with("\n3 failures, 2 problems (5 seconds to run)") }
+    its_call { is_expected.to send_message(out, :puts).with("\n\e[31m3 failures\e[0m\e[38;5;188m,\e[0m\e[33m 2 problems\e[0m\e[38;5;188m, (5 seconds to run)\e[0m") }
   end
 
   describe '#finalize' do

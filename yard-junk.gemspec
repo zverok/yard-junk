@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.bindir = 'exe'
   s.executables << 'yard-junk'
 
+  s.add_dependency 'rainbow'
   s.add_dependency 'yard'
   if RUBY_VERSION < '2.4'
     s.add_dependency 'did_you_mean', '~> 1.0'
