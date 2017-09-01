@@ -499,7 +499,8 @@ lib/hashie/mash.rb:32: [InvalidLink] Cannot resolve link to :g from text: {:g =>
 
 ## Authors
 
-[Victor Shepelev](https://github.com/zverok)
+* [Victor Shepelev](https://github.com/zverok)
+* [Olle Jonsson](https://github.com/olleolleolle)
 
 ## License
 
