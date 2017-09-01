@@ -400,15 +400,15 @@ Therefore, this independent tool was made.
 * Sometimes YARD doesn't provide enough information to guess in which line of code the problem is;
   in those cases `yard-junk` just writes something like `file.rb:1` (to stay consistent and not break
   go-to-file tools);
-* Checking of links to files and URLs proven to be incomplete.
+* Checking of links to files and URLs proven to be incomplete ([#12](https://github.com/zverok/yard-junk/issues/12)).
 
 ## Roadmap
 
 * Docs for usage as a system-wide YARD plugin;
 * Docs for internals;
 * HTML reporter for CIs allowing to store build artifacts;
-* Documentation quality checks as a next level of YARD checker;
-* Option to check new/updated code only (integration with git history)?
+* Documentation quality checks as a next level of YARD checker ([#14](https://github.com/zverok/yard-junk/issues/14));
+* Option to check only selected parts of code ([#13](https://github.com/zverok/yard-junk/issues/13)).
 
 ## Some examples of problems found in popular gems:
 
