@@ -23,13 +23,13 @@ RSpec.describe YardJunk::Janitor::TextReporter do
     its_call {
       is_expected
         .to send_message(out, :puts).with(no_args)
-                                    .and send_message(out, :puts).with('Section')
-                                                                 .and send_message(out, :puts).with('-------')
-                                                                                              .and send_message(out, :puts).with("Explanation\n\n")
-                                                                                                                           .and send_message(reporter, :row).exactly(2).times
+        .and send_message(out, :puts).with('Section')
+        .and send_message(out, :puts).with('-------')
+        .and send_message(out, :puts).with("Explanation\n\n")
+        .and send_message(reporter, :row).exactly(2).times
     }
 
-    xcontext 'ordering' do # send_message does not support .ordered for now :(
+    context 'ordering' do
       let(:first)  { YardJunk::Logger::Message.new(message: 'Something bad 1', file: 'file.rb', line: 10) }
       let(:second) { YardJunk::Logger::Message.new(message: 'Something bad 2', file: 'file.rb', line: 15) }
       let(:third)  { YardJunk::Logger::Message.new(message: 'Something bad 2', file: 'other_file.rb', line: 5) }
@@ -38,8 +38,8 @@ RSpec.describe YardJunk::Janitor::TextReporter do
       its_call {
         is_expected
           .to send_message(reporter, :row).with(first).ordered
-                                          .and send_message(reporter, :row).with(second).ordered
-                                                                           .and send_message(reporter, :row).with(third).ordered
+          .and send_message(reporter, :row).with(second).ordered
+          .and send_message(reporter, :row).with(third).ordered
       }
     end
 

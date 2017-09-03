@@ -63,4 +63,5 @@ end
 
 require_relative 'janitor/base_reporter'
 require_relative 'janitor/text_reporter'
+require_relative 'janitor/html_reporter'
 require_relative 'janitor/resolver'

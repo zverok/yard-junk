@@ -23,3 +23,10 @@ RSpec/EmptyExampleGroup:
 
 RSpec/FilePath:
   Enabled: false
+
+# Because
+#  expect { ... }
+#   .to send_message.with(...)
+#   .and send_message.with(...)
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
