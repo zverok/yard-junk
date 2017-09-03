@@ -8,4 +8,4 @@ require 'yard-junk'
 
 janitor = YardJunk::Janitor.new
 janitor.run
-exit janitor.report(YardJunk::Janitor::TextReporter.new(STDOUT))
+exit janitor.report(:text, html: 'tmp/test.html')

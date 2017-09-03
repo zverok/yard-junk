@@ -19,7 +19,7 @@ module YardJunk
       #
       # @overload initialize(filename)
       #   @param filename [String] Name of file to save the output.
-      def initialize(io_or_filename)
+      def initialize(io_or_filename = STDOUT)
         @io =
           case io_or_filename
           when ->(i) { i.respond_to?(:puts) } # quacks!

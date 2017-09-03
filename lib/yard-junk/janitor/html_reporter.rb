@@ -11,7 +11,7 @@ module YardJunk
         <html lang="en">
           <header>
             <meta charset='UTF-8' />
-            <title>YARD Validation Report</title>
+            <title>YARD-Junk Report</title>
             <style>
               body, html {
               }
@@ -63,7 +63,7 @@ module YardJunk
       STATS = <<-HTML
       <p class="stats">
         <span class="<%= 'problem' unless errors.zero? %>"><%= errors %> failures</span>,
-        <span class="<%= 'problem' unless problems.zero? %>"><%= problems %> problems</span>,
+        <span class="<%= 'problem' unless problems.zero? %>"><%= problems %> problems</span>
         (ready in <%= duration %>)
       </p>
       HTML

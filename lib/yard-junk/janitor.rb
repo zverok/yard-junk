@@ -27,8 +27,8 @@ module YardJunk
       }
     end
 
-    def report(*reporters)
-      reporters.each do |reporter|
+    def report(*args, **opts)
+      guess_reporters(*args, **opts).each do |reporter|
         reporter.section('Errors', 'severe code or formatting problems', errors)
         reporter.section('Problems', 'mistyped tags or other typos in documentation', problems)
 
@@ -57,6 +57,13 @@ module YardJunk
 
     def problems
       messages.select(&:warn?)
+    end
+
+    def guess_reporters(*symbols, **symbols_with_args)
+      symbols.map { |sym| [sym, nil] }.to_h.merge(symbols_with_args)
+        .map { |sym, args| ["#{sym.to_s.capitalize}Reporter", args] }
+        .each { |name, _| Janitor.const_defined?(name) or fail(ArgumentError, "Reporter #{name} not found") }
+        .map { |name, args| Janitor.const_get(name).new(*args) }
     end
   end
 end
