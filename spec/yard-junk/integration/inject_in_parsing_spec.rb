@@ -160,12 +160,18 @@ RSpec.describe 'Integration: catching errors' do
     param_name: 'para',
     line: 3
 
+  syntax_error = if RUBY_ENGINE == 'jruby'
+                   'syntax error, unexpected end-of-file'
+                 else
+                   "syntax error, unexpected end-of-input, expecting '('"
+                 end
+
   it_behaves_like 'file parser', 'syntax error',
     %{
       foo, bar.
     },
     type: 'SyntaxError',
-    message: "syntax error, unexpected end-of-input, expecting '('",
+    message: syntax_error,
     line: 3
 
   it_behaves_like 'file parser', 'circular reference',
