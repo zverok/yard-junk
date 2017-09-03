@@ -368,7 +368,18 @@ include Rails.routes
 
 ### Standalone docs check
 
-Just run `yard-junk` command after gem is installed. It should work :)
+Just run `yard-junk` command after gem is installed. Optionally, you can setup "formatters" to use:
+
+* text formatter: suitable for console, sparse colorized output;
+* HTML formatter: suitable as CI artifact, readable in browser.
+
+Examples:
+
+* `yard-junk` (default run, outputs text to STDOUT);
+* `yard-junk --text` (same as above);
+* `yard-junk --text logs/yard.log` (set the output path);
+* `yard-junk --text --html build-artifacts/junk-yard.html` (several formatters at once: text to console,
+  HTML to file).
 
 ### Rake task (integrating in CI)
 
@@ -382,6 +393,14 @@ YardJunk::Rake.task
 and then run it (or add to your `.travis.yml`) as
 ```
 rake yard:junk
+```
+
+Rake task also allows to pass formatters (at task definition time), this way:
+
+```ruby
+YardJunk::Rake.task(:text) # default
+YardJunk::Rake.task(text: 'logs/yard.log') # text to file
+YardJunk::Rake.task(:text, html: 'build-artifacts/junk-yard.html') # text to STDOUT, html to file
 ```
 
 ## Reasons
@@ -406,7 +425,6 @@ Therefore, this independent tool was made.
 
 * Docs for usage as a system-wide YARD plugin;
 * Docs for internals;
-* HTML reporter for CIs allowing to store build artifacts;
 * Documentation quality checks as a next level of YARD checker ([#14](https://github.com/zverok/yard-junk/issues/14));
 * Option to check only selected parts of code ([#13](https://github.com/zverok/yard-junk/issues/13)).
 

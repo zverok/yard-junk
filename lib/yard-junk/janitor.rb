@@ -59,8 +59,10 @@ module YardJunk
       messages.select(&:warn?)
     end
 
+    # TODO: specs for the logic
     def guess_reporters(*symbols, **symbols_with_args)
-      symbols.map { |sym| [sym, nil] }.to_h.merge(symbols_with_args)
+      symbols
+        .map { |sym| [sym, nil] }.to_h.merge(symbols_with_args)
         .map { |sym, args| ["#{sym.to_s.capitalize}Reporter", args] }
         .each { |name, _| Janitor.const_defined?(name) or fail(ArgumentError, "Reporter #{name} not found") }
         .map { |name, args| Janitor.const_get(name).new(*args) }

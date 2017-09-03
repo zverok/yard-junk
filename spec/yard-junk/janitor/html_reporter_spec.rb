@@ -47,13 +47,12 @@ RSpec.describe YardJunk::Janitor::HtmlReporter do
   end
 
   describe '#finalize' do
-    before do
-      expect(out).to receive(:puts).with(%r{</html})
-      reporter.finalize
-    end
+    subject { reporter.finalize }
 
-    its(:html) do
-      is_expected.to include(described_class::FOOTER)
-    end
+    its_call {
+      is_expected
+        .to change(reporter, :html).to(include(described_class::FOOTER))
+        .and send_message(out, :puts).with(%r{</html})
+    }
   end
 end

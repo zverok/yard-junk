@@ -61,9 +61,12 @@ RSpec.describe YardJunk::Janitor do
   end
 
   describe '#report' do
-    before { data_for_report }
+    before {
+      data_for_report
+      allow(YardJunk::Janitor::TextReporter).to receive(:new).and_return(reporter)
+    }
 
-    subject { janitor.report(reporter) }
+    subject { janitor.report(:text) }
 
     let(:reporter) { instance_double('YardJunk::Janitor::BaseReporter', section: nil, stats: nil, finalize: nil) }
 
