@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rainbow'
   s.add_dependency 'yard'
+  s.add_dependency 'slop', '~> 4'
   if RUBY_VERSION < '2.4'
     s.add_dependency 'did_you_mean', '~> 1.0'
   else
@@ -43,7 +44,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '>= 3'
   s.add_development_dependency 'rubocop-rspec'
   s.add_development_dependency 'rspec-its', '~> 1'
-  #s.add_development_dependency 'saharspec'
+  #s.add_development_dependency 'saharspec' # saharspec is moving target!
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'simplecov', '~> 0.9'
   s.add_development_dependency 'rake'

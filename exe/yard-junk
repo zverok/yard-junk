@@ -5,7 +5,38 @@ $LOAD_PATH.unshift(File.join(File.dirname(File.expand_path(__FILE__)), '..', 'li
 
 require 'yard'
 require 'yard-junk'
+require 'optparse'
+
+formatters = {}
+
+OptionParser.new do |opts|
+  opts.banner = 'Usage: yard-junk [formatters]'
+  opts.separator ''
+  opts.separator 'Formatters'
+  opts.separator '(you can use several at once, for example --text to print in console and --html to save HTML report somewhere)'
+  opts.separator 'Default is: text formatter, printing to STDOUT.'
+  opts.separator ''
+
+
+  opts.on('--text [PATH]', 'Plaintext formatter (prints to STDOUT by default)') do |path|
+    formatters[:text] = path
+  end
+
+  opts.on('--html [PATH]', 'HTML formatter, useful as CI artifact (prints to STDOUT by default)') do |path|
+    formatters[:html] = path
+  end
+
+  opts.separator ''
+  opts.separator 'Other options'
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+formatters = {text: nil} if formatters.empty?
 
 janitor = YardJunk::Janitor.new
 janitor.run
-exit janitor.report(:text, html: 'tmp/test.html')
+exit janitor.report(**formatters)
