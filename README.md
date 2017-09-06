@@ -395,12 +395,12 @@ and then run it (or add to your `.travis.yml`) as
 rake yard:junk
 ```
 
-Rake task also allows to pass formatters (at task definition time), this way:
+The Rake task also takes formatter arguments, at task-definition time:
 
 ```ruby
-YardJunk::Rake.task(:text) # default
-YardJunk::Rake.task(text: 'logs/yard.log') # text to file
-YardJunk::Rake.task(:text, html: 'build-artifacts/junk-yard.html') # text to STDOUT, html to file
+YardJunk::Rake.define_task(:text) # default
+YardJunk::Rake.define_task(text: 'logs/yard.log') # text to file
+YardJunk::Rake.define_task(:text, html: 'build-artifacts/junk-yard.html') # text to STDOUT, html to file
 ```
 
 ## Reasons
