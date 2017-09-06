@@ -387,7 +387,7 @@ Add this to your `Rakefile`:
 
 ```ruby
 require 'yard-junk/rake'
-YardJunk::Rake.task
+YardJunk::Rake.define_task
 ```
 
 and then run it (or add to your `.travis.yml`) as
