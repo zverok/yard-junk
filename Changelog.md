@@ -1,5 +1,10 @@
 # Yard-Junk changelog
 
+## 0.0.3 -- 2017-09-07
+
+* Wiser dependency on `did_you_mean`, should not break CIs now.
+* Support for Ruby 2.1 and 2.2.
+
 ## 0.0.2 -- 2017-09-03
 
 * Lots of small cleanups and enchancement of README, Gemfile and directory structure ([@olleolleolle]);
