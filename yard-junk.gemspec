@@ -33,11 +33,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rainbow'
   s.add_dependency 'yard'
-  if RUBY_VERSION < '2.4'
-    s.add_dependency 'did_you_mean', '~> 1.0'
-  else
-    s.add_dependency 'did_you_mean', '~> 1.1'
-  end
+  s.add_dependency 'did_you_mean'
 
   s.add_development_dependency 'rubocop', '>= 0.49'
   s.add_development_dependency 'rspec', '>= 3'
