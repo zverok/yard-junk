@@ -10,7 +10,7 @@ module YardJunk
       def initialize(message:, severity: :warn, code_object: nil, file: nil, line: nil, **extra)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
-        @line = line&.to_i
+        @line = line && line.to_i
         @code_object = code_object
         @severity = severity
         @extra = extra
@@ -25,7 +25,7 @@ module YardJunk
           type: type,
           message: message,
           file: file,
-          line: line&.to_i || 1
+          line: (line && line.to_i) || 1
         }.merge(extra)
       end
 
@@ -47,7 +47,7 @@ module YardJunk
 
       # DidYouMean changed API dramatically between 1.0 and 1.1, and different rubies have different
       # versions of it bundled.
-      if DidYouMean.const_defined?(:SpellCheckable)
+      if DidYouMean.const_defined?(:SpellCheckable) # 1.0 +
         class SpellChecker < Struct.new(:error, :dictionary) # rubocop:disable Style/StructInheritance
           include DidYouMean::SpellCheckable
 
@@ -59,9 +59,21 @@ module YardJunk
         def spell_check(error, dictionary)
           SpellChecker.new(error, dictionary).corrections
         end
-      elsif DidYouMean.const_defined?(:SpellChecker)
+      elsif DidYouMean.const_defined?(:SpellChecker) # 1.1+
         def spell_check(error, dictionary)
           DidYouMean::SpellChecker.new(dictionary: dictionary).correct(error)
+        end
+      elsif DidYouMean.const_defined?(:BaseFinder) # < 1.0
+        class SpellFinder < Struct.new(:error, :dictionary) # rubocop:disable Style/StructInheritance
+          include DidYouMean::BaseFinder
+
+          def searches
+            {error => dictionary}
+          end
+        end
+
+        def spell_check(error, dictionary)
+          SpellFinder.new(error, dictionary).suggestions
         end
       else
         def spell_check(*)
@@ -93,7 +105,7 @@ module YardJunk
         end
 
         def type
-          name&.end_with?('::Message') ? 'UnknownError' : name&.sub(/^.+::/, '')
+          !name || name.end_with?('::Message') ? 'UnknownError' : name.sub(/^.+::/, '')
         end
 
         def valid_type?(type)

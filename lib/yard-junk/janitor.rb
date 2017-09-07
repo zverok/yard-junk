@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'benchmark'
+require 'backports/2.3.0/enumerable/grep_v'
 
 module YardJunk
   class Janitor

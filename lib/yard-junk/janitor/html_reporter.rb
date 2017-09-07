@@ -8,7 +8,7 @@ module YardJunk
     # for usage with Jenkins. See {BaseReporter} for details about reporters.
     #
     class HtmlReporter < BaseReporter
-      HEADER = <<~HTML
+      HEADER = <<-HTML
         <!DOCTYPE html>
         <html lang="en">
           <header>
@@ -46,7 +46,7 @@ module YardJunk
             <h1>YARD Validation Report</h1>
       HTML
 
-      FOOTER = <<~HTML
+      FOOTER = <<-HTML
           </body>
         </html>
       HTML

@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   EOF
   s.licenses = ['MIT']
 
-  s.required_ruby_version = '>= 2.3.0'
+  #s.required_ruby_version = '>= 2.3.0'
 
   s.files = `git ls-files`.split($RS).reject do |file|
     file =~ /^(?:
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rainbow'
   s.add_dependency 'yard'
   s.add_dependency 'did_you_mean'
+  s.add_dependency 'backports'
 
   s.add_development_dependency 'rubocop', '>= 0.49'
   s.add_development_dependency 'rspec', '>= 3'
