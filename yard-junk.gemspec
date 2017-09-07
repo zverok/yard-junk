@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   EOF
   s.licenses = ['MIT']
 
-  #s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 2.1.0'
 
   s.files = `git ls-files`.split($RS).reject do |file|
     file =~ /^(?:
