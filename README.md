@@ -388,6 +388,7 @@ only your recent piece of work):
 yard-junk --path some/path/
 yard-junk --path other/path/*sample*.rb
 yard-junk --path specific/path.rb
+yard-junk --path several,different/*.rb,patterns.rb
 ```
 
 Note that `yard-junk` would parse the pathes that set in `.yardopts` as usually, and then

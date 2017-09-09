@@ -60,11 +60,13 @@ module YardJunk
       messages.select(&:warn?)
     end
 
-    def filter(messages, path)
-      return messages unless path
-      path = File.join(path, '**', '*.*') if File.directory?(path)
-      pattern = Dir[path].map(&File.method(:expand_path))
-      messages.select { |m| pattern.include?(File.expand_path(m.file)) }
+    def filter(messages, pathes)
+      return messages unless pathes
+      filters = Array(pathes).flat_map { |path|
+        path = File.join(path, '**', '*.*') if File.directory?(path)
+        Dir[path]
+      }.map(&File.method(:expand_path))
+      messages.select { |m| filters.include?(File.expand_path(m.file)) }
     end
 
     # TODO: specs for the logic

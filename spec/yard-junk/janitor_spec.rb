@@ -152,6 +152,9 @@ RSpec.describe YardJunk::Janitor do
             .and send_message(reporter, :finalize)
         }
       end
+
+      context 'array of pathes' do
+      end
     end
   end
 end

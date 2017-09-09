@@ -29,8 +29,13 @@ OptionParser.new do |opts|
   opts.separator ''
   opts.separator 'Other options'
 
-  opts.on('-f', '--path PATTERN', 'Limit output only to this files. Can be path to file or folder, or glob pattern') do |path|
-    check_path = path
+  opts.on('-f', '--path PATTERN1,PATTERN2,PATTERN3', 'Limit output only to this files. Can be path to file or folder, or glob pattern') do |patterns|
+    check_path = patterns.split(',')
+  end
+
+  opts.on_tail('-v', '--version', 'Prints version') do
+    puts "YardJunk #{YardJunk::VERSION}"
+    exit
   end
 
   opts.on_tail('-h', '--help', 'Show this message') do
