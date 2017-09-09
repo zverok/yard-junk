@@ -7,9 +7,9 @@ module YardJunk
   class Janitor
     def run(*opts)
       YARD::Registry.clear # Somehow loads all Ruby stdlib classes before Rake task started...
-      Logger.instance.format = nil
+      Logger.instance.format = nil # Nothing shouuld be printed
 
-      puts "Running YardJunk janitor...\n\n"
+      puts "Running YardJunk janitor (version #{YardJunk::VERSION})...\n\n"
 
       @duration = Benchmark.realtime do
         command = YARD::CLI::Yardoc.new
@@ -20,20 +20,20 @@ module YardJunk
       self
     end
 
-    def stats
+    def stats(path = nil)
       {
-        errors: errors.count,
-        problems: problems.count,
+        errors: filter(errors, path).count,
+        problems: filter(problems, path).count,
         duration: @duration || 0
       }
     end
 
-    def report(*args, **opts)
+    def report(*args, path: nil, **opts)
       guess_reporters(*args, **opts).each do |reporter|
-        reporter.section('Errors', 'severe code or formatting problems', errors)
-        reporter.section('Problems', 'mistyped tags or other typos in documentation', problems)
+        reporter.section('Errors', 'severe code or formatting problems', filter(errors, path))
+        reporter.section('Problems', 'mistyped tags or other typos in documentation', filter(problems, path))
 
-        reporter.stats(stats)
+        reporter.stats(stats(path))
         reporter.finalize
       end
 
@@ -58,6 +58,13 @@ module YardJunk
 
     def problems
       messages.select(&:warn?)
+    end
+
+    def filter(messages, path)
+      return messages unless path
+      path = File.join(path, '**', '*.*') if File.directory?(path)
+      pattern = Dir[path].map(&File.method(:expand_path))
+      messages.select { |m| pattern.include?(File.expand_path(m.file)) }
     end
 
     # TODO: specs for the logic

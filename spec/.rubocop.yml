@@ -15,6 +15,9 @@ Layout/AlignParameters:
 RSpec/DescribeClass:
   Enabled: false
 
+RSpec/NestedGroups:
+  Enabled: false
+
 RSpec/BeforeAfterAll:
   Enabled: false
 

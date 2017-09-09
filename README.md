@@ -381,6 +381,18 @@ Examples:
 * `yard-junk --text --html build-artifacts/junk-yard.html` (several formatters at once: text to console,
   HTML to file).
 
+You can also specify pathes to report (useful when working on large codebases, when you want to check
+only your recent piece of work):
+
+```
+yard-junk --path some/path/
+yard-junk --path other/path/*sample*.rb
+yard-junk --path specific/path.rb
+```
+
+Note that `yard-junk` would parse the pathes that set in `.yardopts` as usually, and then
+**filter report** by pattern specified.
+
 ### Rake task (integrating in CI)
 
 Add this to your `Rakefile`:

@@ -8,6 +8,7 @@ require 'yard-junk'
 require 'optparse'
 
 formatters = {}
+check_path = nil
 
 OptionParser.new do |opts|
   opts.banner = 'Usage: yard-junk [formatters]'
@@ -28,6 +29,10 @@ OptionParser.new do |opts|
   opts.separator ''
   opts.separator 'Other options'
 
+  opts.on('-f', '--path PATTERN', 'Limit output only to this files. Can be path to file or folder, or glob pattern') do |path|
+    check_path = path
+  end
+
   opts.on_tail('-h', '--help', 'Show this message') do
     puts opts
     exit
@@ -38,4 +43,4 @@ formatters = {text: nil} if formatters.empty?
 
 janitor = YardJunk::Janitor.new
 janitor.run
-exit janitor.report(**formatters)
+exit janitor.report(path: check_path, **formatters)

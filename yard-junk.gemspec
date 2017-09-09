@@ -1,6 +1,8 @@
+require_relative 'lib/yard-junk/version'
+
 Gem::Specification.new do |s|
   s.name     = 'yard-junk'
-  s.version  = '0.0.3'
+  s.version  = YardJunk::VERSION
   s.authors  = ['Victor Shepelev']
   s.email    = 'zverok.offline@gmail.com'
   s.homepage = 'https://github.com/zverok/junk_yard'
