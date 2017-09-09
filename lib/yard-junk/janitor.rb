@@ -62,10 +62,11 @@ module YardJunk
 
     def filter(messages, pathes)
       return messages unless pathes
-      filters = Array(pathes).flat_map { |path|
-        path = File.join(path, '**', '*.*') if File.directory?(path)
-        Dir[path]
-      }.map(&File.method(:expand_path))
+      filters =
+        Array(pathes)
+        .map { |path| File.directory?(path) ? File.join(path, '**', '*.*') : path }
+        .flat_map(&Dir.method(:[]))
+        .map(&File.method(:expand_path))
       messages.select { |m| filters.include?(File.expand_path(m.file)) }
     end
 

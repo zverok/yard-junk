@@ -2,11 +2,11 @@
 
 module YardJunk
   # @private
-  MINOR = '0'
+  MAJOR = 0
   # @private
-  MAJOR = '0'
+  MINOR = 0
   # @private
-  PATCH = '4-pre'
+  PATCH = 4
 
   # @private
   VERSION = [MINOR, MAJOR, PATCH].join('.')

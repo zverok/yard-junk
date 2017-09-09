@@ -153,8 +153,7 @@ RSpec.describe YardJunk::Janitor do
         }
       end
 
-      context 'array of pathes' do
-      end
+      context 'array of pathes'
     end
   end
 end
