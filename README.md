@@ -438,8 +438,7 @@ Therefore, this independent tool was made.
 
 * Docs for usage as a system-wide YARD plugin;
 * Docs for internals;
-* Documentation quality checks as a next level of YARD checker ([#14](https://github.com/zverok/yard-junk/issues/14));
-* Option to check only selected parts of code ([#13](https://github.com/zverok/yard-junk/issues/13)).
+* Documentation quality checks as a next level of YARD checker ([#14](https://github.com/zverok/yard-junk/issues/14)).
 
 ## Some examples of problems found in popular gems:
 

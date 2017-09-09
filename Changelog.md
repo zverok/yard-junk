@@ -1,5 +1,9 @@
 # Yard-Junk changelog
 
+## 0.0.4 -- 2017-09-09
+
+* Support for partial reports `yard-junk --path path/to/folder` (#13)
+
 ## 0.0.3 -- 2017-09-07
 
 * Wiser dependency on `did_you_mean`, should not break CIs now.
