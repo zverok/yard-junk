@@ -2,6 +2,7 @@
 
 begin
   require 'did_you_mean'
+rescue LoadError
 end
 
 module YardJunk
