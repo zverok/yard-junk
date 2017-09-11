@@ -1,5 +1,9 @@
 # Yard-Junk changelog
 
+## 0.0.5 -- 2017-09-11
+
+* Fix gem conflict with `did_you_mean`.
+
 ## 0.0.4 -- 2017-09-09
 
 * Support for partial reports `yard-junk --path path/to/folder` (#13)
