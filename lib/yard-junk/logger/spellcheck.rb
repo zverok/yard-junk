@@ -2,7 +2,7 @@
 
 begin
   require 'did_you_mean'
-rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
 module YardJunk
