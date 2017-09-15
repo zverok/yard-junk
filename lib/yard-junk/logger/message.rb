@@ -225,5 +225,10 @@ module YardJunk
       pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>Cannot resolve link to (?<object>\S+) from text:\s+(?<quote>.+))$}
       search_up '%{quote}'
     end
+
+    class InvalidFileLink < Message
+      pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>File '(?<object>\S+)' does not exist:\s+(?<quote>.+))$}
+      search_up '%{quote}'
+    end
   end
 end

@@ -429,10 +429,9 @@ Therefore, this independent tool was made.
 
 ## Caveats
 
-* Sometimes YARD doesn't provide enough information to guess in which line of code the problem is;
-  in those cases `yard-junk` just writes something like `file.rb:1` (to stay consistent and not break
-  go-to-file tools);
-* Checking of links to files and URLs proven to be incomplete ([#12](https://github.com/zverok/yard-junk/issues/12)).
+Sometimes YARD doesn't provide enough information to guess in which line of code the problem is;
+in those cases `yard-junk` just writes something like `file.rb:1` (to stay consistent and not break
+go-to-file tools).
 
 ## Roadmap
 
