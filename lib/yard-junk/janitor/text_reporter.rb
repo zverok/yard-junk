@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'tty/color'
 require 'rainbow'
 
 module YardJunk
@@ -11,26 +12,27 @@ module YardJunk
       private
 
       def _stats(**stat)
-        @io.puts "\n#{template_for(stat) % stat}"
+        @io.puts "\n#{colorized_stats(stat)}"
       end
 
-      NO_ISSUES_TEMPLATE = [
-        Rainbow('%<errors>i failures, %<problems>i problems').green,
-        Rainbow(', (%<duration>s to run)').gray
-      ].join('').freeze
+      def colorized_stats(errors:, problems:, duration:)
+        colorize(format('%i failures, %i problems', errors, problems), status_color(errors, problems)) +
+          format(' (%s to run)', duration)
+      end
 
-      ERROR_COUNT_TEMPLATE = [
-        Rainbow('%<errors>i failures').red,
-        Rainbow(',').gray,
-        Rainbow(' %<problems>i problems').yellow,
-        Rainbow(', (%<duration>s to run)').gray
-      ].join('').freeze
+      def colorize(text, color)
+        return text unless TTY::Color.supports?
+        Rainbow(text).color(color)
+      end
 
-      def template_for(stat)
-        if stat[:errors].zero? && stat[:problems].zero?
-          NO_ISSUES_TEMPLATE
+      def status_color(errors, problems)
+        case
+        when errors > 0
+          :red
+        when problems > 0
+          :yellow
         else
-          ERROR_COUNT_TEMPLATE
+          :green
         end
       end
 

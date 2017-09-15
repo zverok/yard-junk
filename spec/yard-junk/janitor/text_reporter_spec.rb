@@ -57,15 +57,49 @@ RSpec.describe YardJunk::Janitor::TextReporter do
   end
 
   describe '#stats' do
-    subject {
-      reporter.stats(
-        errors: 3,
-        problems: 2,
-        duration: 5.2
-      )
-    }
+    subject { reporter.stats(stats) }
 
-    its_call { is_expected.to send_message(out, :puts).with("\n\e[31m3 failures\e[0m\e[38;5;188m,\e[0m\e[33m 2 problems\e[0m\e[38;5;188m, (5 seconds to run)\e[0m") }
+    context 'there are errors' do
+      let(:stats) { {errors: 3, problems: 2, duration: 5.2} }
+
+      its_call {
+        is_expected
+          .to send_message(out, :puts)
+          .with("\n\e[31m3 failures, 2 problems\e[0m (5 seconds to run)")
+      }
+    end
+
+    context 'there are problems' do
+      let(:stats) { {errors: 0, problems: 2, duration: 5.2} }
+
+      its_call {
+        is_expected
+          .to send_message(out, :puts)
+          .with("\n\e[33m0 failures, 2 problems\e[0m (5 seconds to run)")
+      }
+    end
+
+    context 'everything is ok' do
+      let(:stats) { {errors: 0, problems: 0, duration: 5.2} }
+
+      its_call {
+        is_expected
+          .to send_message(out, :puts)
+          .with("\n\e[32m0 failures, 0 problems\e[0m (5 seconds to run)")
+      }
+    end
+
+    context 'TTY does not support colors' do
+      let(:stats) { {errors: 3, problems: 2, duration: 5.2} }
+
+      before { allow(TTY::Color).to receive(:supports?).and_return(false) }
+
+      its_call {
+        is_expected
+          .to send_message(out, :puts)
+          .with("\n3 failures, 2 problems (5 seconds to run)")
+      }
+    end
   end
 
   describe '#finalize' do

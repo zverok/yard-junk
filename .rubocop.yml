@@ -13,7 +13,7 @@ AllCops:
     - Rakefile
     - '*.gemspec'
   DisplayCopNames: true
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.1
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
@@ -41,7 +41,10 @@ Metrics/ParameterLists:
   CountKeywordArgs: false
 
 Style/FormatString:
-  EnforcedStyle: percent
+  Enabled: false
+
+Style/EmptyCaseCondition:
+  Enabled: false
 
 # TODO
 Style/Documentation:

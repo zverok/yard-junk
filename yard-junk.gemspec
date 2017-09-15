@@ -33,12 +33,13 @@ Gem::Specification.new do |s|
   s.bindir = 'exe'
   s.executables << 'yard-junk'
 
-  s.add_dependency 'rainbow'
   s.add_dependency 'yard'
   s.add_dependency 'did_you_mean' if RUBY_VERSION < '2.3'
   s.add_dependency 'backports'
+  s.add_dependency 'rainbow'
+  s.add_dependency 'tty-color'
 
-  s.add_development_dependency 'rubocop', '>= 0.49'
+  s.add_development_dependency 'rubocop', '= 0.49' # 0.50 breaks current rubocop-rspec
   s.add_development_dependency 'rspec', '>= 3'
   s.add_development_dependency 'rubocop-rspec', '= 1.15.1' # 1.16.0 is broken on JRuby
   s.add_development_dependency 'rspec-its', '~> 1'

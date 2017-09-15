@@ -6,7 +6,7 @@ module YardJunk
     class Resolver
       include YARD::Templates::Helpers::HtmlHelper
 
-      MESSAGE_PATTERN = 'In file `%{file}\':%{line}: Cannot resolve link to %{name} from text: %{link}'
+      MESSAGE_PATTERN = 'In file `%{file}\':%{line}: Cannot resolve link to %{name} from text: %{link}'.freeze
 
       def self.resolve_all(yard_options)
         YARD::Registry.all.map(&:base_docstring).each { |ds| new(ds, yard_options).resolve }
