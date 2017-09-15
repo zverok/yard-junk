@@ -8,7 +8,7 @@ RSpec.describe YardJunk::Janitor do
   describe '#run' do
     subject { janitor.run }
 
-    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: nil) }
+    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: OpenStruct.new(files: [])) }
 
     its_call {
       is_expected
