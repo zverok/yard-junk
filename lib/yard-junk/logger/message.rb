@@ -33,7 +33,7 @@ module YardJunk
         other.is_a?(self.class) && to_h == other.to_h
       end
 
-      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'
+      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'.freeze
 
       def to_s(format = DEFAULT_FORMAT)
         format % to_h
