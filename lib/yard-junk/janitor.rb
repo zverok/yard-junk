@@ -14,6 +14,7 @@ module YardJunk
       @duration = Benchmark.realtime do
         command = YARD::CLI::Yardoc.new
         command.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
+        f = command.options.files.first
         Resolver.resolve_all(command.options)
       end
 
