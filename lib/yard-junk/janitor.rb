@@ -69,7 +69,7 @@ module YardJunk
     end
 
     def yardopts_with_files(files)
-      # Use all options from .yardopts file, but replace files lists
+      # Use all options from .yardopts file, but replace file lists
       YardOptions.new.remove_option('--files').set_files(*files)
     end
 
