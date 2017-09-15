@@ -2,6 +2,7 @@
 
 module YardJunk
   class Janitor
+    # @fuck
     class Resolver
       include YARD::Templates::Helpers::HtmlHelper
 

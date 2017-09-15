@@ -8,7 +8,7 @@ require 'yard-junk'
 require 'optparse'
 
 formatters = {}
-check_path = nil
+options = {}
 
 OptionParser.new do |opts|
   opts.banner = 'Usage: yard-junk [formatters]'
@@ -30,7 +30,11 @@ OptionParser.new do |opts|
   opts.separator 'Other options'
 
   opts.on('-f', '--path PATTERN1,PATTERN2,PATTERN3', 'Limit output only to this files. Can be path to file or folder, or glob pattern') do |patterns|
-    check_path = patterns.split(',')
+    options[:pathes] = patterns.split(',')
+  end
+
+  opts.on('-s', '--sanity', 'Sanity check for docs: just catch mistyped tags and similar stuff. On large codebases, MUCH faster than full check.') do
+    options[:mode] = :sanity
   end
 
   opts.on_tail('-v', '--version', 'Prints version') do
@@ -46,6 +50,6 @@ end.parse!
 
 formatters = {text: nil} if formatters.empty?
 
-janitor = YardJunk::Janitor.new
+janitor = YardJunk::Janitor.new(**options)
 janitor.run
-exit janitor.report(path: check_path, **formatters)
+exit janitor.report(**formatters)

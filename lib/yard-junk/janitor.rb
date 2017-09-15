@@ -4,7 +4,15 @@ require 'benchmark'
 require 'backports/2.3.0/enumerable/grep_v'
 
 module YardJunk
+  # What is {Resolvers}?
+  #
+  # @absract
   class Janitor
+    def initialize(mode: :full, pathes: nil)
+      @mode = mode
+      @files = expand_pathes(pathes)
+    end
+
     def run(*opts)
       YARD::Registry.clear # Somehow loads all Ruby stdlib classes before Rake task started...
       Logger.instance.format = nil # Nothing shouuld be printed
@@ -13,27 +21,27 @@ module YardJunk
 
       @duration = Benchmark.realtime do
         command = YARD::CLI::Yardoc.new
-        command.run('--no-save', '--no-progress', '--no-stats', '--no-output', *opts)
-        Resolver.resolve_all(command.options)
+        command.run(*prepare_options(opts))
+        Resolver.resolve_all(command.options) unless mode == :sanity
       end
 
       self
     end
 
-    def stats(path = nil)
+    def stats
       {
-        errors: filter(errors, path).count,
-        problems: filter(problems, path).count,
+        errors: errors.count,
+        problems: problems.count,
         duration: @duration || 0
       }
     end
 
-    def report(*args, path: nil, **opts)
+    def report(*args, **opts)
       guess_reporters(*args, **opts).each do |reporter|
-        reporter.section('Errors', 'severe code or formatting problems', filter(errors, path))
-        reporter.section('Problems', 'mistyped tags or other typos in documentation', filter(problems, path))
+        reporter.section('Errors', 'severe code or formatting problems', errors)
+        reporter.section('Problems', 'mistyped tags or other typos in documentation', problems)
 
-        reporter.stats(stats(path))
+        reporter.stats(stats)
         reporter.finalize
       end
 
@@ -48,8 +56,33 @@ module YardJunk
 
     private
 
+    attr_reader :mode, :files
+
+    BASE_OPTS = %w[--no-save --no-progress --no-stats --no-output --no-cache]
+
+    def prepare_options(opts)
+      if mode == :full || mode == :sanity && files.nil?
+        [*BASE_OPTS, *opts]
+      elsif mode == :sanity
+        # TODO: what if .yardopts not found
+        yardopts = File.read('.yardopts').split(/\s+/).grep(/^--/).grep_v(/^--files=/)
+        [
+          *BASE_OPTS,
+          '--no-yardopts', # ignore yardopts file...
+          *yardopts,       # ...but add all options from it, except pathes
+          *files
+        ]
+      else
+        fail ArgumentError, "Undefined mode: #{mode.inspect}"
+      end
+    end
+
     def messages
-      YardJunk::Logger.instance.messages.grep_v(Logger::Undocumentable) # FIXME: Not DRY
+      @messages ||= YardJunk::Logger
+        .instance
+        .messages
+        .grep_v(Logger::Undocumentable) # FIXME: Not DRY
+        .select { |m| !files || !m.file || files.include?(File.expand_path(m.file)) }
     end
 
     def errors
@@ -60,14 +93,12 @@ module YardJunk
       messages.select(&:warn?)
     end
 
-    def filter(messages, pathes)
-      return messages unless pathes
-      filters =
+    def expand_pathes(pathes)
+      return unless pathes
         Array(pathes)
         .map { |path| File.directory?(path) ? File.join(path, '**', '*.*') : path }
         .flat_map(&Dir.method(:[]))
         .map(&File.method(:expand_path))
-      messages.select { |m| filters.include?(File.expand_path(m.file)) }
     end
 
     # TODO: specs for the logic
