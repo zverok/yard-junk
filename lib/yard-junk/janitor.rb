@@ -4,9 +4,6 @@ require 'benchmark'
 require 'backports/2.3.0/enumerable/grep_v'
 
 module YardJunk
-  # What is {Resolvers}?
-  #
-  # @absract
   class Janitor
     def initialize(mode: :full, pathes: nil)
       @mode = mode
@@ -56,7 +53,7 @@ module YardJunk
 
     private
 
-    attr_reader :mode, :files
+    attr_reader :mode, :files, :yardopts
 
     BASE_OPTS = %w[--no-save --no-progress --no-stats --no-output --no-cache]
 
@@ -64,14 +61,15 @@ module YardJunk
       if mode == :full || mode == :sanity && files.nil?
         [*BASE_OPTS, *opts]
       elsif mode == :sanity
-        # TODO: what if .yardopts not found
-        yardopts = File.read('.yardopts').split(/\s+/).grep(/^--/).grep_v(/^--files=/)
+        # TODO: specs
+
+        # Use all options from .yardopts file, but replace files lists
+        yardopts = YardOptions.new.remove_option('--files').set_files(*files)
         [
           *BASE_OPTS,
-          '--no-yardopts', # ignore yardopts file...
-          *yardopts,       # ...but add all options from it, except pathes
-          *files
-        ]
+          '--no-yardopts',
+          *yardopts
+        ].tap(&method(:p))
       else
         fail ArgumentError, "Undefined mode: #{mode.inspect}"
       end
@@ -116,3 +114,4 @@ require_relative 'janitor/base_reporter'
 require_relative 'janitor/text_reporter'
 require_relative 'janitor/html_reporter'
 require_relative 'janitor/resolver'
+require_relative 'janitor/yard_options'
