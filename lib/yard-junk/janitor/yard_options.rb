@@ -13,7 +13,7 @@ module YardJunk
         @extra_files = internal.options.files
       end
 
-      def set_files(*files)
+      def set_files(*files) # rubocop:disable Style/AccessorMethodName
         # TODO: REALLY fragile :(
         @files, @extra_files = files.partition { |f| f =~ /\.(rb|c|cxx|cpp)/ }
         self
@@ -33,15 +33,18 @@ module YardJunk
         (@options + @files).tap { |res| res.concat(['-', *@extra_files]) unless @extra_files.empty? }
       end
 
+      # The easiest way to think like Yardoc is to become Yardoc, you know.
       class Internal < YARD::CLI::Yardoc
         attr_reader :option_args
 
         def optparse(*args)
+          # remember all passed options...
           @all_args = args
           super
         end
 
         def parse_files(*args)
+          # ...and substract what left after they were parsed as options, and only files left
           @option_args = @all_args - args
           super
         end

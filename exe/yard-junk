@@ -10,7 +10,7 @@ require 'optparse'
 formatters = {}
 options = {}
 
-OptionParser.new do |opts|
+OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.banner = 'Usage: yard-junk [formatters]'
   opts.separator ''
   opts.separator 'Formatters'

@@ -55,32 +55,30 @@ module YardJunk
 
     attr_reader :mode, :files, :yardopts
 
-    BASE_OPTS = %w[--no-save --no-progress --no-stats --no-output --no-cache]
+    BASE_OPTS = %w[--no-save --no-progress --no-stats --no-output --no-cache].freeze
 
     def prepare_options(opts)
       if mode == :full || mode == :sanity && files.nil?
         [*BASE_OPTS, *opts]
       elsif mode == :sanity
         # TODO: specs
-
-        # Use all options from .yardopts file, but replace files lists
-        yardopts = YardOptions.new.remove_option('--files').set_files(*files)
-        [
-          *BASE_OPTS,
-          '--no-yardopts',
-          *yardopts
-        ].tap(&method(:p))
+        [*BASE_OPTS, '--no-yardopts', *yardopts_with_files(files)]
       else
         fail ArgumentError, "Undefined mode: #{mode.inspect}"
       end
     end
 
+    def yardopts_with_files(files)
+      # Use all options from .yardopts file, but replace files lists
+      YardOptions.new.remove_option('--files').set_files(*files)
+    end
+
     def messages
       @messages ||= YardJunk::Logger
-        .instance
-        .messages
-        .grep_v(Logger::Undocumentable) # FIXME: Not DRY
-        .select { |m| !files || !m.file || files.include?(File.expand_path(m.file)) }
+                    .instance
+                    .messages
+                    .grep_v(Logger::Undocumentable) # FIXME: Not DRY
+                    .select { |m| !files || !m.file || files.include?(File.expand_path(m.file)) }
     end
 
     def errors
@@ -93,7 +91,7 @@ module YardJunk
 
     def expand_pathes(pathes)
       return unless pathes
-        Array(pathes)
+      Array(pathes)
         .map { |path| File.directory?(path) ? File.join(path, '**', '*.*') : path }
         .flat_map(&Dir.method(:[]))
         .map(&File.method(:expand_path))
