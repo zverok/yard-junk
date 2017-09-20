@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rubocop', '= 0.49' # 0.50 breaks current rubocop-rspec
   s.add_development_dependency 'rspec', '>= 3'
-  s.add_development_dependency 'rubocop-rspec', '= 1.15.1' # 1.16.0 is broken on JRuby
+  s.add_development_dependency 'rubocop-rspec', '= 1.15.1' # 1.16+ is broken on JRuby
   s.add_development_dependency 'rspec-its', '~> 1'
   #s.add_development_dependency 'saharspec' # saharspec is moving target!
   s.add_development_dependency 'fakefs'

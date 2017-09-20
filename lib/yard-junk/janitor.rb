@@ -74,10 +74,11 @@ module YardJunk
     end
 
     def messages
+       # FIXME: dropping Undocumentable here is not DRY
       @messages ||= YardJunk::Logger
                     .instance
                     .messages
-                    .grep_v(Logger::Undocumentable) # FIXME: Not DRY
+                    .grep_v(Logger::Undocumentable)
                     .select { |m| !files || !m.file || files.include?(File.expand_path(m.file)) }
     end
 
