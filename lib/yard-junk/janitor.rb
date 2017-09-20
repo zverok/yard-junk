@@ -74,7 +74,7 @@ module YardJunk
     end
 
     def messages
-       # FIXME: dropping Undocumentable here is not DRY
+      # FIXME: dropping Undocumentable here is not DRY
       @messages ||= YardJunk::Logger
                     .instance
                     .messages
