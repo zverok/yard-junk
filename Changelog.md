@@ -3,7 +3,7 @@
 ## 0.0.6 -- 2017-09-20
 
 * More robust (and more logical) colorization on text output (#25);
-* Fast "sanity check" for using in pre-commit hook on large codebases.
+* Fast "sanity check" for using in pre-commit hook on large codebases (#24).
 
 ## 0.0.5 -- 2017-09-11
 
