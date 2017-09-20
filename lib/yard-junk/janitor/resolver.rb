@@ -71,8 +71,9 @@ module YardJunk
         end
       end
 
+      # Used by HTMLHelper for RDoc
       def object
-        @docstring.object
+        @string.object if @string.is_a?(YARD::Docstring)
       end
 
       def resolve_file(name, link)

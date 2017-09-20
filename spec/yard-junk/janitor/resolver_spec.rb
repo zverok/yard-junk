@@ -4,14 +4,14 @@ RSpec.describe YardJunk::Janitor::Resolver do
   context 'escaped HTML' do
     subject { YardJunk::Logger.instance.messages }
 
-    let(:fake_options) { OpenStruct.new(options.merge(markup: :markdown)) }
+    let(:fake_options) { OpenStruct.new(options.merge(markup: markup)) }
+    let(:markup) { :markdown }
     let(:options) { {files: [readme]} }
     let(:readme) {
       # Not an instance_double, because resolver checks object class
-      YARD::CodeObjects::ExtraFileObject.new('README.md').tap do |f|
+      YARD::CodeObjects::ExtraFileObject.new('README.md', readme_contents).tap do |f|
         allow(f).to receive(:name).and_return('README')
         allow(f).to receive(:filename).and_return('README.md')
-        allow(f).to receive(:contents).and_return(readme_contents)
       end
     }
     let(:readme_contents) { '' }
@@ -33,6 +33,12 @@ RSpec.describe YardJunk::Janitor::Resolver do
       }}
 
       its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
+
+      context 'for RDoc' do
+        let(:mardkup) { :rdoc }
+
+        its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
+      end
     end
 
     context 'file:' do
@@ -79,6 +85,20 @@ RSpec.describe YardJunk::Janitor::Resolver do
       let(:source) { '' }
 
       its(:last) { is_expected.to have_attributes(message: 'Cannot resolve link to Foo from text: {Foo}') }
+
+      context 'RDoc readme' do
+        let(:readme) {
+          # Not an instance_double, because resolver checks object class
+          YARD::CodeObjects::ExtraFileObject.new('README.rdoc', readme_contents).tap do |f|
+            allow(f).to receive(:name).and_return('README')
+            allow(f).to receive(:filename).and_return('README.rdoc')
+          end
+        }
+        let(:readme_contents) { 'Is it Foo?' }
+
+        # FIXME: RDoc does not linkify in files? Or does it?
+        its(:last) { is_expected.to be_nil }
+      end
     end
   end
 end
