@@ -94,10 +94,9 @@ RSpec.describe YardJunk::Janitor::Resolver do
             allow(f).to receive(:filename).and_return('README.rdoc')
           end
         }
-        let(:readme_contents) { 'Is it Foo?' }
+        let(:readme_contents) { 'Is it {Foo}?' }
 
-        # FIXME: RDoc does not linkify in files? Or does it?
-        its(:last) { is_expected.to be_nil }
+        its(:last) { is_expected.to have_attributes(message: 'Cannot resolve link to Foo from text: {Foo}') }
       end
     end
   end
