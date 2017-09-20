@@ -46,6 +46,9 @@ Style/FormatString:
 Style/EmptyCaseCondition:
   Enabled: false
 
+Lint/EmptyWhen:
+  Enabled: false
+
 # TODO
 Style/Documentation:
   Enabled: false

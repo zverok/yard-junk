@@ -8,7 +8,7 @@ RSpec.describe YardJunk::Janitor do
   describe '#run' do
     subject { janitor.run }
 
-    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: nil) }
+    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: OpenStruct.new(files: [])) }
 
     its_call {
       is_expected
@@ -18,7 +18,7 @@ RSpec.describe YardJunk::Janitor do
         .and send_message(YARD::CLI::Yardoc, :new)
         .returning(command)
         .and send_message(command, :run)
-        .with('--no-save', '--no-progress', '--no-stats', '--no-output')
+        .with('--no-save', '--no-progress', '--no-stats', '--no-output', '--no-cache')
         .and send_message(YardJunk::Janitor::Resolver, :resolve_all)
         .and output("Running YardJunk janitor (version #{YardJunk::VERSION})...\n\n").to_stdout
     }
