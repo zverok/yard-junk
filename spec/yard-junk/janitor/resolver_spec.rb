@@ -35,7 +35,7 @@ RSpec.describe YardJunk::Janitor::Resolver do
       its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
 
       context 'for RDoc' do
-        let(:mardkup) { :rdoc }
+        let(:markup) { :rdoc }
 
         its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
       end
@@ -97,6 +97,13 @@ RSpec.describe YardJunk::Janitor::Resolver do
         let(:readme_contents) { 'Is it {Foo}?' }
 
         its(:last) { is_expected.to have_attributes(message: 'Cannot resolve link to Foo from text: {Foo}') }
+      end
+
+      context 'Markdown README with rdoc settings' do
+        let(:markup) { :rdoc }
+        let(:readme_contents) { 'Is it `{Foo}`?' }
+
+        its(:last) { is_expected.to be_nil }
       end
     end
   end

@@ -4,6 +4,7 @@ module YardJunk
   class Janitor
     class Resolver
       include YARD::Templates::Helpers::HtmlHelper
+      include YARD::Templates::Helpers::MarkupHelper
 
       # This one is copied from real YARD output
       OBJECT_MESSAGE_PATTERN = 'In file `%{file}\':%{line}: Cannot resolve link to %{name} from text: %{link}'.freeze
@@ -17,6 +18,7 @@ module YardJunk
       end
 
       def initialize(object, yard_options)
+        @options = yard_options
         case object
         when YARD::CodeObjects::ExtraFileObject
           init_file(object)
@@ -25,11 +27,10 @@ module YardJunk
         else
           fail "Unknown object to resolve #{object.class}"
         end
-        @options = yard_options
       end
 
       def resolve
-        markup_meth = "html_markup_#{options.markup}"
+        markup_meth = "html_markup_#{markup}"
         return unless respond_to?(markup_meth)
         send(markup_meth, @string)
           .gsub(%r{<(code|tt|pre)[^>]*>(.*?)</\1>}im, '')
@@ -44,6 +45,7 @@ module YardJunk
         @string = file.contents
         @file = file.filename
         @line = 1
+        @markup = markup_for_file(file.contents, file.filename)
       end
 
       def init_docstring(docstring)
@@ -51,9 +53,10 @@ module YardJunk
         @root_object = docstring.object
         @file = @root_object.file
         @line = @root_object.line
+        @markup = options.markup
       end
 
-      attr_reader :options, :file, :line
+      attr_reader :options, :file, :line, :markup
 
       def try_resolve(link)
         name, _comment = link.tr('{}', '').split(/\s+/, 2)
@@ -71,11 +74,6 @@ module YardJunk
         end
       end
 
-      # Used by HTMLHelper for RDoc
-      def object
-        @string.object if @string.is_a?(YARD::Docstring)
-      end
-
       def resolve_file(name, link)
         return if options.files.any? { |f| f.name == name || f.filename == name }
         Logger.instance.register(FILE_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link})
@@ -87,7 +85,12 @@ module YardJunk
         Logger.instance.register(OBJECT_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link})
       end
 
-      # required by HtmlHelper
+      # Used by HtmlHelper for RDoc
+      def object
+        @string.object if @string.is_a?(YARD::Docstring)
+      end
+
+      # Used by HtmlHelper
       def serializer
         nil
       end
