@@ -1,5 +1,9 @@
 # Yard-Junk changelog
 
+## 0.0.7 -- 2017-09-21
+
+* Fix problems with links resolution for RDoc.
+
 ## 0.0.6 -- 2017-09-20
 
 * More robust (and more logical) colorization on text output (#25);
