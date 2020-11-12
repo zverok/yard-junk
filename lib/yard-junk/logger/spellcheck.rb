@@ -42,7 +42,7 @@ module YardJunk
         def spell_check(error, dictionary)
           SpellFinder.new(error, dictionary).suggestions
         end
-      else
+      else # rubocop:disable Lint/DuplicateBranch -- actually, just impossibility catcher
         def spell_check(*)
           []
         end

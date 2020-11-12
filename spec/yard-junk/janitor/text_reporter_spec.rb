@@ -57,6 +57,8 @@ RSpec.describe YardJunk::Janitor::TextReporter do
   end
 
   describe '#stats' do
+    subject { reporter.stats(**stats) }
+
     shared_context 'with colors' do
       around { |ex|
         prev = Rainbow.enabled
@@ -74,8 +76,6 @@ RSpec.describe YardJunk::Janitor::TextReporter do
         Rainbow.enabled = prev
       }
     end
-
-    subject { reporter.stats(**stats) }
 
     context 'there are errors' do
       let(:stats) { {errors: 3, problems: 2, duration: 5.2} }
