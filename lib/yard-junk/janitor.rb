@@ -2,6 +2,7 @@
 
 require 'benchmark'
 require 'backports/2.3.0/enumerable/grep_v'
+require 'backports/2.6.0/array/to_h'
 
 module YardJunk
   class Janitor
@@ -46,9 +47,11 @@ module YardJunk
     end
 
     def exit_code
-      return 2 unless errors.empty?
-      return 1 unless problems.empty?
-      0
+      case
+      when !errors.empty? then 2
+      when !problems.empty? then 1
+      else 0
+      end
     end
 
     private
@@ -58,9 +61,10 @@ module YardJunk
     BASE_OPTS = %w[--no-save --no-progress --no-stats --no-output --no-cache].freeze
 
     def prepare_options(opts)
-      if mode == :full || mode == :sanity && files.nil?
+      case
+      when mode == :full || mode == :sanity && files.nil?
         [*BASE_OPTS, *opts]
-      elsif mode == :sanity
+      when mode == :sanity
         # TODO: specs
         [*BASE_OPTS, '--no-yardopts', *yardopts_with_files(files)]
       else
@@ -92,6 +96,7 @@ module YardJunk
 
     def expand_pathes(pathes)
       return unless pathes
+
       Array(pathes)
         .map { |path| File.directory?(path) ? File.join(path, '**', '*.*') : path }
         .flat_map(&Dir.method(:[]))
@@ -101,9 +106,11 @@ module YardJunk
     # TODO: specs for the logic
     def guess_reporters(*symbols, **symbols_with_args)
       symbols
-        .map { |sym| [sym, nil] }.to_h.merge(symbols_with_args)
+        .to_h { |sym| [sym, nil] }.merge(symbols_with_args)
         .map { |sym, args| ["#{sym.to_s.capitalize}Reporter", args] }
-        .each { |name, _| Janitor.const_defined?(name) or fail(ArgumentError, "Reporter #{name} not found") }
+        .each { |name,|
+          Janitor.const_defined?(name) or fail(ArgumentError, "Reporter #{name} not found")
+        }
         .map { |name, args| Janitor.const_get(name).new(*args) }
     end
   end

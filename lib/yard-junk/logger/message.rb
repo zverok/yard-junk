@@ -10,7 +10,7 @@ module YardJunk
       def initialize(message:, severity: :warn, code_object: nil, file: nil, line: nil, **extra)
         @message = message.gsub(/\s{2,}/, ' ')
         @file = file
-        @line = line && line.to_i
+        @line = line&.to_i
         @code_object = code_object
         @severity = severity
         @extra = extra
@@ -25,7 +25,7 @@ module YardJunk
           type: type,
           message: message,
           file: file,
-          line: (line && line.to_i) || 1
+          line: line&.to_i || 1
         }.merge(extra)
       end
 
@@ -33,7 +33,7 @@ module YardJunk
         other.is_a?(self.class) && to_h == other.to_h
       end
 
-      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'.freeze
+      DEFAULT_FORMAT = '%{file}:%{line}: [%{type}] %{message}'
 
       def to_s(format = DEFAULT_FORMAT)
         format % to_h
@@ -62,8 +62,8 @@ module YardJunk
         def try_parse(line, **context)
           @pattern or fail StandardError, "Pattern is not defined for #{self}"
           match = @pattern.match(line) or return nil
-          data = context.reject { |_, v| v.nil? }
-                        .merge(match.names.map(&:to_sym).zip(match.captures).to_h.reject { |_, v| v.nil? })
+          data = context.compact
+                        .merge(match.names.map(&:to_sym).zip(match.captures).to_h.compact)
           data = guard_line(data)
           new(**data)
         end
@@ -78,17 +78,17 @@ module YardJunk
 
         private
 
-        def guard_line(data) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+        def guard_line(data) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
           # FIXME: Ugly, huh?
           data[:file] && data[:line] && @search_up or return data
           data = data.merge(line: data[:line].to_i)
           data = data.merge(code_object: find_object(data[:file], data[:line]))
           lines = File.readlines(data[:file]) rescue (return data) # rubocop:disable Style/RescueModifier
-          pattern = Regexp.new(@search_up % data.map { |k, v| [k, Regexp.escape(v.to_s)] }.to_h)
+          pattern = Regexp.new(@search_up % data.transform_values { |v| Regexp.escape(v.to_s) })
           _, num = lines.map
                         .with_index { |ln, i| [ln, i + 1] }
                         .first(data[:line]).reverse
-                        .detect { |ln, _| pattern.match(ln) }
+                        .detect { |ln,| pattern.match(ln) }
           num or return data
 
           data.merge(line: num)
@@ -100,6 +100,7 @@ module YardJunk
       end
     end
 
+    # rubocop:disable Layout/LineLength
     class UnknownTag < Message
       pattern %r{^(?<message>Unknown tag (?<tag>@\S+))( in file `(?<file>[^`]+)` near line (?<line>\d+))?$}
       search_up '%{tag}(\W|$)'
@@ -230,5 +231,6 @@ module YardJunk
       pattern %r{^In file `(?<file>[^']+)':(?<line>\d+): (?<message>File '(?<object>\S+)' does not exist:\s+(?<quote>.+))$}
       search_up '%{quote}'
     end
+    # rubocop:enable Layout/LineLength
   end
 end

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Integration: catching errors' do
-  include FakeFS::SpecHelpers
+  # include FakeFS::SpecHelpers
+
+  subject(:logger) { YardJunk::Logger.instance }
 
   before(:all) do
     YARD::Logger.prepend(YardJunk::Logger::Mixin)
@@ -13,18 +15,18 @@ RSpec.describe 'Integration: catching errors' do
 
   def parse_file(contents)
     # It would be "fake" file, provided by FakeFS and stored nowhere
-    File.write('test.rb', contents)
-    YARD.parse('test.rb')
+    FakeFS do
+      File.write('test.rb', contents)
+      YARD.parse('test.rb')
+    end
   end
-
-  subject(:logger) { YardJunk::Logger.instance }
 
   before {
     logger.clear
     logger.format = nil # do not print messages to STDOUT
   }
 
-  shared_examples_for 'file parser' do |description, code, **message|
+  shared_examples_for 'file parser' do |description, code, message|
     context description do
       let(:defaults) { {file: 'test.rb', line: 1} }
 
@@ -132,7 +134,7 @@ RSpec.describe 'Integration: catching errors' do
     %{
       # @!method join(delimiter, null_repr)
       #   Convert the array to a string by joining
-      #   values with a delimiter (empty stirng by default)
+      #   values with a delimiter (empty string by default)
       #   and optional filler for NULL values
       #   Translates to an `array_to_string` call
       #
@@ -146,9 +148,9 @@ RSpec.describe 'Integration: catching errors' do
     type: 'UnknownParam',
     message: '@param tag has unknown parameter name: null',
     param_name: 'null',
-    line: 9
+    line: 2
 
-  it_behaves_like 'file parser', 'diplicate parameter',
+  it_behaves_like 'file parser', 'duplicate parameter',
     %{
       # @param para
       # @param para
@@ -160,8 +162,11 @@ RSpec.describe 'Integration: catching errors' do
     param_name: 'para',
     line: 3
 
-  syntax_error = if RUBY_ENGINE == 'jruby'
+  syntax_error = case
+                 when RUBY_ENGINE == 'jruby'
                    'syntax error, unexpected end-of-file'
+                 when RUBY_VERSION >= '2.6'
+                   'syntax error, unexpected end-of-input'
                  else
                    "syntax error, unexpected end-of-input, expecting '('"
                  end

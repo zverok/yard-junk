@@ -3,8 +3,8 @@ require: rubocop-rspec
 
 AllCops:
   Include:
-    - 'lib/**/*'
-    - 'spec/**/*'
+    - 'lib/**/*.rb'
+    - 'spec/**/*.rb'
   Exclude:
     - 'vendor/**/*'
     - 'examples/**/*'
@@ -13,7 +13,8 @@ AllCops:
     - Rakefile
     - '*.gemspec'
   DisplayCopNames: true
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.4
+  NewCops: enable
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
@@ -34,8 +35,9 @@ Style/AndOr:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
-Metrics/LineLength:
-  Enabled: false
+Layout/LineLength:
+  Max: 100
+  IgnoredPatterns: ['(^| )\# .*'] # ignore long comments
 
 Metrics/ParameterLists:
   CountKeywordArgs: false
@@ -48,6 +50,20 @@ Style/EmptyCaseCondition:
 
 Lint/EmptyWhen:
   Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'lib/yard-junk.rb'
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
 
 # TODO
 Style/Documentation:

@@ -59,6 +59,7 @@ RSpec.describe YardJunk::Logger::Message do
           end
         }
       }
+
       its(:to_h) {
         is_expected.to include(file: 'lot_of_errors.rb', line: 2)
       }
