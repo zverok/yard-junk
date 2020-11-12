@@ -1,4 +1,4 @@
-inherit_from: ../.rubocop.yml
+inherit_from: "../.rubocop.yml"
 
 Style/BlockDelimiters:
   Enabled: false
@@ -9,8 +9,18 @@ Metrics/BlockLength:
 Layout/MultilineBlockLayout:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+RSpec:
+  Language:
+    Includes:
+      Examples:
+        - its_block
+        - its_call
 
 RSpec/DescribeClass:
   Enabled: false
@@ -21,10 +31,22 @@ RSpec/NestedGroups:
 RSpec/BeforeAfterAll:
   Enabled: false
 
-RSpec/EmptyExampleGroup:
-  CustomIncludeMethods: [its_call]
+# RSpec/EmptyExampleGroup:
+#   CustomIncludeMethods: [its_call, its_block]
 
 RSpec/FilePath:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+Layout/BlockEndNewline:
   Enabled: false
 
 # Because
@@ -32,4 +54,7 @@ RSpec/FilePath:
 #   .to send_message.with(...)
 #   .and send_message.with(...)
 Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Layout/LineLength:
   Enabled: false

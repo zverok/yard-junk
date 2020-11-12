@@ -1,5 +1,10 @@
 # Yard-Junk changelog
 
+## 0.0.8 -- 2020-11-12
+
+* Support Ruby 2.7 (and hopefully 3.0)
+* Drop support for Rubies below 2.5 :shrug:
+
 ## 0.0.7 -- 2017-09-21
 
 * Fix problems with links resolution for RDoc.

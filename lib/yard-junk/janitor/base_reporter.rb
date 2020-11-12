@@ -19,7 +19,7 @@ module YardJunk
       #
       # @overload initialize(filename)
       #   @param filename [String] Name of file to save the output.
-      def initialize(io_or_filename = STDOUT)
+      def initialize(io_or_filename = $stdout)
         @io =
           case io_or_filename
           when ->(i) { i.respond_to?(:puts) } # quacks!
@@ -35,6 +35,7 @@ module YardJunk
 
       def section(title, explanation, messages)
         return if messages.empty?
+
         header(title, explanation)
 
         messages
@@ -43,7 +44,7 @@ module YardJunk
       end
 
       def stats(**stat)
-        _stats(stat.merge(duration: humanize_duration(stat[:duration])))
+        _stats(**stat.merge(duration: humanize_duration(stat[:duration])))
       end
 
       private

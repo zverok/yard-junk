@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'tty/color'
 require 'rainbow'
 
 module YardJunk
@@ -12,27 +11,24 @@ module YardJunk
       private
 
       def _stats(**stat)
-        @io.puts "\n#{colorized_stats(stat)}"
+        @io.puts "\n#{colorized_stats(**stat)}"
       end
 
       def colorized_stats(errors:, problems:, duration:)
-        colorize(format('%i failures, %i problems', errors, problems), status_color(errors, problems)) +
-          format(' (%s to run)', duration)
+        colorize(
+          format('%i failures, %i problems', errors, problems), status_color(errors, problems)
+        ) + format(' (%s to run)', duration)
       end
 
       def colorize(text, color)
-        return text unless TTY::Color.supports?
         Rainbow(text).color(color)
       end
 
       def status_color(errors, problems)
         case
-        when errors > 0
-          :red
-        when problems > 0
-          :yellow
-        else
-          :green
+        when errors.positive? then :red
+        when problems.positive? then :yellow
+        else :green
         end
       end
 
@@ -40,7 +36,7 @@ module YardJunk
         @io.puts
         @io.puts title
         @io.puts '-' * title.length
-        @io.puts explanation + "\n\n"
+        @io.puts "#{explanation}\n\n"
       end
 
       def row(msg)

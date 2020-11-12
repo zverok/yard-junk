@@ -2,8 +2,7 @@
 
 require 'rspec/its'
 require 'fakefs/spec_helpers'
-require 'saharspec/its/call'
-require 'saharspec/matchers/send_message'
+require 'saharspec'
 require 'pp'
 
 # Imitating YARD's core_ext/file.rb
@@ -14,7 +13,7 @@ module FakeFS
     end
 
     def self.read_binary(file)
-      open(file, 'rb', &:read)
+      File.open(file, 'rb', &:read)
     end
   end
 end
@@ -22,5 +21,6 @@ end
 $LOAD_PATH.unshift 'lib'
 
 require 'yard'
+require 'yard-junk/version'
 require 'yard-junk/logger'
 require 'yard-junk/janitor'

@@ -3,6 +3,8 @@
 require 'singleton'
 require 'pp'
 
+require 'backports/2.7.0/enumerable/filter_map'
+
 module YardJunk
   class Logger
     require_relative 'logger/message'
@@ -16,9 +18,10 @@ module YardJunk
     end
 
     def register(msg, severity = :warn)
-      message = Message.registry
-                       .map { |t| t.try_parse(msg, severity: severity, file: @current_parsed_file) }
-                       .compact.first || Message.new(message: msg, file: @current_parsed_file)
+      message =
+        Message.registry.filter_map { |t|
+          t.try_parse(msg, severity: severity, file: @current_parsed_file)
+        }.first || Message.new(message: msg, file: @current_parsed_file)
       messages << message
       puts message.to_s(@format) if output?(message)
     end
@@ -44,8 +47,10 @@ module YardJunk
     end
 
     def ignore=(list)
-      @ignore = Array(list).map(&:to_s)
-                           .each { |type| Message.valid_type?(type) or fail(ArgumentError, "Unrecognized message type to ignore: #{type}") }
+      @ignore = Array(list).map(&:to_s).each do |type|
+        Message.valid_type?(type) or
+          fail(ArgumentError, "Unrecognized message type to ignore: #{type}")
+      end
     end
 
     private

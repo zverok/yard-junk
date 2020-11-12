@@ -10,7 +10,7 @@ RSpec.describe YardJunk::Janitor do
 
     let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: OpenStruct.new(files: [])) }
 
-    its_call {
+    its_block {
       is_expected
         .to send_message(YARD::Registry, :clear)
         .and send_message(YardJunk::Logger.instance, :format=)
@@ -61,16 +61,16 @@ RSpec.describe YardJunk::Janitor do
   end
 
   describe '#report' do
+    subject { janitor.report(:text) }
+
     before {
       data_for_report
       allow(YardJunk::Janitor::TextReporter).to receive(:new).and_return(reporter)
     }
 
-    subject { janitor.report(:text) }
-
     let(:reporter) { instance_double('YardJunk::Janitor::BaseReporter', section: nil, stats: nil, finalize: nil) }
 
-    its_call {
+    its_block {
       is_expected
         .to send_message(reporter, :section)
         .with('Errors', 'severe code or formatting problems',
@@ -89,6 +89,8 @@ RSpec.describe YardJunk::Janitor do
       # Tested manually, hard to imitate everything with FakeFS :(
       include FakeFS::SpecHelpers
 
+      subject { janitor.report(:text, path: path) }
+
       before {
         # It would be fake files and folders, provided by FakeFS
         FileUtils.mkdir_p 'input/nested'
@@ -96,12 +98,10 @@ RSpec.describe YardJunk::Janitor do
           .each { |path| File.write path, '---' }
       }
 
-      subject { janitor.report(:text, path: path) }
-
       context 'specific file' do
         let(:path) { 'input/lot_of_errors.rb' }
 
-        its_call {
+        its_block {
           is_expected
             .to send_message(reporter, :section)
             .with('Errors', 'severe code or formatting problems', [])
@@ -117,9 +117,10 @@ RSpec.describe YardJunk::Janitor do
 
       context 'pattern' do
         before { allow(Dir).to receive(:[]).with('input/*.rb').and_return(['input/lot_of_errors.rb', 'input/circular_ref.rb']) }
+
         let(:path) { 'input/*.rb' }
 
-        its_call {
+        its_block {
           is_expected
             .to send_message(reporter, :section)
             .with('Errors', 'severe code or formatting problems',
@@ -137,9 +138,10 @@ RSpec.describe YardJunk::Janitor do
 
       context 'folder' do
         before { allow(Dir).to receive(:[]).with('input/nested').and_return(['input/nested/unparseable.rb']) }
+
         let(:path) { 'input/nested' }
 
-        its_call {
+        its_block {
           is_expected
             .to send_message(reporter, :section)
             .with('Errors', 'severe code or formatting problems',

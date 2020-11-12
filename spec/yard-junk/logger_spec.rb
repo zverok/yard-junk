@@ -45,19 +45,19 @@ RSpec.describe YardJunk::Logger do
     before { logger.clear } # set format to default
 
     context 'by default' do
-      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
+      its_block { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
     end
 
     context 'non-empty format' do
       before { logger.format = '%{message} (%{file}:%{line})' }
 
-      its_call { is_expected.to output("Unknown tag @wrong (input/lot_of_errors.rb:26)\n").to_stdout }
+      its_block { is_expected.to output("Unknown tag @wrong (input/lot_of_errors.rb:26)\n").to_stdout }
     end
 
     context 'empty format' do
       before { logger.format = nil }
 
-      its_call { is_expected.not_to output.to_stdout }
+      its_block { is_expected.not_to output.to_stdout }
     end
   end
 
@@ -73,25 +73,25 @@ RSpec.describe YardJunk::Logger do
     before { logger.clear } # Set output format to default
 
     context 'by default' do
-      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
+      its_block { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\n").to_stdout }
     end
 
     context 'set ignores' do
       before { logger.ignore = 'UnknownTag' }
 
-      its_call { is_expected.to output("input/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
+      its_block { is_expected.to output("input/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
     end
 
     context 'ignore nothing' do
       before { logger.ignore = nil }
 
-      its_call { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\ninput/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
+      its_block { is_expected.to output("input/lot_of_errors.rb:26: [UnknownTag] Unknown tag @wrong\ninput/lot_of_errors.rb:38: [Undocumentable] Undocumentable OPTIONS: `attr_reader *OPTIONS`\n").to_stdout }
     end
 
     context 'set wrong ignores' do
       subject { logger.ignore = 'Unknown Tag' }
 
-      its_call { is_expected.to raise_error(ArgumentError, 'Unrecognized message type to ignore: Unknown Tag') }
+      its_block { is_expected.to raise_error(ArgumentError, 'Unrecognized message type to ignore: Unknown Tag') }
     end
   end
 end

@@ -32,7 +32,8 @@ RSpec.describe YardJunk::Janitor::Resolver do
         end
       }}
 
-      its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
+      # In newer Rubies, it is "smartly" rendered with a smart quotes, in older ones it is not. Thanks, RDoc!
+      its(:last) { is_expected.to have_attributes(message: /^Cannot resolve link to [‘']message[’'] from text: {[‘']message[’'] => [‘']test[’']}$/, line: 3) }
 
       context 'for RDoc' do
         let(:markup) { :rdoc }
@@ -71,6 +72,10 @@ RSpec.describe YardJunk::Janitor::Resolver do
     context 'render:'
 
     context 'url' do
+      # With RDoc as a default renderer (both for :rdoc and :markdown) on Ruby 2.6+, it will
+      # auto-link the http://, and then YARD will fail!
+      let(:markup) { :markdown }
+      let(:options) { super().merge(markup_provider: :kramdown) }
       let(:source) { %{
         # {http://google.com Google}
         def foo

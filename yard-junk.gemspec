@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   EOF
   s.licenses = ['MIT']
 
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 2.5.0'
 
   s.files = `git ls-files`.split($RS).reject do |file|
     file =~ /^(?:
@@ -35,18 +35,18 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'yard'
   s.add_dependency 'did_you_mean' if RUBY_VERSION < '2.3'
-  s.add_dependency 'backports'
+  s.add_dependency 'backports', '>= 3.18'
   s.add_dependency 'rainbow'
-  s.add_dependency 'tty-color'
 
-  s.add_development_dependency 'rubocop', '= 0.49' # 0.50 breaks current rubocop-rspec
+  s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec', '>= 3'
-  s.add_development_dependency 'rubocop-rspec', '= 1.15.1' # 1.16+ is broken on JRuby
+  s.add_development_dependency 'rubocop-rspec'
   s.add_development_dependency 'rspec-its', '~> 1'
-  #s.add_development_dependency 'saharspec' # saharspec is moving target!
+  s.add_development_dependency 'saharspec'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'simplecov', '~> 0.9'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rubygems-tasks'
   s.add_development_dependency 'yard'
+  s.add_development_dependency 'kramdown'
 end

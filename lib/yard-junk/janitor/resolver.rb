@@ -7,10 +7,11 @@ module YardJunk
       include YARD::Templates::Helpers::MarkupHelper
 
       # This one is copied from real YARD output
-      OBJECT_MESSAGE_PATTERN = 'In file `%{file}\':%{line}: Cannot resolve link to %{name} from text: %{link}'.freeze
+      OBJECT_MESSAGE_PATTERN = "In file `%{file}':%{line}: " \
+                               'Cannot resolve link to %{name} from text: %{link}'
 
       # ...while this one is totally invented, YARD doesn't check file existance at all
-      FILE_MESSAGE_PATTERN = "In file `%{file}':%{line}: File '%{name}' does not exist: %{link}".freeze
+      FILE_MESSAGE_PATTERN = "In file `%{file}':%{line}: File '%{name}' does not exist: %{link}"
 
       def self.resolve_all(yard_options)
         YARD::Registry.all.map(&:base_docstring).each { |ds| new(ds, yard_options).resolve }
@@ -32,6 +33,7 @@ module YardJunk
       def resolve
         markup_meth = "html_markup_#{markup}"
         return unless respond_to?(markup_meth)
+
         send(markup_meth, @string)
           .gsub(%r{<(code|tt|pre)[^>]*>(.*?)</\1>}im, '')
           .scan(/{[^}]+}/).flatten
@@ -76,13 +78,19 @@ module YardJunk
 
       def resolve_file(name, link)
         return if options.files.any? { |f| f.name == name || f.filename == name }
-        Logger.instance.register(FILE_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link})
+
+        Logger.instance.register(
+          FILE_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link}
+        )
       end
 
       def resolve_code_object(name, link)
         resolved = YARD::Registry.resolve(@root_object, name, true, true)
         return unless resolved.is_a?(YARD::CodeObjects::Proxy)
-        Logger.instance.register(OBJECT_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link})
+
+        Logger.instance.register(
+          OBJECT_MESSAGE_PATTERN % {file: file, line: line, name: name, link: link}
+        )
       end
 
       # Used by HtmlHelper for RDoc

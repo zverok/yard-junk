@@ -8,7 +8,7 @@ module YardJunk
     # for usage with Jenkins. See {BaseReporter} for details about reporters.
     #
     class HtmlReporter < BaseReporter
-      HEADER = <<-HTML.freeze
+      HEADER = <<-HTML
         <!DOCTYPE html>
         <html lang="en">
           <header>
@@ -46,23 +46,23 @@ module YardJunk
             <h1>YARD Validation Report</h1>
       HTML
 
-      FOOTER = <<-HTML.freeze
+      FOOTER = <<-HTML
           </body>
         </html>
       HTML
 
-      SECTION = <<-HTML.freeze
+      SECTION = <<-HTML
       <h2 class="<%= title == 'Notices' ? 'notice' : 'problem' %>">
         <%= title %>
         <small>(<%= explanation %>)</small>
       </h2>
       HTML
 
-      ROW = <<-HTML.freeze
+      ROW = <<-HTML
       <li><span class="path"><%= file %>:<%= line %></span>: <%= message %></li>
       HTML
 
-      STATS = <<-HTML.freeze
+      STATS = <<-HTML
       <p class="stats">
         <span class="<%= 'problem' unless errors.zero? %>"><%= errors %> failures</span>,
         <span class="<%= 'problem' unless problems.zero? %>"><%= problems %> problems</span>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module YardJunk
   class Janitor
     # Allows to properly parse `.yardopts` or other option file YARD supports and gracefully replace
@@ -13,9 +15,9 @@ module YardJunk
         @extra_files = internal.options.files
       end
 
-      def set_files(*files) # rubocop:disable Style/AccessorMethodName
+      def set_files(*files) # rubocop:disable Naming/AccessorMethodName
         # TODO: REALLY fragile :(
-        @files, @extra_files = files.partition { |f| f =~ /\.(rb|c|cxx|cpp)/ }
+        @files, @extra_files = files.partition { |f| f =~ /\.(rb|c|cxx|cpp|rake)/ }
         self
       end
 
@@ -23,6 +25,7 @@ module YardJunk
         [short, long].compact.each do |o|
           i = @options.index(o)
           next unless i
+
           @options.delete_at(i)
           @options.delete_at(i) unless @options[i].start_with?('-') # it was argument
         end
@@ -30,7 +33,8 @@ module YardJunk
       end
 
       def to_a
-        (@options + @files).tap { |res| res.concat(['-', *@extra_files]) unless @extra_files.empty? }
+        (@options + @files)
+          .tap { |res| res.concat(['-', *@extra_files]) unless @extra_files.empty? }
       end
 
       # The easiest way to think like Yardoc is to become Yardoc, you know.

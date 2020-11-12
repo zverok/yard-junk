@@ -49,7 +49,7 @@ RSpec.describe YardJunk::Janitor::HtmlReporter do
   describe '#finalize' do
     subject { reporter.finalize }
 
-    its_call {
+    its_block {
       is_expected
         .to change(reporter, :html).to(include(described_class::FOOTER))
         .and send_message(out, :puts).with(%r{</html})
