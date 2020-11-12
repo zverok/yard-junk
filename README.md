@@ -1,7 +1,7 @@
 # Yard-Junk: get rid of junk in your YARD docs!
 
 [![Gem Version](https://badge.fury.io/rb/yard-junk.svg)](http://badge.fury.io/rb/yard-junk)
-[![Build Status](https://travis-ci.org/zverok/yard-junk.svg?branch=master)](https://travis-ci.org/zverok/yard-junk)
+![Build Status](https://github.com/zverok/yard-junk/workflows/CI/badge.svg?branch=master)
 
 Yard-Junk is [yard](https://github.com/lsegal/yard) plugin/patch, that provides:
 
