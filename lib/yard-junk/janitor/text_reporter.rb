@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'tty/color'
 require 'rainbow'
 
 module YardJunk
@@ -22,8 +21,6 @@ module YardJunk
       end
 
       def colorize(text, color)
-        return text unless TTY::Color.supports?
-
         Rainbow(text).color(color)
       end
 

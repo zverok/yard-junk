@@ -57,10 +57,30 @@ RSpec.describe YardJunk::Janitor::TextReporter do
   end
 
   describe '#stats' do
+    shared_context 'with colors' do
+      around { |ex|
+        prev = Rainbow.enabled
+        Rainbow.enabled = true
+        ex.run
+        Rainbow.enabled = prev
+      }
+    end
+
+    shared_context 'without colors' do
+      around { |ex|
+        prev = Rainbow.enabled
+        Rainbow.enabled = false
+        ex.run
+        Rainbow.enabled = prev
+      }
+    end
+
     subject { reporter.stats(**stats) }
 
     context 'there are errors' do
       let(:stats) { {errors: 3, problems: 2, duration: 5.2} }
+
+      include_context 'with colors'
 
       its_block {
         is_expected
@@ -72,6 +92,8 @@ RSpec.describe YardJunk::Janitor::TextReporter do
     context 'there are problems' do
       let(:stats) { {errors: 0, problems: 2, duration: 5.2} }
 
+      include_context 'with colors'
+
       its_block {
         is_expected
           .to send_message(out, :puts)
@@ -81,6 +103,8 @@ RSpec.describe YardJunk::Janitor::TextReporter do
 
     context 'everything is ok' do
       let(:stats) { {errors: 0, problems: 0, duration: 5.2} }
+
+      include_context 'with colors'
 
       its_block {
         is_expected
@@ -92,7 +116,7 @@ RSpec.describe YardJunk::Janitor::TextReporter do
     context 'TTY does not support colors' do
       let(:stats) { {errors: 3, problems: 2, duration: 5.2} }
 
-      before { allow(TTY::Color).to receive(:supports?).and_return(false) }
+      include_context 'without colors'
 
       its_block {
         is_expected

@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'did_you_mean' if RUBY_VERSION < '2.3'
   s.add_dependency 'backports', '>= 3.18'
   s.add_dependency 'rainbow'
-  s.add_dependency 'tty-color'
 
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec', '>= 3'
