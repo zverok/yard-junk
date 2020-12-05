@@ -6,7 +6,7 @@ module YardJunk
   # @private
   MINOR = 0
   # @private
-  PATCH = 8
+  PATCH = 9
 
   # @private
   VERSION = [MINOR, MAJOR, PATCH].join('.')

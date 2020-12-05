@@ -39,7 +39,7 @@ module YardJunk
         reporter.section('Errors', 'severe code or formatting problems', errors)
         reporter.section('Problems', 'mistyped tags or other typos in documentation', problems)
 
-        reporter.stats(stats)
+        reporter.stats(**stats)
         reporter.finalize
       end
 
