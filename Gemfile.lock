@@ -16,7 +16,7 @@ GEM
     fakefs (1.2.2)
     json (2.3.1)
     json (2.3.1-java)
-    kramdown (2.3.0)
+    kramdown (2.3.1)
       rexml
     parallel (1.20.0)
     parser (2.7.2.0)
