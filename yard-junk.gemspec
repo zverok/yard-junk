@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version  = YardJunk::VERSION
   s.authors  = ['Victor Shepelev']
   s.email    = 'zverok.offline@gmail.com'
-  s.homepage = 'https://github.com/zverok/junk_yard'
+  s.homepage = 'https://github.com/zverok/yard-junk'
 
   s.summary = 'Get rid of the junk in your YARD docs'
   s.description = <<-EOF
