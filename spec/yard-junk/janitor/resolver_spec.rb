@@ -38,7 +38,8 @@ RSpec.describe YardJunk::Janitor::Resolver do
       context 'for RDoc' do
         let(:markup) { :rdoc }
 
-        its(:last) { is_expected.to have_attributes(message: "Cannot resolve link to 'message' from text: {'message' => 'test'}", line: 3) }
+        # In newer Rubies, it is "smartly" rendered with a smart quotes, in older ones it is not. Thanks, RDoc!
+        its(:last) { is_expected.to have_attributes(message: /^Cannot resolve link to [‘']message[’'] from text: {[‘']message[’'] => [‘']test[’']}$/, line: 3) }
       end
     end
 
