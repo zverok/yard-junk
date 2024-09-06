@@ -3,6 +3,7 @@ PATH
   specs:
     yard-junk (0.0.9)
       backports (>= 3.18)
+      ostruct
       rainbow
       yard
 
@@ -25,6 +26,7 @@ GEM
     kramdown (2.4.0)
       rexml
     language_server-protocol (3.17.0.3)
+    ostruct (0.6.0)
     parallel (1.26.3)
     parser (3.3.5.0)
       ast (~> 2.4.1)
@@ -40,7 +42,7 @@ GEM
     rdoc (6.7.0)
       psych (>= 4.0.0)
     regexp_parser (2.9.2)
-    reline (0.5.9)
+    reline (0.5.10)
       io-console (~> 0.5)
     rexml (3.3.7)
     rspec (3.13.0)
