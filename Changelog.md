@@ -1,5 +1,10 @@
 # Yard-Junk changelog
 
+## 0.0.10 -- 2024-09-08
+
+* Update to support newer Rubies (by [@pboling](https://github.com/pboling) at [#42](https://github.com/zverok/yard-junk/pull/42))
+* Drop support for Ruby < 2.7
+
 ## 0.0.9 -- 2020-12-05
 
 * Avoid deprecation warnings ([640bc355d](https://github.com/zverok/yard-junk/commit/640bc355d156e892348b80210fc034af25e196cf))
