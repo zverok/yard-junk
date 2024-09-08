@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    yard-junk (0.0.9)
+    yard-junk (0.0.10)
       backports (>= 3.18)
       ostruct
       rainbow
