@@ -8,7 +8,7 @@ RSpec.describe YardJunk::Janitor do
   describe '#run' do
     subject { janitor.run }
 
-    let(:command) { instance_double('YARD::CLI::Yardoc', run: nil, options: OpenStruct.new(files: [])) }
+    let(:command) { instance_double(YARD::CLI::Yardoc, run: nil, options: OpenStruct.new(files: [])) }
 
     its_block {
       is_expected
@@ -68,7 +68,7 @@ RSpec.describe YardJunk::Janitor do
       allow(YardJunk::Janitor::TextReporter).to receive(:new).and_return(reporter)
     }
 
-    let(:reporter) { instance_double('YardJunk::Janitor::BaseReporter', section: nil, stats: nil, finalize: nil) }
+    let(:reporter) { instance_double(YardJunk::Janitor::BaseReporter, section: nil, stats: nil, finalize: nil) }
 
     its_block {
       is_expected
@@ -85,8 +85,7 @@ RSpec.describe YardJunk::Janitor do
         .and send_message(reporter, :finalize)
     }
 
-    xcontext 'with pathes specified' do
-      # Tested manually, hard to imitate everything with FakeFS :(
+    context 'with pathes specified', skip: 'Tested manually, hard to imitate everything with FakeFS' do
       include FakeFS::SpecHelpers
 
       subject { janitor.report(:text, path: path) }

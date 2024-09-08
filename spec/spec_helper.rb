@@ -3,7 +3,6 @@
 require 'rspec/its'
 require 'fakefs/spec_helpers'
 require 'saharspec'
-require 'pp'
 
 # Imitating YARD's core_ext/file.rb
 module FakeFS
@@ -13,7 +12,7 @@ module FakeFS
     end
 
     def self.read_binary(file)
-      File.open(file, 'rb', &:read)
+      File.binread(file)
     end
   end
 end

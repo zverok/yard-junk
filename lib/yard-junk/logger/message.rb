@@ -55,7 +55,7 @@ module YardJunk
           Message.registry << self
         end
 
-        def search_up(pattern) # rubocop:disable Style/TrivialAccessors
+        def search_up(pattern)
           @search_up = pattern
         end
 

@@ -14,7 +14,7 @@ OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.banner = 'Usage: yard-junk [formatters]'
   opts.separator ''
   opts.separator 'Formatters'
-  opts.separator '(you can use several at once, for example --text to print in console '\
+  opts.separator '(you can use several at once, for example --text to print in console ' \
                  'and --html to save HTML report somewhere)'
   opts.separator 'Default is: text formatter, printing to STDOUT.'
   opts.separator ''
@@ -32,13 +32,13 @@ OptionParser.new do |opts| # rubocop:disable Metrics/BlockLength
   opts.separator 'Other options'
 
   opts.on('-f', '--path PATTERN1,PATTERN2,PATTERN3',
-          'Limit output only to this files. '\
+          'Limit output only to this files. ' \
           'Can be path to file or folder, or glob pattern') do |patterns|
     options[:pathes] = patterns.split(',')
   end
 
   opts.on('-s', '--sanity',
-          'Sanity check for docs: just catch mistyped tags and similar stuff. '\
+          'Sanity check for docs: just catch mistyped tags and similar stuff. ' \
           'On large codebases, MUCH faster than full check.') do
     options[:mode] = :sanity
   end

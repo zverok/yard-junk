@@ -10,8 +10,7 @@ RSpec.describe YardJunk::Janitor::Resolver do
     let(:readme) {
       # Not an instance_double, because resolver checks object class
       YARD::CodeObjects::ExtraFileObject.new('README.md', readme_contents).tap do |f|
-        allow(f).to receive(:name).and_return('README')
-        allow(f).to receive(:filename).and_return('README.md')
+        allow(f).to receive_messages(name: 'README', filename: 'README.md')
       end
     }
     let(:readme_contents) { '' }
@@ -96,8 +95,7 @@ RSpec.describe YardJunk::Janitor::Resolver do
         let(:readme) {
           # Not an instance_double, because resolver checks object class
           YARD::CodeObjects::ExtraFileObject.new('README.rdoc', readme_contents).tap do |f|
-            allow(f).to receive(:name).and_return('README')
-            allow(f).to receive(:filename).and_return('README.rdoc')
+            allow(f).to receive_messages(name: 'README', filename: 'README.rdoc')
           end
         }
         let(:readme_contents) { 'Is it {Foo}?' }

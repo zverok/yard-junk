@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'singleton'
-require 'pp'
 
 require 'backports/2.7.0/enumerable/filter_map'
 

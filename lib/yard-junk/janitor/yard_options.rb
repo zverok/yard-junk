@@ -15,7 +15,7 @@ module YardJunk
         @extra_files = internal.options.files
       end
 
-      def set_files(*files) # rubocop:disable Naming/AccessorMethodName
+      def set_files(*files)
         # TODO: REALLY fragile :(
         @files, @extra_files = files.partition { |f| f =~ /\.(rb|c|cxx|cpp|rake)/ }
         self
@@ -34,7 +34,7 @@ module YardJunk
 
       def to_a
         (@options + @files)
-          .tap { |res| res.concat(['-', *@extra_files]) unless @extra_files.empty? }
+          .tap { |res| res.push('-', *@extra_files) unless @extra_files.empty? }
       end
 
       # The easiest way to think like Yardoc is to become Yardoc, you know.

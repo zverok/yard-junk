@@ -13,7 +13,7 @@ AllCops:
     - Rakefile
     - '*.gemspec'
   DisplayCopNames: true
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
   NewCops: enable
 
 Style/PercentLiteralDelimiters:
@@ -37,7 +37,7 @@ Layout/SpaceInsideHashLiteralBraces:
 
 Layout/LineLength:
   Max: 100
-  IgnoredPatterns: ['(^| )\# .*'] # ignore long comments
+  AllowedPatterns: ['(^| )\# .*'] # ignore long comments
 
 Metrics/ParameterLists:
   CountKeywordArgs: false
@@ -46,6 +46,9 @@ Style/FormatString:
   Enabled: false
 
 Style/EmptyCaseCondition:
+  Enabled: false
+
+Lint/AmbiguousOperatorPrecedence:
   Enabled: false
 
 Lint/EmptyWhen:
@@ -64,6 +67,8 @@ Style/MultilineBlockChain:
 Style/BlockDelimiters:
   Enabled: false
 
+Style/OpenStructUse:
+  Enabled: false
 
 # TODO
 Style/Documentation:

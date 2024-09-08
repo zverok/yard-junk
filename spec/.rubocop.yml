@@ -34,7 +34,7 @@ RSpec/BeforeAfterAll:
 # RSpec/EmptyExampleGroup:
 #   CustomIncludeMethods: [its_call, its_block]
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Enabled: false
 
 RSpec/ImplicitSubject:
