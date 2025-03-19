@@ -15,20 +15,25 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.7.0'
 
-  s.files = `git ls-files`.split($RS).reject do |file|
-    file =~ /^(?:
-    spec\/.*
-    |Gemfile
-    |Rakefile
-    |\.codeclimate.yml
-    |\.rspec
-    |\.gitignore
-    |\.rubocop.yml
-    |\.rubocop_todo.yml
-    |\.travis.yml
-    |\.yardopts
-    )$/x
-  end
+  s.files = Dir[
+    "{examples,lib}/**/*",
+  ]
+  # Automatically included with gem package, no need to list again in files.
+  s.extra_rdoc_files = Dir[
+    # Files (alphabetical)
+    "Changelog.md",
+    "LICENSE.txt",
+    "README.md",
+  ]
+  s.rdoc_options += [
+    "--title",
+    "#{s.name} - #{s.summary}",
+    "--main",
+    "README.md",
+    "--line-numbers",
+    "--inline-source",
+    "--quiet",
+  ]
   s.require_paths = ["lib"]
   s.bindir = 'exe'
   s.executables << 'yard-junk'
