@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
-require: rubocop-rspec
+
+plugins:
+  - rubocop-rspec
+  - rubocop-rake
 
 AllCops:
   Include:
@@ -37,7 +40,7 @@ Layout/SpaceInsideHashLiteralBraces:
 
 Layout/LineLength:
   Max: 100
-  AllowedPatterns: ['(^| )\# .*'] # ignore long comments
+  AllowedPatterns: ['(^| )[^#] .*'] # ignore long comments
 
 Metrics/ParameterLists:
   CountKeywordArgs: false

@@ -165,10 +165,8 @@ RSpec.describe 'Integration: catching errors' do
   syntax_error = case
                  when RUBY_ENGINE == 'jruby'
                    'syntax error, unexpected end-of-file'
-                 when RUBY_VERSION >= '2.6'
-                   'syntax error, unexpected end-of-input'
                  else
-                   "syntax error, unexpected end-of-input, expecting '('"
+                   'syntax error, unexpected end-of-input'
                  end
 
   it_behaves_like 'file parser', 'syntax error',
