@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'backports', '>= 3.18'
   s.add_dependency 'rainbow'
   s.add_dependency 'ostruct'
+  s.add_dependency 'benchmark'
 
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec', '>= 3'
