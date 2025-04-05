@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ostruct'
   s.add_dependency 'benchmark'
 
-  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rubocop', '~> 1.72'
   s.add_development_dependency 'rspec', '>= 3'
   s.add_development_dependency 'rubocop-rspec'
   s.add_development_dependency 'rubocop-rake'
