@@ -87,6 +87,9 @@ GEM
     rubocop-ast (1.44.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
+    rubocop-rake (0.7.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1)
     rubocop-rspec (3.5.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
@@ -120,6 +123,7 @@ DEPENDENCIES
   rspec (>= 3)
   rspec-its (~> 1)
   rubocop
+  rubocop-rake
   rubocop-rspec
   rubygems-tasks
   saharspec
