@@ -13,37 +13,34 @@ Gem::Specification.new do |s|
   EOF
   s.licenses = ['MIT']
 
-  s.required_ruby_version = '>= 2.7.0'
+  s.required_ruby_version = '>= 3.1.0'
 
-  s.files = `git ls-files`.split($RS).reject do |file|
-    file =~ /^(?:
-    spec\/.*
-    |Gemfile
-    |Rakefile
-    |\.codeclimate.yml
-    |\.rspec
-    |\.gitignore
-    |\.rubocop.yml
-    |\.rubocop_todo.yml
-    |\.travis.yml
-    |\.yardopts
-    )$/x
-  end
+  s.files = Dir["{examples,lib,exe}/**/*"]
+  s.extra_rdoc_files = Dir["Changelog.md", "LICENSE.txt", "README.md"]
+  s.rdoc_options += [
+    "--title",
+    "#{s.name} - #{s.summary}",
+    "--main",
+    "README.md",
+    "--line-numbers",
+    "--inline-source",
+    "--quiet",
+  ]
   s.require_paths = ["lib"]
   s.bindir = 'exe'
   s.executables << 'yard-junk'
 
   s.add_dependency 'yard'
-  s.add_dependency 'did_you_mean' if RUBY_VERSION < '2.3'
-  s.add_dependency 'backports', '>= 3.18'
   s.add_dependency 'rainbow'
   s.add_dependency 'ostruct'
+  s.add_dependency 'benchmark'
 
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'rspec', '>= 3'
   s.add_development_dependency 'rubocop-rspec'
+  s.add_development_dependency 'rubocop-rake'
   s.add_development_dependency 'rspec-its', '~> 1'
-  s.add_development_dependency 'saharspec'
+  s.add_development_dependency 'moarspec'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'simplecov', '~> 0.9'
   s.add_development_dependency 'rake'

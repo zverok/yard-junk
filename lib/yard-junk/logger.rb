@@ -2,8 +2,6 @@
 
 require 'singleton'
 
-require 'backports/2.7.0/enumerable/filter_map'
-
 module YardJunk
   class Logger
     require_relative 'logger/message'

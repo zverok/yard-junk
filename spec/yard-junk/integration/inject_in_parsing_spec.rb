@@ -32,9 +32,7 @@ RSpec.describe 'Integration: catching errors' do
 
       before { parse_file(code) }
 
-      its(:'messages.last.to_h') { is_expected
-        .to eq(defaults.merge(message))
-      }
+      its(:'messages.last.to_h') { is_expected.to match defaults.merge(message) }
     end
   end
 
@@ -162,21 +160,17 @@ RSpec.describe 'Integration: catching errors' do
     param_name: 'para',
     line: 3
 
-  syntax_error = case
-                 when RUBY_ENGINE == 'jruby'
-                   'syntax error, unexpected end-of-file'
-                 when RUBY_VERSION >= '2.6'
-                   'syntax error, unexpected end-of-input'
-                 else
-                   "syntax error, unexpected end-of-input, expecting '('"
-                 end
-
   it_behaves_like 'file parser', 'syntax error',
     %{
-      foo, bar.
+      (foo
     },
     type: 'SyntaxError',
-    message: syntax_error,
+    # for some reason, it doesn't have "expecting ')'" specifically on 3.2 :shrug:
+    message: (if RUBY_VERSION.start_with?('3.2')
+                'syntax error, unexpected end-of-input'
+              else
+                "syntax error, unexpected end-of-input, expecting ')'"
+              end),
     line: 3
 
   it_behaves_like 'file parser', 'circular reference',

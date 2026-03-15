@@ -44,7 +44,7 @@ module YardJunk
       end
 
       def stats(**stat)
-        _stats(**stat.merge(duration: humanize_duration(stat[:duration])))
+        _stats(**stat, duration: humanize_duration(stat[:duration]))
       end
 
       private
