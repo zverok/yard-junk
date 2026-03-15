@@ -1,5 +1,6 @@
-inherit_from: .rubocop_todo.yml
-require: rubocop-rspec
+plugins:
+  - rubocop-rspec
+  - rubocop-rake
 
 AllCops:
   Include:
@@ -13,7 +14,7 @@ AllCops:
     - Rakefile
     - '*.gemspec'
   DisplayCopNames: true
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
   NewCops: enable
 
 Style/PercentLiteralDelimiters:
@@ -54,6 +55,9 @@ Lint/AmbiguousOperatorPrecedence:
 Lint/EmptyWhen:
   Enabled: false
 
+Lint/UselessConstantScoping:
+  Enabled: false
+
 Naming/FileName:
   Exclude:
     - 'lib/yard-junk.rb'
@@ -68,6 +72,9 @@ Style/BlockDelimiters:
   Enabled: false
 
 Style/OpenStructUse:
+  Enabled: false
+
+RSpec/LeakyLocalVariable:
   Enabled: false
 
 # TODO

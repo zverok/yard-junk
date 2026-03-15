@@ -2,7 +2,7 @@
 
 require 'rspec/its'
 require 'fakefs/spec_helpers'
-require 'saharspec'
+require 'moarspec'
 
 # Imitating YARD's core_ext/file.rb
 module FakeFS

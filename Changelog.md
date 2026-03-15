@@ -1,5 +1,10 @@
 # Yard-Junk changelog
 
+## 0.1.0 -- 2026-03-15
+
+* Modernize dependencies to make sure we support Ruby up to 4.0 (mostly work by [@pboling](https://github.com/pboling))
+* Drop support for Ruby below 3.1
+
 ## 0.0.10 -- 2024-09-08
 
 * Update to support newer Rubies (by [@pboling](https://github.com/pboling) at [#42](https://github.com/zverok/yard-junk/pull/42))
